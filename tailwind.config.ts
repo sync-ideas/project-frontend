@@ -28,6 +28,9 @@ const config: Config = {
                 "text-purple-dark": "rgba(54, 43, 62, 1)",
                 "text-disable": "rgba(118, 104, 130, 1)",
             },
+            fontFamily: {
+                'sans': '"Open Sans"',
+            }
             
         },
     },
