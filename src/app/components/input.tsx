@@ -1,7 +1,8 @@
 "use client";
 import React, { useState } from "react";
-import {BsFillEyeSlashFill} from "react-icons/bs";
-import { BsFillEyeFill } from "react-icons/bs";
+import eyeOpen from "../../../public/assets/images/eyeOpen.svg";
+import eyeClose from "../../../public/assets/images/eyeClose.svg"
+import Image from "next/image";
 interface CustomInputProps {
   placeholder?: string;
   pass?: boolean;
@@ -38,9 +39,9 @@ const CustomInput: React.FC<CustomInputProps> = ({ placeholder, pass=false, type
           />
           <div className="absolute top-1/2 right-3 cursor-pointer z-10" onClick={handleTogglePassword}>
             {showPassword ? (
-              <BsFillEyeFill className="h-5 w-5 text-purple" />
+              <Image src={eyeOpen} alt="algo" className="w-6 h-6 text-purple"/>
               ) : (
-                <BsFillEyeSlashFill className="h-5 w-5 text-purple" />
+              <Image src={eyeClose} alt="algo" className="w-6 h-6 text-purple"/>
                 )}
           </div>
         </div>
