@@ -25,7 +25,7 @@ const Button: React.FC<ButtonProps> = ({ text, isCompleted, onClick }) => {
       }`}
       onClick={onClick}
     >
-      <div className="text-white text-base font-['Open Sans Hebrew'] font-bold leading-snug">
+      <div className="text-white text-base font-sans font-bold leading-snug">
         {text}
       </div>
     </button>
