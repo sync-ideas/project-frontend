@@ -8,7 +8,7 @@ interface MessageProps {}
 const Message: React.FC<MessageProps> = (props) => {
     const message = "Hemos enviado un mensaje a tu correo elecrónico para que puedas volver a ingresar";
     return (
-    <div className="flex items-center flex-col pt-[60px] px-6 sm:max-w-[360px]">
+    <div className="flex items-center flex-col pt-[60px] px-6 sm:max-w-[360px] sm:m-auto sm:mt-[277px] sm:border-0 sm:shadow-md sm:min-h-[640px] sm:rounded-[20px] md:mt-[220px]">
         <div className="flex items-center flex-col justify-center">
             <Image
                 src={logo}
