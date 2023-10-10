@@ -9,7 +9,7 @@ interface CustomInputProps {
   pass?: boolean;
   type: string;
   label?: string;
-  method?: () => void;
+  method?: (event: React.ChangeEvent<HTMLInputElement>) => void
   value: string;
 }
 
