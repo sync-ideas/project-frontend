@@ -18,61 +18,97 @@ const NavBar: React.FC<NavBarProps> = () => {
     const menuRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
-        function handleClickOutside(event:any) {
-          if (menuRef.current && !menuRef.current.contains(event.target)) {
-            setIsOpen(false);
-          }
+        function handleResize() {
+            setIsSmallScreen(window.innerWidth <= 768);
         }
-    
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-          document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
 
-    useEffect(() => {
-        const handleResize = () => {
-            setIsSmallScreen(window.innerWidth <= 1280);
-        };
-
-        window.addEventListener('resize', handleResize);
+        window.addEventListener("resize", handleResize);
 
         handleResize();
 
         return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, [])
+            window.removeEventListener("resize", handleResize);
+        }
+    }, []);
+
+    useEffect(() => {
+        function handleClickOutside(event: any) {
+            if (menuRef.current && !menuRef.current.contains(event.target)) {
+                setIsOpen(false);
+            }
+        }
+    }, []);
 
     return (
         <>
-            {isSmallScreen ? (
+{/* Mobile menu (only when isSmallScreen is true) */}
+            {isSmallScreen && (
                 <div className="flex w-full p-[24px] m-auto justify-between">
                     <Image src={logo} width={35} height={35} alt="Logo" />
                     {isOpen ? (
-                        <Image src={green} width={35} height={35} alt="Logo" onClick={toggleMenu} className='cursor-pointer' />
-                    ):(
-                        <Image src={menu} width={35} height={35} alt="Logo" onClick={toggleMenu} className='cursor-pointer' />
-                        )}
+                        <Image
+                            src={green}
+                            width={35}
+                            height={35}
+                            alt="Logo"
+                            onClick={toggleMenu}
+                            className="cursor-pointer"
+                        />
+                    ) : (
+                        <Image
+                            src={menu}
+                            width={35}
+                            height={35}
+                            alt="Logo"
+                            onClick={toggleMenu}
+                            className="cursor-pointer"
+                        />
+                    )}
                     {isOpen && (
-                        <div ref={menuRef} className="flex flex-col absolute mt-2 py-2 px-6 bg-purple text-white border rounded shadow right-5 top-[60px]">
-                            <LinkComponent link='#' decorationColor='white' text='Institución' textColor='white'/>
-                            <LinkComponent link='#' decorationColor='white' text='Profesores' textColor='white'/>
-                            <LinkComponent link='#' decorationColor='white' text='Estudiantes' textColor='white'/>
-                            <LinkComponent link='#' decorationColor='white' text='Estadísticas' textColor='white'/>
-                            <LinkComponent link='#' decorationColor='white' text='Mi cuenta' textColor='white'/>
+                        <div
+                            ref={menuRef}
+                            className="flex flex-col absolute mt-2 py-2 px-6 bg-purple text-white border rounded shadow right-5 top-[60px]"
+                        >
+
                         </div>
                     )}
                 </div>
-            ):(
-                <div className="flex w-full p-[24px] m-auto justify-between">
-                    <Image src={logo} width={35} height={35} alt="Logo" />
-                    <div className="mt-2 py-2 px-6 p-8">
-                        <LinkComponent link='#' decorationColor='white' text='Institución' textColor='dark'/>
-                        <LinkComponent link='#' decorationColor='white' text='Profesores' textColor='dark'/>
-                        <LinkComponent link='#' decorationColor='white' text='Estudiantes' textColor='dark'/>
-                        <LinkComponent link='#' decorationColor='white' text='Estadísticas' textColor='dark'/>
-                        <LinkComponent link='#' decorationColor='white' text='Mi cuenta' textColor='dark'/>
+            )}
+
+            {!isSmallScreen && (
+                <div className="flex w-full p-[24px] xl:mx-[0px] md:mr-[0px]">
+                    <Image className="md:ml-[50px] xl:ml-[150px]" src={logo} width={35} height={35} alt="Logo" />
+                    <div className="flex w-full mt-2 py-2 px-6 p-8 justify-evenly">
+                        <LinkComponent
+                            link="#"
+                            decorationColor="white"
+                            text="Institución"
+                            textColor="purple-dark"
+                        />
+                        <LinkComponent
+                            link="#"
+                            decorationColor="white"
+                            text="Profesores"
+                            textColor="purple-dark"
+                        />
+                        <LinkComponent
+                            link="#"
+                            decorationColor="white"
+                            text="Estudiantes"
+                            textColor="purple-dark"
+                        />
+                        <LinkComponent
+                            link="#"
+                            decorationColor="white"
+                            text="Estadísticas"
+                            textColor="purple-dark"
+                        />
+                        <LinkComponent
+                            link="#"
+                            decorationColor="white"
+                            text="Mi cuenta"
+                            textColor="purple-dark"
+                        />
                     </div>
                 </div>
             )}
