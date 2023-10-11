@@ -49,10 +49,7 @@ const config: Config = {
                     card: "rgba(29, 131, 224, 0.8)", // Card Background
                 }
 
-            },
-            fontFamily: {
-                sans: '"Open Sans"',
-            },
+            }
         },
     },
     plugins: [],
