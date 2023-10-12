@@ -69,46 +69,93 @@ const NavBar: React.FC<NavBarProps> = () => {
                             ref={menuRef}
                             className="flex flex-col absolute mt-2 py-2 px-6 bg-purple text-white border rounded shadow right-5 top-[60px]"
                         >
-
+                            <LinkComponent
+                                text="Institución"
+                                textColor="white"
+                                decorationColor="orange"
+                                link=""
+                                textColorHover="white"
+                            />
+                            <LinkComponent
+                                text="Profesores"
+                                textColor="white"
+                                decorationColor="orange"
+                                link=""
+                                textColorHover="white"
+                            />
+                            <LinkComponent
+                                text="Estudiantes"
+                                textColor="white"
+                                decorationColor="orange"
+                                link=""
+                                textColorHover="white"
+                            />
+                            <LinkComponent
+                                text="Estadísticas"
+                                textColor="white"
+                                decorationColor="orange"
+                                link=""
+                                textColorHover="white"
+                            />
+                            <LinkComponent
+                                text="Mi cuenta"
+                                textColor="white"
+                                decorationColor="orange"
+                                link=""
+                                textColorHover="white"
+                            />
                         </div>
                     )}
                 </div>
             )}
 
             {!isSmallScreen && (
-                <div className="flex w-full p-[24px] xl:mx-[0px] md:mr-[0px]">
-                    <Image className="md:ml-[50px] xl:ml-[150px]" src={logo} width={35} height={35} alt="Logo" />
-                    <div className="flex w-full mt-2 py-2 px-6 p-8 justify-evenly">
-                        <LinkComponent
-                            link="#"
-                            decorationColor="white"
-                            text="Institución"
-                            textColor="purple-dark"
+                <div className="w-full md:px-[120px] py-[24px]">
+                    <div className="flex justify-between">
+                        <Image
+                            className=""
+                            src={logo}
+                            width={35}
+                            height={35}
+                            alt="Logo"
                         />
-                        <LinkComponent
-                            link="#"
-                            decorationColor="white"
-                            text="Profesores"
-                            textColor="purple-dark"
-                        />
-                        <LinkComponent
-                            link="#"
-                            decorationColor="white"
-                            text="Estudiantes"
-                            textColor="purple-dark"
-                        />
-                        <LinkComponent
-                            link="#"
-                            decorationColor="white"
-                            text="Estadísticas"
-                            textColor="purple-dark"
-                        />
-                        <LinkComponent
-                            link="#"
-                            decorationColor="white"
-                            text="Mi cuenta"
-                            textColor="purple-dark"
-                        />
+                        <div className="flex md:w-[600px] justify-around align-center py-2 px-6 p-8">
+                            <LinkComponent
+                                text="Institución"
+                                textColor="black"
+                                decorationColor="green"
+                                link=""
+                                textColorHover="black"
+                            />
+                            <LinkComponent
+                                text="Profesores"
+                                textColor="black"
+                                decorationColor="green"
+                                link=""
+                                textColorHover="black"
+                            />
+                            <LinkComponent
+                                text="Estudiantes"
+                                textColor="black"
+                                decorationColor="green"
+                                link=""
+                                textColorHover="black"
+                            />
+                            <LinkComponent
+                                text="Estadisticas"
+                                textColor="black"
+                                decorationColor="green"
+                                link=""
+                                textColorHover="black"
+                            />
+                            <LinkComponent
+                                text="Mi cuenta"
+                                textColor="black"
+                                decorationColor="green"
+                                link=""
+                                textColorHover="black"
+                            />
+                        </div>
                     </div>
                 </div>
             )}
