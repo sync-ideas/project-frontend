@@ -14,7 +14,11 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
           <span key={links.indexOf(link)}>
             <Link
               href={link.hiper}
-              className={`${links.indexOf(link) === actual ? "font-bold" : ""}`}
+              className={`${
+                links.indexOf(link) === actual
+                  ? "font-bold hover:underline"
+                  : "hover:underline"
+              }`}
             >
               {link.text}
             </Link>
