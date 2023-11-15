@@ -2,6 +2,7 @@ import React from "react";
 import logo from '../../../public/assets/images/icon.svg'
 import Image from "next/image";
 import Button from "../components/button";
+import Link from "next/link";
 
 interface MessagePassProps {}
 
@@ -21,7 +22,9 @@ const MessagePass: React.FC<MessagePassProps> = (props) => {
                     <p>{message}</p>
                 </div>
             </div>
-            <Button isCompleted={true} text="Iniciar sesión"></Button>
+            <Link className="w-full" href={"/login"}>
+                <Button isCompleted={true} text="Iniciar sesión"></Button>
+            </Link>
         </div>
     </div>
     );
