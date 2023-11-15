@@ -3,6 +3,8 @@ import React, { useState } from "react";
 import eyeOpen from "../../../public/assets/images/eyeOpen.svg";
 import eyeClose from "../../../public/assets/images/eyeClose.svg";
 import Image from "next/image";
+import { FieldError } from "react-hook-form";
+import { error } from "console";
 
 interface InputProfesorProps {
   id: string;
@@ -13,6 +15,7 @@ interface InputProfesorProps {
     value: string;
   };
   type?: string;
+  error: FieldError | undefined;
 }
 
 const InputProfesor: React.FC<InputProfesorProps> = ({
@@ -20,6 +23,7 @@ const InputProfesor: React.FC<InputProfesorProps> = ({
   placeholder,
   field,
   type,
+  error,
 }) => {
   return (
     <div className="flex flex-col">
@@ -30,6 +34,7 @@ const InputProfesor: React.FC<InputProfesorProps> = ({
         placeholder={placeholder}
         type={type}
       />
+      {error && <p className="text-red-500">{error.message}</p>}
     </div>
   );
 };
