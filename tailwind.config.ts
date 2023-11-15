@@ -16,7 +16,7 @@ const config: Config = {
             colors: {
                 // Purple Shades
                 purple: {
-                    DEFAULT: "rgba(99, 49, 138, 1)", // Purple Basic
+                    DEFAULT: "rgb(99, 49, 138)", // Purple Basic
                     neon: "rgba(161, 40, 255, 1)", // Purple Neon
                     light: "rgba(196, 140, 239, 1)", // Light Purple
                     hover: "rgba(131, 71, 178, 1)", // Purple Hover
