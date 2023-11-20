@@ -5,6 +5,7 @@ import Breadcrumb from "../components/Breadcrumb";
 import Link from "next/link";
 import ProfForm from "../components/ProfForm";
 import NavBar from "../components/navbar";
+import LinkComponent from "../components/LinkComponent/LinkComponentCustom";
 
 const open_sans = Open_Sans({ subsets: ["latin"] });
 
@@ -22,10 +23,13 @@ const NewProfessor = () => {
               { hiper: "", text: "Nuevo Perfil" },
             ]}
           />
-          <Link href="/" className="hover:underline md:pr-3 xl:pr-12">
-            {" "}
-            &lt; Volver{" "}
-          </Link>
+          <LinkComponent
+            link="/"
+            text="< Volver"
+            decorationColor="green"
+            textColor="purple-disabled"
+            textColorHover="purple"
+          />
         </div>
       </div>
       <ProfForm />

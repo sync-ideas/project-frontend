@@ -1,5 +1,6 @@
 import Link from "next/link";
 import React from "react";
+import LinkComponent from "./LinkComponent/LinkComponentCustom";
 
 interface BreadcrumbProps {
   links: Array<{ hiper: string; text: string }>;
@@ -12,16 +13,13 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
       {links.map((link) => {
         return (
           <span key={links.indexOf(link)}>
-            <Link
-              href={link.hiper}
-              className={`${
-                links.indexOf(link) === actual
-                  ? "font-bold hover:underline"
-                  : "hover:underline"
-              }`}
-            >
-              {link.text}
-            </Link>
+            <LinkComponent
+              link={link.hiper}
+              decorationColor="green"
+              textColor="purple-disabled"
+              textColorHover="purple"
+              text={link.text}
+            />
             {links.indexOf(link) !== actual && " / "}
           </span>
         );
