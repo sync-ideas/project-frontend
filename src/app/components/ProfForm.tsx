@@ -26,7 +26,7 @@ const ProfForm = () => {
   return (
     <form
       onSubmit={handleSubmit(submitForm)}
-      className="my-5 flex relative flex-col gap-4 w-full items-center md:mx-auto xl:w-[312px]"
+      className="my-5 flex relative flex-col gap-4 w-full items-center md:mx-auto xl:w-[312px] h-full lg:h-auto"
     >
       <h3 className="text-left w-[85%] md:text-center xl:text-left xl:w-[100%]">
         Ingresa datos del profesor
