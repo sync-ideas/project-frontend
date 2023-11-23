@@ -5,10 +5,12 @@ import LinkComponent from "../components/LinkComponent/LinkComponentCustom";
 import addProfessor from "../../../public/assets/images/add-professor.svg";
 import Link from "next/link";
 import Image from "next/image";
+import Button from "../components/button";
+
 interface ProfessorProps {}
 const Professor: React.FC<ProfessorProps> = () => {
     return (
-        <div className="h-screen">
+        <div className="max-h-screen">
             <NavBar />
             <div className="px-6 sm:px-8 md:px-[120px] py-[10px]">
                 <div className="w-full flex justify-between mb-[10px]">
@@ -21,8 +23,8 @@ const Professor: React.FC<ProfessorProps> = () => {
                         textColorHover="purple-dark"
                     />
                 </div>
-                <Link href="/home">
-                    <div className="bg-purple bg-opacity-20 rounded-[5px] w-full min-h-[422px] sm:max-h-full sm:min-h-[432px] md:min-h-[938px] flex items-center justify-center flex-col opacity-70 hover:opacity-100 px-20">
+                <Link href="/nuevo-profesor" className="">
+                    <div className="bg-purple bg-opacity-20 rounded-[5px] w-full flex items-center justify-center flex-col opacity-70 hover:opacity-100 px-20 h-[422px] sm:max-h-screen md:min-h-screen xl:min-h-full">
                         <Image
                             src={addProfessor}
                             alt="add professor icon"
@@ -36,6 +38,11 @@ const Professor: React.FC<ProfessorProps> = () => {
                         </p>
                     </div>
                 </Link>
+                <div className="mt-[10px] sm:mt-6 w-full flex justify-end">
+                    <Link href="/nuevo-profesor" className="w-full xl:w-1/5">
+                        <Button text="Nuevo perfil" isCompleted={true} />
+                    </Link>
+                </div>
             </div>
             <Footer />
         </div>
