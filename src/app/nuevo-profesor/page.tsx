@@ -18,15 +18,6 @@ const NewProfessor = () => {
               { hiper: "", text: "Nuevo perfil" },
             ]}
           />
-          <div className="xl:mr-10">
-            <LinkComponent
-              link="/"
-              text="< Volver"
-              decorationColor="green"
-              textColor="purple-disabled"
-              textColorHover="purple"
-            />
-          </div>
         </div>
       </div>
       <ProfForm />
