@@ -23,7 +23,7 @@ const BreadcrumbLinkComponent: React.FC<LinkProps> = (props) => {
   const linkActive = `${
     props.active
       ? `font-bold cursor-default ${textColor}`
-      : `text-[#858585] font-normal`
+      : `text-gray-purple font-normal`
   }`;
 
   return (
