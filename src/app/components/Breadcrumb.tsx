@@ -17,7 +17,7 @@ const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
             <BreadcrumbLinkComponent
               link={link.hiper}
               textColor="purple-disabled"
-              textColorHover="purple"
+              textColorHover="purple-text"
               text={link.text}
               active={links.indexOf(link) === actual}
             />

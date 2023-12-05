@@ -11,7 +11,7 @@ interface LinkProps {
 }
 
 const BreadcrumbLinkComponent: React.FC<LinkProps> = (props) => {
-  const textColor = `text-${props.textColor}`;
+  const textColor = `text-[${props.textColor}]`;
   const decorationColor = `${
     props.active
       ? ""
@@ -20,11 +20,15 @@ const BreadcrumbLinkComponent: React.FC<LinkProps> = (props) => {
       : "hover:decoration-green hover:underline-offset-4  hover:underline hover:decoration-4"
   }`;
   const textColorHover = `hover:text-${props.textColorHover}`;
-  const linkActive = `${props.active ? `font-bold cursor-default` : ``}`;
+  const linkActive = `${
+    props.active
+      ? `font-bold cursor-default ${textColor}`
+      : `text-[#858585] font-normal`
+  }`;
 
   return (
     <Link
-      className={`text-base leading-snug  transition-all duration-300 ${textColor} ${decorationColor} ${textColorHover} ${linkActive}`}
+      className={`text-base leading-snug  transition-all duration-300 ${decorationColor} ${textColorHover} ${linkActive}`}
       href={props.active ? "#" : props.link}
     >
       {props.text}
