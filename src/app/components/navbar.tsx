@@ -110,7 +110,7 @@ const NavBar: React.FC<NavBarProps> = () => {
             )}
 
             {!isSmallScreen && (
-                <div className="w-full md:px-[120px] py-[24px]">
+                <div className="w-full md:px-[120px] py-[16px]">
                     <div className="flex justify-between">
                         <Image
                             className=""
@@ -119,7 +119,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                             height={35}
                             alt="Logo"
                         />
-                        <div className="flex md:w-[600px] justify-around align-center py-2 px-6 p-8">
+                        <div className="flex md:w-[600px] justify-end align-center py-2 space-x-12">
                             <LinkComponent
                                 text="Institución"
                                 textColor="black"
