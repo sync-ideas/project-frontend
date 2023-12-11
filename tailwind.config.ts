@@ -42,6 +42,7 @@ const config: Config = {
                 // Grey Shades
                 gray: {
                     DEFAULT: "rgba(179, 179, 179, 1)", // Grey Basic
+                    purple: "rgb(133,133,133)" //Breadcrumb deactivated
                 },
 
                 //Blue Shades
