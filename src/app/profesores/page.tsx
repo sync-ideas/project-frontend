@@ -1,7 +1,7 @@
 import React from "react";
 import NavBar from "../components/navbar";
 import Footer from "../components/Footer";
-import LinkComponent from "../components/LinkComponent/LinkComponentCustom";
+import Breadcrumb from "../components/Breadcrumb";
 import addProfessor from "../../../public/assets/images/add-professor.svg";
 import Link from "next/link";
 import Image from "next/image";
@@ -14,13 +14,10 @@ const Professor: React.FC<ProfessorProps> = () => {
             <NavBar />
             <div className="px-6 sm:px-8 md:px-[120px] py-[10px]">
                 <div className="w-full flex justify-between mb-[10px]">
-                    <p className="text-base font-bold">Profesores</p>
-                    <LinkComponent
-                        link=""
-                        text="< Volver"
-                        textColor="purple-dark"
-                        decorationColor="green"
-                        textColorHover="purple-dark"
+                    <Breadcrumb
+                        links={[
+                            { hiper: "/", text: "Profesores" }
+                        ]}
                     />
                 </div>
                 <Link href="/nuevo-profesor" className="">
