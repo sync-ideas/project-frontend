@@ -20,7 +20,7 @@ const CourseRegistration: React.FC<CourseRegistrationProps> = (props) => {
   return (
     <div>
       <NavBar />
-      <div className="px-[24px] pb-[10px] lg:px-[32px] xl:px-[120px] flex flex-col">
+      <div className="px-[24px] pb-[10px] md:px-[32px] xl:px-[120px] flex flex-col">
         <Breadcrumb
           links={[
             { hiper: "/estudiantes", text: "Estudiantes" },
@@ -28,7 +28,7 @@ const CourseRegistration: React.FC<CourseRegistrationProps> = (props) => {
           ]}
         />
         <Link href="/nuevo-curso">
-          <div className="bg-[#63318A33] opacity-60 hover:opacity-100 my-[24px] flex w-full h-screen rounded-[5px]">
+          <div className="bg-[#63318A33] opacity-60 hover:opacity-100 my-[24px] flex w-full h-[640px] md:h-[938px] xl:h-[456px] 2xl:h-screen rounded-[5px]">
             <div className="px-[20px] mx-auto my-auto max-w-[134px] flex items-center justify-center flex-col">
               <Image
                 src={courses}
