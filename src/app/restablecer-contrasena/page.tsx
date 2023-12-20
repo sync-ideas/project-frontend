@@ -12,26 +12,32 @@ interface GetPasswordProps {}
 const GetPassword: React.FC<GetPasswordProps> = (props) => {
   const [email, setEmail] = useState("");
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [error, setError] = useState("");
 
   const handleEmailChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { value } = event.target;
     setEmail(value);
     setIsButtonDisabled(value === "");
+    setError("");
   };
 
-  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.MouseEvent<HTMLButtonElement>) => {
     //TODO: Agregar código de envio de información a la bd
     e.preventDefault();
-    const respuesta = await axios.post(
-      "https://attendance-dev.fl0.io/api/users/forgotpassword",
-      {
-        email: email,
-      }
-    );
-    if (respuesta.status === 200) {
-      alert(
-        "Se ha enviado un correo electrónico para restablecer la contraseña"
+    try {
+      const respuesta = await axios.post(
+        "https://attendance-control-sync-ideas.vercel.app/api/users/forgotpassword",
+        {
+          email: email,
+        }
       );
+      if (respuesta.status === 200) {
+        alert(
+          "Se ha enviado un correo electrónico para restablecer la contraseña"
+        );
+      }
+    } catch (error) {
+      setError("Este correo electrónico no está registrado.");
     }
   };
 
@@ -50,6 +56,7 @@ const GetPassword: React.FC<GetPasswordProps> = (props) => {
               method={handleEmailChange}
             />
           </div>
+          <p className="text-[#DE1111] font-normal text-sm my-2">{error}</p>
           <div className="w-full">
             <Button
               text="Recuperar contraseña"
