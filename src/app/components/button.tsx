@@ -3,7 +3,9 @@ import React from "react";
 interface ButtonProps {
   text: string;
   isCompleted: boolean;
-  onClick?: () => void;
+  onClick?:
+    | (() => void)
+    | ((e: React.MouseEvent<HTMLButtonElement>) => Promise<void>);
 }
 
 const Button: React.FC<ButtonProps> = ({ text, isCompleted, onClick }) => {
@@ -19,19 +21,14 @@ const Button: React.FC<ButtonProps> = ({ text, isCompleted, onClick }) => {
     buttonClasses =
       "w-full h-[50px] px-6 py-3 bg-purple hover:bg-purple-hover active:bg-purple-dark rounded-[5px] justify-center items-center gap-2.5 flex";
   }
-  const handleClick = () => {
-    // Verificar si el botón está habilitado antes de ejecutar la función onClick
-    if (isCompleted && onClick) {
-      onClick();
-    }
-  };
   return (
     <button
       type={buttonType}
       className={`${buttonClasses} ${
         isCompleted ? "cursor-pointer" : "cursor-not-allowed"
       }`}
-      onClick={handleClick}
+      onClick={onClick}
+      disabled={!isCompleted}
     >
       <div className="text-white text-base font-bold leading-snug">{text}</div>
     </button>
