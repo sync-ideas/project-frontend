@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import InputCurso from "./InputCurso";
 
 interface FormData {
-  niveleducativo: string;
+  nivelEducativo: string;
   grado: string;
   letra: string;
 }
@@ -15,10 +15,33 @@ const CurForm = () => {
     control,
     handleSubmit,
     formState: { errors },
+    setValue,
   } = useForm<FormData>();
 
   const submitForm = (formData: FormData) => {
     console.log(formData);
+  };
+  const [enableSelect, setEnableSelect] = useState({
+    grado: true,
+    letra: true,
+  });
+  const getChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    if (e.target.name === "nivelEducativo") {
+      if (e.target.value !== "0") {
+        setEnableSelect({ ...enableSelect, grado: false });
+      } else {
+        setEnableSelect({ letra: true, grado: true });
+        setValue("grado", "0");
+        setValue("letra", "0");
+      }
+    } else if (e.target.name === "grado") {
+      if (e.target.value !== "0") {
+        setEnableSelect({ ...enableSelect, letra: false });
+      } else {
+        setEnableSelect({ ...enableSelect, letra: true });
+        setValue("letra", "0");
+      }
+    }
   };
 
   return (
@@ -31,15 +54,15 @@ const CurForm = () => {
       </h3>
       <div className="flex flex-col gap-4 w-[85%] h-full md:w-[50%] md:mx-auto xl:w-full">
         <Controller
-          name="niveleducativo"
+          name="nivelEducativo"
           control={control}
           render={({ field }) => (
             <InputCurso
               field={field}
-              placeholder="Nombre"
               options={["Nivel educativo", "Primaria", "Secundaria"]}
-              id="name"
-              error={errors.niveleducativo}
+              id="nivelEducativo"
+              error={errors.nivelEducativo}
+              onChange={getChange}
             />
           )}
         />
@@ -49,10 +72,11 @@ const CurForm = () => {
           render={({ field }) => (
             <InputCurso
               field={field}
-              placeholder="E-mail"
               options={["Grado", "1º", "2º", "3º", "4º", "5º"]}
-              id="email"
+              id="grado"
               error={errors.grado}
+              onChange={getChange}
+              disabled={enableSelect.grado}
             />
           )}
         />
@@ -63,10 +87,11 @@ const CurForm = () => {
           render={({ field }) => (
             <InputCurso
               field={field}
-              placeholder="Nombre de Usuario"
               options={["Letra", "A", "B", "C"]}
-              id="username"
+              id="letra"
               error={errors.letra}
+              onChange={getChange}
+              disabled={enableSelect.letra}
             />
           )}
         />
