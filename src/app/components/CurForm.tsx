@@ -3,13 +3,38 @@ import React, { useState } from "react";
 import Button from "./button";
 import { useForm, Controller } from "react-hook-form";
 import InputCurso from "./InputCurso";
+import InputFile from "./InputFile";
 
 interface FormData {
-  nivelEducativo: string;
-  grado: string;
-  letra: string;
+  level: string;
+  number: number;
+  letter: string;
+  lista: string;
 }
-
+interface Option {
+  id: string;
+  value: string;
+  label: string;
+}
+const optionsNivelEducativo = [
+  { id: "level", value: "0", label: "Nivel Educativo" },
+  { id: "level", value: "1", label: "Primaria" },
+  { id: "level", value: "2", label: "Secundaria" },
+];
+const optionsGrado = [
+  { id: "number", value: "0", label: "Grado" },
+  { id: "number", value: "1", label: "1ª" },
+  { id: "number", value: "2", label: "2º" },
+  { id: "number", value: "3", label: "3º" },
+  { id: "number", value: "4", label: "4º" },
+  { id: "number", value: "5", label: "5º" },
+];
+const optionsLetra = [
+  { id: "letter", value: "0", label: "Letra" },
+  { id: "letter", value: "1", label: "A" },
+  { id: "letter", value: "2", label: "B" },
+  { id: "letter", value: "3", label: "C" },
+];
 const CurForm = () => {
   const {
     control,
@@ -19,27 +44,27 @@ const CurForm = () => {
   } = useForm<FormData>();
 
   const submitForm = (formData: FormData) => {
-    console.log(formData);
+    console.log(formData, { number: formData.number.toString });
   };
   const [enableSelect, setEnableSelect] = useState({
     grado: true,
     letra: true,
   });
-  const getChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    if (e.target.name === "nivelEducativo") {
-      if (e.target.value !== "0") {
+  const getChange = (option: Option) => {
+    if (option.id === "level") {
+      if (option.value !== "0") {
         setEnableSelect({ ...enableSelect, grado: false });
       } else {
         setEnableSelect({ letra: true, grado: true });
-        setValue("grado", "0");
-        setValue("letra", "0");
+        setValue("number", 0);
+        setValue("letter", "0");
       }
-    } else if (e.target.name === "grado") {
-      if (e.target.value !== "0") {
+    } else if (option.label === "number") {
+      if (option.value !== "0") {
         setEnableSelect({ ...enableSelect, letra: false });
       } else {
         setEnableSelect({ ...enableSelect, letra: true });
-        setValue("letra", "0");
+        setValue("letter", "0");
       }
     }
   };
@@ -54,27 +79,27 @@ const CurForm = () => {
       </h3>
       <div className="flex flex-col gap-4 w-[85%] h-full md:w-[50%] md:mx-auto xl:w-full">
         <Controller
-          name="nivelEducativo"
+          name="level"
           control={control}
           render={({ field }) => (
             <InputCurso
               field={field}
-              options={["Nivel educativo", "Primaria", "Secundaria"]}
+              options={optionsNivelEducativo}
               id="nivelEducativo"
-              error={errors.nivelEducativo}
+              error={errors.level}
               onChange={getChange}
             />
           )}
         />
         <Controller
-          name="grado"
+          name="number"
           control={control}
           render={({ field }) => (
             <InputCurso
               field={field}
-              options={["Grado", "1º", "2º", "3º", "4º", "5º"]}
+              options={optionsGrado}
               id="grado"
-              error={errors.grado}
+              error={errors.number}
               onChange={getChange}
               disabled={enableSelect.grado}
             />
@@ -82,17 +107,24 @@ const CurForm = () => {
         />
 
         <Controller
-          name="letra"
+          name="letter"
           control={control}
           render={({ field }) => (
             <InputCurso
               field={field}
-              options={["Letra", "A", "B", "C"]}
+              options={optionsLetra}
               id="letra"
-              error={errors.letra}
+              error={errors.letter}
               onChange={getChange}
               disabled={enableSelect.letra}
             />
+          )}
+        />
+        <Controller
+          name="lista"
+          control={control}
+          render={({ field }) => (
+            <InputFile field={field} error={errors.lista} id="lista" />
           )}
         />
       </div>
