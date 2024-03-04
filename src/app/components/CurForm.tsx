@@ -44,7 +44,7 @@ const CurForm = () => {
   } = useForm<FormData>();
 
   const submitForm = (formData: FormData) => {
-    console.log(formData, { number: formData.number.toString });
+    console.log(formData);
   };
   const [enableSelect, setEnableSelect] = useState({
     grado: true,

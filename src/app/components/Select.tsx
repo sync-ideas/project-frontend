@@ -34,11 +34,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   onChange,
 }) => {
   const [selectedOption, setSelectedOption] = useState<Option>();
-  console.log(options);
 
-  const handleMenuOpen = () => {
-    setSelectedOption({ id: id, value: "", label: field.name }); // Vuelve al valor inicial cada vez que se abre el menú
-  };
   const handleChange = (option: Option | null) => {
     if (option) {
       setSelectedOption(option);
@@ -48,7 +44,6 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   };
   return (
     <Select
-      id={id}
       options={options}
       value={selectedOption}
       onChange={handleChange}
@@ -56,7 +51,6 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
       defaultValue={options[0]}
       // Puedes agregar otras props para personalizar el comportamiento y el estilo
       components={{ IndicatorSeparator }}
-      onMenuOpen={handleMenuOpen}
       styles={{
         control: (provided, state) => ({
           ...provided,

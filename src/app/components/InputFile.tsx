@@ -12,10 +12,10 @@ interface InputFileProps {
 const InputFile: React.FC<InputFileProps> = ({ id, field, error }) => {
   return (
     <div className="flex flex-col">
-      <div className="w-full text-center text-[#362B3E] hover:text-purple-950 placeholder:text-purple-hover border-[1px] border-purple rounded-lg font-normal group-focus:outline-purple flex relative">
+      <div className="w-full text-center text-[#362B3E] hover:text-purple-950 placeholder:text-purple-hover border-[1px] border-purple rounded-md font-normal group-focus:outline-purple flex relative">
         <label
           htmlFor="lista"
-          className="py-4 px-4 text-left h-14 w-full text-[#362B3E] hover:text-purple-950 placeholder:text-purple-hover border-[1px] border-purple rounded-lg font-normal focus:outline-purple my-auto"
+          className="py-2 align-middle px-4 text-left w-full text-[#362B3E] hover:text-purple-950 placeholder:text-purple-hover border-[1px] rounded-md font-normal focus:outline-purple my-auto"
         >
           Adjuntar lista de estudiantes
         </label>

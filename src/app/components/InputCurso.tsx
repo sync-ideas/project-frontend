@@ -28,7 +28,6 @@ const InputCurso: React.FC<InputCursoProps> = ({
   error,
   onChange,
 }) => {
-  console.log(field);
   return (
     <div className="flex flex-col">
       <div className="w-full text-[#362B3E] hover:text-purple-950 placeholder:text-purple-hover rounded-lg font-normal group-focus:outline-purple flex relative">
