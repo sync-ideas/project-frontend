@@ -3,7 +3,9 @@ import React from "react";
 interface ButtonProps {
   text: string;
   isCompleted: boolean;
-  onClick?: () => void;
+  onClick?:
+    | (() => void)
+    | ((e: React.MouseEvent<HTMLButtonElement>) => Promise<void>);
 }
 
 const Button: React.FC<ButtonProps> = ({ text, isCompleted, onClick }) => {
@@ -24,10 +26,9 @@ const Button: React.FC<ButtonProps> = ({ text, isCompleted, onClick }) => {
         isCompleted ? "cursor-pointer" : "cursor-not-allowed"
       }`}
       onClick={onClick}
+      disabled={!isCompleted}
     >
-      <div className="text-white text-base font-bold leading-snug">
-        {text}
-      </div>
+      <div className="text-white text-base font-bold leading-snug">{text}</div>
     </button>
   );
 };
