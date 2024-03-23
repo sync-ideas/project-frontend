@@ -14,7 +14,7 @@ const NewProfessor = () => {
         <div className="flex justify-between w-[85%] md:w-[95%] xl:w-full xl:px-[120px] md:px-2">
           <Breadcrumb
             links={[
-              { hiper: "/", text: "Profesores" },
+              { hiper: "/profesores", text: "Profesores" },
               { hiper: "", text: "Nuevo perfil" },
             ]}
           />
