@@ -119,7 +119,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                             height={35}
                             alt="Logo"
                         />
-                        <div className="flex md:w-[600px] justify-end align-center py-2 space-x-12">
+                        <div className="flex md:w-[600px] justify-end align-center py-[6.5px] space-x-12">
                             <LinkComponent
                                 text="Institución"
                                 textColor="text-black"
