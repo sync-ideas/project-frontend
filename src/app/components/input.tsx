@@ -41,7 +41,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       <label htmlFor="input">{label}</label>
       <input
         id={id}
-        className={`px-2 py-2 h-[50px] w-[312px] placeholder:text-purple-hover border-2 rounded-lg font-normal  ${isError ? 'border-[#DE1111] focus:outline-[#DE1111]' : 'border-purple focus:outline-purple'}`}
+        className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal  ${isError ? 'border-[#DE1111] focus:outline-[#DE1111]' : 'border-purple focus:outline-purple'}`}
         type={type}
         placeholder={placeholder}
         {...register(id, {
@@ -63,8 +63,9 @@ const CustomInput: React.FC<CustomInputProps> = ({
         <label htmlFor="input">{label}</label>
         <input
           id={id}
-          className={`px-2 py-2 h-[50px] w-[312px] placeholder:text-purple-hover border-2 rounded-lg font-normal focus:outline-purple ${isError ? 'border-[#DE1111] focus:outline-[#DE1111]' : 'border-purple focus:outline-purple'}`}
+          className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal focus:outline-purple ${isError ? 'border-[#DE1111] focus:outline-[#DE1111]' : 'border-purple focus:outline-purple'}`}
           placeholder={placeholder}
+          type={showPassword ? "text" : "password"}
           {...register(id, {
             onChange: (e) => {
               if (method) {

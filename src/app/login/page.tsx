@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userSchema } from "@/validations/userSchema";
+import { userSchema } from "../validations/userSchema";
 import Image from "next/image";
 import logo from "../../../public/assets/images/icon.svg";
 import Button from "../components/button";
@@ -80,16 +80,16 @@ const Login: React.FC<LoginProps> = (props) => {
           password: data.password,
         }
       );
-      console.log(response.data);
+      // console.log(response.data);
       // Si la peticion es exitosa redirige a home
       router.push("/home");
       // Guarda los datos si la casilla "Recordarme" está marcada
       if (isChecked) {
         localStorage.setItem("savedUserData", JSON.stringify(data));
       }
-      console.log(localStorage.savedUserData)
+      // console.log(localStorage.savedUserData)
     } catch (error) {
-      console.error(error.response.data.message);
+      // console.error(error.response.data.message);
       // Si hay un error, actualiza los estados de error correspondientes
       if (error.response.data.message.includes("User not found")) {
         setEmailError(true);
@@ -105,7 +105,6 @@ const Login: React.FC<LoginProps> = (props) => {
       <div className="flex items-center flex-col pt-[60px] px-6 sm:min-w-[360px] sm:m-auto sm:border-0 sm:shadow-md sm:max-h-full sm:min-h-[640px] sm:rounded-[20px]">
         <Image src={logo} width={106} height={106} alt="logo" priority />
         <form onSubmit={handleSubmit(onSubmit)} className="w-full my-2">
-          {/* <form onSubmit={handleSubmit(data => {console.log(data)})} className="w-full my-2"> */}
           <div className="pt-5 w-full">
             <CustomInput
               id="email"

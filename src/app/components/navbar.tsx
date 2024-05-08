@@ -43,7 +43,7 @@ const NavBar: React.FC<NavBarProps> = () => {
         <>
 {/* Mobile menu (only when isSmallScreen is true) */}
             {isSmallScreen && (
-                <div className="flex w-full p-[24px] m-auto justify-between">
+                <div className="flex w-full px-[24px] md:px-[32px] py-[12px] m-auto justify-between">
                     <Image src={logo} width={35} height={35} alt="Logo" />
                     {isOpen ? (
                         <Image
@@ -71,38 +71,38 @@ const NavBar: React.FC<NavBarProps> = () => {
                         >
                             <LinkComponent
                                 text="Institución"
-                                textColor="white"
-                                decorationColor="orange"
+                                textColor="text-white"
+                                decorationColor="hover:decoration-orange"
                                 link=""
-                                textColorHover="white"
+                                textColorHover="hover:text-white"
                             />
                             <LinkComponent
                                 text="Profesores"
-                                textColor="white"
-                                decorationColor="orange"
+                                textColor="text-white"
+                                decorationColor="hover:decoration-orange"
                                 link=""
-                                textColorHover="white"
+                                textColorHover="hover:text-white"
                             />
                             <LinkComponent
                                 text="Estudiantes"
-                                textColor="white"
-                                decorationColor="orange"
+                                textColor="text-white"
+                                decorationColor="hover:decoration-orange"
                                 link=""
-                                textColorHover="white"
+                                textColorHover="hover:text-white"
                             />
                             <LinkComponent
                                 text="Estadísticas"
-                                textColor="white"
-                                decorationColor="orange"
+                                textColor="text-white"
+                                decorationColor="hover:decoration-orange"
                                 link=""
-                                textColorHover="white"
+                                textColorHover="hover:text-white"
                             />
                             <LinkComponent
                                 text="Mi cuenta"
-                                textColor="white"
-                                decorationColor="orange"
+                                textColor="text-white"
+                                decorationColor="hover:decoration-orange"
                                 link=""
-                                textColorHover="white"
+                                textColorHover="hover:text-white"
                             />
                         </div>
                     )}
@@ -122,38 +122,38 @@ const NavBar: React.FC<NavBarProps> = () => {
                         <div className="flex md:w-[600px] justify-end align-center py-2 space-x-12">
                             <LinkComponent
                                 text="Institución"
-                                textColor="black"
-                                decorationColor="green"
+                                textColor="text-black"
+                                decorationColor="hover:decoration-green"
                                 link=""
-                                textColorHover="black"
+                                textColorHover="hover:text-black"
                             />
                             <LinkComponent
                                 text="Profesores"
-                                textColor="black"
-                                decorationColor="green"
+                                textColor="text-black"
+                                decorationColor="hover:decoration-green"
                                 link=""
-                                textColorHover="black"
+                                textColorHover="hover:text-black"
                             />
                             <LinkComponent
                                 text="Estudiantes"
-                                textColor="black"
-                                decorationColor="green"
+                                textColor="text-black"
+                                decorationColor="hover:decoration-green"
                                 link=""
-                                textColorHover="black"
+                                textColorHover="hover:text-black"
                             />
                             <LinkComponent
                                 text="Estadisticas"
-                                textColor="black"
-                                decorationColor="green"
+                                textColor="text-black"
+                                decorationColor="hover:decoration-green"
                                 link=""
-                                textColorHover="black"
+                                textColorHover="hover:text-black"
                             />
                             <LinkComponent
                                 text="Mi cuenta"
-                                textColor="black"
-                                decorationColor="green"
+                                textColor="text-black"
+                                decorationColor="hover:decoration-green"
                                 link=""
-                                textColorHover="black"
+                                textColorHover="hover:text-black"
                             />
                         </div>
                     </div>

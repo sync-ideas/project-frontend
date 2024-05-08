@@ -21,7 +21,6 @@ const ProfForm = () => {
   const submitForm = (formData: FormData) => {
     console.log(formData);
   };
-  const passPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*d).{6,7}$/;
 
   return (
     <form
@@ -35,13 +34,6 @@ const ProfForm = () => {
         <Controller
           name="name"
           control={control}
-          rules={{
-            required: true,
-            minLength: {
-              value: 4,
-              message: "Nombre debe contener más de 3 caracteres",
-            },
-          }}
           render={({ field }) => (
             <InputProfesor
               field={field}
@@ -55,7 +47,6 @@ const ProfForm = () => {
         <Controller
           name="mail"
           control={control}
-          rules={{ required: "Este campo es obligatorio" }}
           render={({ field }) => (
             <InputProfesor
               field={field}
@@ -69,13 +60,6 @@ const ProfForm = () => {
         <Controller
           name="username"
           control={control}
-          rules={{
-            required: true,
-            minLength: {
-              value: 5,
-              message: "Nombre de usuario debe contener más de 5 caracteres",
-            },
-          }}
           render={({ field }) => (
             <InputProfesor
               field={field}
@@ -89,14 +73,6 @@ const ProfForm = () => {
         <Controller
           name="password"
           control={control}
-          rules={{
-            required: true,
-            pattern: {
-              value: passPattern,
-              message:
-                "La contraseña debe tener entre 5 y 8 caractereres e incluir mayusculas y minusculas.",
-            },
-          }}
           render={({ field }) => (
             <InputProfesor
               field={field}
