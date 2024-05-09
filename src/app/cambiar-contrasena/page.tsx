@@ -7,6 +7,7 @@ import Button from "../components/button";
 import LinkComponent from "../components/LinkComponent/LinkComponentCustom";
 import Image from "next/image";
 import logo from "../../../public/assets/images/icon.svg";
+import { SetNewPassword } from "./utils";
 
 const cambiarContraseñaSchema = z
   .object({
@@ -28,7 +29,13 @@ const cambiarContraseñaSchema = z
 
 type CambiarContrasenaData = z.infer<typeof cambiarContraseñaSchema>;
 
-const Page: React.FC = () => {
+interface GetPasswordProps {
+  params: {
+    token: string;
+  };
+}
+
+const Page: React.FC<GetPasswordProps> = (props) => {
   const {
     register,
     handleSubmit,
@@ -39,6 +46,7 @@ const Page: React.FC = () => {
 
   const onSubmit = (data: CambiarContrasenaData) => {
     console.log("Datos del formulario:", data);
+    SetNewPassword(props.params.token, data.nuevaContrasena);
   };
 
   return (
