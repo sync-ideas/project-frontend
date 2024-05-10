@@ -1,5 +1,6 @@
 "use client";
 import React from "react";
+import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -8,6 +9,7 @@ import LinkComponent from "../components/LinkComponent/LinkComponentCustom";
 import Image from "next/image";
 import logo from "../../../public/assets/images/icon.svg";
 import { SetNewPassword } from "./utils";
+import CustomInput from "../components/input";
 
 const cambiarContraseñaSchema = z
   .object({
@@ -44,9 +46,22 @@ const Page: React.FC<GetPasswordProps> = (props) => {
     resolver: zodResolver(cambiarContraseñaSchema),
   });
 
-  const onSubmit = (data: CambiarContrasenaData) => {
+  const navegador = useRouter();
+
+  const onSubmit = async (data: CambiarContrasenaData) => {
     console.log("Datos del formulario:", data);
-    SetNewPassword(props.params.token, data.nuevaContrasena);
+    try {
+      const result = await SetNewPassword(
+        props.params.token,
+        data.nuevaContrasena
+      );
+      if (result.error) {
+        alert("Usuario no logueado");
+        navegador.push("/login");
+      }
+    } catch (error) {
+      console.log("Ha habido un error en el servidor");
+    }
   };
 
   return (
@@ -57,17 +72,15 @@ const Page: React.FC<GetPasswordProps> = (props) => {
           <div className="flex flex-col">
             <div className="pt-5 w-full">
               <label htmlFor="nuevaContrasena">Nueva contraseña:</label>
-              <input
-                className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal  ${
-                  errors.nuevaContrasena
-                    ? "border-[#DE1111] focus:outline-[#DE1111] text-[#DE1111]"
-                    : "border-purple focus:outline-purple"
-                }`}
+              <CustomInput
                 id="nuevaContrasena"
-                {...register("nuevaContrasena", { required: true })}
                 type="password"
-                placeholder="Ingresa tu nueva contraseña"
+                register={register}
+                error={errors.nuevaContrasena ? true : false}
+                onClick={() => {}}
+                placeholder="Ingresá tu nueva contraseña"
               />
+
               <p className="text-red-600">{errors.nuevaContrasena?.message}</p>
             </div>
 
@@ -75,7 +88,7 @@ const Page: React.FC<GetPasswordProps> = (props) => {
               <label htmlFor="repetirNuevaContrasena">
                 Repetir nueva contraseña:
               </label>
-              <input
+              {/* <input
                 className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal  ${
                   errors.repetirNuevaContrasena
                     ? "border-[#DE1111] focus:outline-[#DE1111] text-[#DE1111]"
@@ -85,6 +98,14 @@ const Page: React.FC<GetPasswordProps> = (props) => {
                 {...register("repetirNuevaContrasena", { required: true })}
                 type="password"
                 placeholder="Ingresa otra vez tu nueva contraseña"
+              /> */}
+              <CustomInput
+                id="repetirNuevaContrasena"
+                type="password"
+                register={register}
+                error={errors.repetirNuevaContrasena ? true : false}
+                onClick={() => {}}
+                placeholder="Ingresá otra vez tu nueva contraseña"
               />
               <p className="text-red-600">
                 {errors.repetirNuevaContrasena?.message}
