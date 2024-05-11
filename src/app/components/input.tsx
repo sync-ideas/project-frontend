@@ -6,13 +6,13 @@ import Image from "next/image";
 import { UseFormRegister, FieldValues } from "react-hook-form";
 
 interface CustomInputProps {
-  id:string;
+  id: string;
   placeholder?: string;
   pass?: boolean;
   type: string;
   label?: string;
   method?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  register: UseFormRegister<FieldValues>;
+  register: any;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   error: boolean;
   onClick: (event: React.MouseEvent<HTMLInputElement>) => void;
@@ -45,7 +45,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
         type={type}
         placeholder={placeholder}
         {...register(id, {
-          onChange: (e) => {
+          onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
             if (method) {
               method(e);
             }
@@ -67,7 +67,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
           placeholder={placeholder}
           type={showPassword ? "text" : "password"}
           {...register(id, {
-            onChange: (e) => {
+            onChange: (e: React.ChangeEvent<HTMLInputElement>) => {
               if (method) {
                 method(e);
               }
