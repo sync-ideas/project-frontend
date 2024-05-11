@@ -1,6 +1,6 @@
 import PropTypes from "prop-types";
 import React, { useState } from "react";
-import vectorCheckbox from "../../../public/assets/images/vectorCheckbox.svg";
+import vectorCheckbox from "../../../public/assets/images/vectorCheckBox.svg";
 import Image from "next/image";
 
 interface Props {

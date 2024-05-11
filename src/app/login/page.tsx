@@ -20,8 +20,6 @@ type Inputs = {
   password: string;
 };
 const Login: React.FC<LoginProps> = (props) => {
-
-  
   //Funcion para dirigir a otra pagina en caso de respuesta positiva de login
   const router = useRouter();
 
@@ -43,7 +41,10 @@ const Login: React.FC<LoginProps> = (props) => {
   //Estados de inputs para cambiar estilos si hay errores
   const [emailError, setEmailError] = useState(false);
   const [passwordError, setPasswordError] = useState(false);
-
+  const [errorMessage, setErrorMessage] = useState("");
+  const [remainingAttempts, setRemainingAttempts] = useState("");
+  //Estados de inputs para mostrar errores
+  const [showErrorMessage, setShowErrorMessage] = useState(true);
 
   //Validacion de inputs con valor para activar el boton
   const handleInputChange = useCallback(() => {
@@ -51,16 +52,16 @@ const Login: React.FC<LoginProps> = (props) => {
     setIsButtonDisabled(!inputsNotEmpty);
   }, [watch, setIsButtonDisabled]);
 
-
   // Lógica para manejar el clic en el input y actualizar los estados de error
-  const handleInputClick = (inputId) => {
+  const handleInputClick = (inputId: string) => {
     if (inputId === "email" || inputId === "password") {
       setEmailError(false);
       setPasswordError(false);
+      setShowErrorMessage(false);
     }
   };
 
- // Verificar si hay datos guardados en el localStorage y establecerlos
+  // Verificar si hay datos guardados en el localStorage y establecerlos
   useEffect(() => {
     const savedUserData = localStorage.getItem("savedUserData");
     if (savedUserData) {
@@ -70,11 +71,15 @@ const Login: React.FC<LoginProps> = (props) => {
       handleInputChange(); // Actualizar el estado del botón después de establecer los valores
     }
   }, [setValue, handleInputChange]);
-  
-  const onSubmit = async (data) => {
+
+  const onSubmit = async (data: Inputs) => {
+    // Reiniciar estados de error y mostrar mensaje al realizar un nuevo envío de datos
+    setErrorMessage("");
+    setRemainingAttempts("");
+    setShowErrorMessage(true);
     try {
       const response = await axios.post(
-        "https://attendance-control-sync-ideas.vercel.app/api/users/login",
+        "https://attendance-control.vercel.app/api/users/login",
         {
           email: data.email,
           password: data.password,
@@ -88,13 +93,18 @@ const Login: React.FC<LoginProps> = (props) => {
         localStorage.setItem("savedUserData", JSON.stringify(data));
       }
       // console.log(localStorage.savedUserData)
-    } catch (error) {
+    } catch (error: any) {
+      // console.error(error.response.data);
       // console.error(error.response.data.message);
       // Si hay un error, actualiza los estados de error correspondientes
+      setErrorMessage(error.response.data.message);
+      setRemainingAttempts(error.response.data.remainingAttempts);
+
       if (error.response.data.message.includes("User not found")) {
         setEmailError(true);
-      }
-      if (error.response.data.message.includes("Incorrect password")) {
+      } else if (error.response.data.message.includes("Incorrect password")) {
+        setPasswordError(true);
+      } else if (error.response.data.message.includes("Too many attempts. Please try again later.")) {
         setPasswordError(true);
       }
     }
@@ -126,7 +136,7 @@ const Login: React.FC<LoginProps> = (props) => {
             )}
 
             {/* Mostrar mensaje de error del backend */}
-            {emailError && (
+            {emailError && showErrorMessage && (
               <p className="w-[320px] mt-[5px] text-[#DE1111]">
                 Usuario no registrado.
               </p>
@@ -153,11 +163,27 @@ const Login: React.FC<LoginProps> = (props) => {
             )}
 
             {/* Mostrar mensaje de error del backend */}
-            {passwordError && (
-              <p className="w-[320px] mt-[5px] text-[#DE1111]">
-                Contraseña incorrecta.
-              </p>
-            )}
+            {errorMessage.includes("Incorrect password") &&
+              showErrorMessage && (
+                <p className="w-[320px] mt-[5px] text-[#DE1111]">
+                  {Number(remainingAttempts) === 1
+                    ? "Contraseña incorrecta. Te queda 1 intento. Si fallas otra vez tu cuenta será bloqueada temporalmente por 30 minutos."
+                    : Number(remainingAttempts) === 2
+                    ? "Contraseña incorrecta. Te quedan 2 intentos."
+                    : "Tu cuenta ha sido bloqueada temporalmente por 30 minutos. Una vez pasado este periodo podrás volver a iniciar sesión."}
+                </p>
+              )}
+
+            {/* Mostrar mensaje de error de "Demasiados intentos" */}
+            {errorMessage.includes(
+              "Too many attempts. Please try again later."
+            ) &&
+              showErrorMessage && (
+                <p className="w-[320px] mt-[5px] text-[#DE1111]">
+                  Tu cuenta ha sido bloqueada temporalmente por 30 minutos. Una
+                  vez pasado este periodo podrás volver a iniciar sesión.
+                </p>
+              )}
           </div>
           <div className="w-full text-left mt-2 flex items-center mb-4">
             <Checkbox isChecked={isChecked} setIsChecked={setIsChecked} />
