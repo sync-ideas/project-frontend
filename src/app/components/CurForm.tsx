@@ -4,12 +4,13 @@ import Button from "./button";
 import { useForm, Controller } from "react-hook-form";
 import InputCurso from "./InputCurso";
 import InputFile from "./InputFile";
+import envioPlanilla from "../estudiantes/cursos/nuevo-curso/envioPlanilla";
 
 interface FormData {
   level: string;
   number: number;
   letter: string;
-  lista: string;
+  lista: File;
 }
 interface Option {
   id: string;
@@ -44,7 +45,7 @@ const CurForm = () => {
   } = useForm<FormData>();
 
   const submitForm = (formData: FormData) => {
-    console.log(formData);
+    envioPlanilla(formData);
   };
   const [enableSelect, setEnableSelect] = useState({
     grado: true,
@@ -124,7 +125,14 @@ const CurForm = () => {
           name="lista"
           control={control}
           render={({ field }) => (
-            <InputFile field={field} error={errors.lista} id="lista" />
+            <>
+              <InputFile
+                field={field}
+                error={errors.lista}
+                id="lista"
+                onChange={(file) => field.onChange(file)}
+              />
+            </>
           )}
         />
       </div>

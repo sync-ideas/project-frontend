@@ -29,8 +29,8 @@ const InputCurso: React.FC<InputCursoProps> = ({
   onChange,
 }) => {
   return (
-    <div className="flex flex-col">
-      <div className="w-full text-[#362B3E] hover:text-purple-950 placeholder:text-purple-hover rounded-lg font-normal group-focus:outline-purple flex relative">
+    <div className="flex flex-col active:hover:outline-none">
+      <div className="w-full text-[#362B3E] hover:text-purple-950 placeholder:text-purple-hover rounded-lg font-normal group-focus:outline-purple flex relative group-hover:opacity-100">
         <Select id={id} field={field} options={options} onChange={onChange} />
       </div>
       {error && <p className="text-red-500">{error.message}</p>}

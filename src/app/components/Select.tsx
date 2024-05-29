@@ -57,13 +57,22 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           border: state.menuIsOpen ? "2px solid purple" : "1px solid purple",
           borderBottom: state.menuIsOpen ? "none" : "1px solid purple",
           boxShadow: "none",
-          width: "320px",
           borderRadius: state.menuIsOpen ? "5px 5px 0 0" : "5px",
+          opacity: 0.7,
+          ":hover": {
+            opacity: 1,
+            border: "1px solid purple",
+          },
+          width: "312px",
+          "@media (max-width: 1024px)": {
+            width: "100%",
+          },
         }),
         option: (provided, state) => ({
           ...provided,
           backgroundColor: state.isSelected ? "#333" : "transparent",
           color: state.isSelected ? "#fff" : "#333",
+          opacity: 1,
 
           ":hover": {
             backgroundColor: "rgba(99, 49, 138, 0.6)",
@@ -78,8 +87,16 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           backgroundColor: "#fff", // Cambia el color de fondo del menú
           zIndex: 9999, // Ajusta el z-index para solapar otros elementos si es necesario
           marginTop: "-2px",
-          width: "320px",
+          width: "312px",
+          opacity: 1,
           // marginLeft: "-1px",
+        }),
+        container: (provided, state) => ({
+          ...provided,
+          width: "312px",
+          "@media (max-width: 1024px)": {
+            width: "100%",
+          },
         }),
       }}
     />

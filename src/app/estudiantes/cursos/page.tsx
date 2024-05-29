@@ -3,17 +3,17 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Footer from "../components/Footer";
-import NavBar from "../components/navbar";
-import Button from "../components/button";
-import courses from "../../../public/assets/images/courses.svg";
-import Breadcrumb from "../components/Breadcrumb";
+import Footer from "../../components/Footer";
+import NavBar from "../../components/navbar";
+import Button from "../../components/button";
+import courses from "../../../../public/assets/images/courses.svg";
+import Breadcrumb from "../../components/Breadcrumb";
 interface CourseRegistrationProps {}
 
 const CourseRegistration: React.FC<CourseRegistrationProps> = (props) => {
   const router = useRouter();
   const handleClik = () => {
-    router.push("/nuevo-curso");
+    router.push("/estudiantes/cursos/nuevo-curso");
   };
   return (
     <div>
@@ -39,7 +39,8 @@ const CourseRegistration: React.FC<CourseRegistrationProps> = (props) => {
                 alt="courses"
               />
               <p className="text-center text-purple-text font-semibold pt-[24px] block ">
-                Crea el primer<br />
+                Crea el primer
+                <br />
                 curso de tu <br />
                 establecimiento
               </p>
