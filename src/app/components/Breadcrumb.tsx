@@ -10,7 +10,7 @@ interface BreadcrumbProps {
 const Breadcrumb: React.FC<BreadcrumbProps> = ({ links }) => {
   const actual = links.length - 1;
   return (
-    <div>
+    <div className="h-[22px]">
       {links.map((link) => {
         return (
           <span key={links.indexOf(link)}>

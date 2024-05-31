@@ -28,7 +28,7 @@ const BreadcrumbLinkComponent: React.FC<LinkProps> = (props) => {
 
   return (
     <Link
-      className={`text-base leading-snug  transition-all duration-300 ${decorationColor} ${textColorHover} ${linkActive}`}
+      className={`text-[16px] leading-[22px] transition-all duration-300 ${decorationColor} ${textColorHover} ${linkActive}`}
       href={props.active ? "#" : props.link}
     >
       {props.text}

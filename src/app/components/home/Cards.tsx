@@ -1,12 +1,11 @@
 "use client";
-
-import React from "react";
+import React,{ useEffect }from "react";
 import { useRouter } from "next/navigation";
+
 interface CardsProps {}
 
 const Cards: React.FC<CardsProps> = (props) => {
   const router = useRouter();
-
   return (
     <div className=" text-white h-[81.35vh] md:h-[89.365vh] xl:h-[82.363vh] flex justify-center items-center flex-col space-y-[10px] md:space-y-[16px] px-[24px] pb-[16px] md:pb-[24px] md:px-[32px] xl:items-stretch xl:flex-row xl:space-y-0 xl:space-x-[16px] xl:px-[120px]">
       <div
