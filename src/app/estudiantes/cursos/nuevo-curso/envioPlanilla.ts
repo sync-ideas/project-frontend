@@ -4,30 +4,30 @@ interface FormData {
   level: string;
   number: number;
   letter: string;
-  lista: File;
+  lista: File | null;
 }
 
 export default async function envioPlanilla(formData: FormData) {
-  console.log(formData);
-
   const datos = new FormData();
   datos.append("fullname", "Nombre");
   datos.append("contact_phone", "Telefono");
-  datos.append("file", formData.lista);
+  if (formData.lista) {
+    datos.append("file", formData.lista);
+  }
   try {
-    const estudiantes = await axios.post(
+    await axios.post(
       "https://attendance-control.vercel.app/api/students/excel-import",
       datos,
       {
         headers: {
           "Content-Type": "multipart/form-data",
           Authorization:
-            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MiwiaWF0IjoxNzE3MDE5OTk4LCJleHAiOjE3MTcwNTU5OTh9.A-sEEg6Jlr1SIKEXwXmR7ambet623YT4xe_CKntcAe4",
+            "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiaWF0IjoxNzE4NzYwNDExLCJleHAiOjE3MTg3OTY0MTF9.bs1r3U_2wpE1IxEj0_35s3zs1hrESxx1YcjjF6zGP2Y",
         },
       }
     );
-    console.log(estudiantes.data);
+    return undefined;
   } catch (error) {
-    console.log(error);
+    return error;
   }
 }

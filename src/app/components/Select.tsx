@@ -25,6 +25,7 @@ interface CustomSelectProps {
     name: string;
   };
   onChange: (option: Option) => void;
+  disabled?: boolean;
 }
 
 const CustomSelect: React.FC<CustomSelectProps> = ({
@@ -32,6 +33,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   options,
   field,
   onChange,
+  disabled = false,
 }) => {
   const [selectedOption, setSelectedOption] = useState<Option>();
 
@@ -44,6 +46,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   };
   return (
     <Select
+      isDisabled={disabled}
       options={options}
       value={selectedOption}
       onChange={handleChange}
@@ -63,7 +66,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
             opacity: 1,
             border: "1px solid purple",
           },
-          width: "312px",
+
           "@media (max-width: 1024px)": {
             width: "100%",
           },
@@ -73,6 +76,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           backgroundColor: state.isSelected ? "#333" : "transparent",
           color: state.isSelected ? "#fff" : "#333",
           opacity: 1,
+          "@media (max-width: 1024px)": {
+            width: "100%",
+          },
 
           ":hover": {
             backgroundColor: "rgba(99, 49, 138, 0.6)",
@@ -87,16 +93,17 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
           backgroundColor: "#fff", // Cambia el color de fondo del menú
           zIndex: 9999, // Ajusta el z-index para solapar otros elementos si es necesario
           marginTop: "-2px",
-          width: "312px",
+
           opacity: 1,
+          "@media (max-width: 1024px)": {
+            width: "100%",
+          },
           // marginLeft: "-1px",
         }),
         container: (provided, state) => ({
           ...provided,
-          width: "312px",
-          "@media (max-width: 1024px)": {
-            width: "100%",
-          },
+
+          width: "100%",
         }),
       }}
     />
