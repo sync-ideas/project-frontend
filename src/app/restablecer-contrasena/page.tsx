@@ -4,7 +4,7 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userSchema } from "../../validations/userSchemaRestore";
+import { userSchema } from "../validations/restablecer/userSchemaRestore";
 import Image from "next/image";
 import logo from "../../../public/assets/images/icon.svg";
 import CustomInput from "../components/input";

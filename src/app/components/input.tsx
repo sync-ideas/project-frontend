@@ -28,7 +28,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
   register,
   onChange,
   error,
-  onClick 
+  onClick,
 }) => {
   const [showPassword, setShowPassword] = useState(false);
 
@@ -41,7 +41,11 @@ const CustomInput: React.FC<CustomInputProps> = ({
       <label htmlFor="input">{label}</label>
       <input
         id={id}
-        className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal  ${isError ? 'border-[#DE1111] focus:outline-[#DE1111]' : 'border-purple focus:outline-purple'}`}
+        className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal  ${
+          isError
+            ? "border-[#DE1111] focus:outline-[#DE1111]"
+            : "border-purple focus:outline-purple"
+        }`}
         type={type}
         placeholder={placeholder}
         {...register(id, {
@@ -58,12 +62,16 @@ const CustomInput: React.FC<CustomInputProps> = ({
       />
     </div>
   ) : (
-    <div className="relative">
-      <div className="flex flex-col">
-        <label htmlFor="input">{label}</label>
+    <div>
+      <label htmlFor="input">{label}</label>
+      <div className="relative flex flex-col">
         <input
           id={id}
-          className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal focus:outline-purple ${isError ? 'border-[#DE1111] focus:outline-[#DE1111]' : 'border-purple focus:outline-purple'}`}
+          className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal focus:outline-purple ${
+            isError
+              ? "border-[#DE1111] focus:outline-[#DE1111]"
+              : "border-purple focus:outline-purple"
+          }`}
           placeholder={placeholder}
           type={showPassword ? "text" : "password"}
           {...register(id, {
@@ -78,11 +86,14 @@ const CustomInput: React.FC<CustomInputProps> = ({
           })}
           onClick={onClick}
         />
-        <div className="absolute top-1/2 right-3 cursor-pointer z-10" onClick={handleTogglePassword}>
+        <div
+          className="absolute top-1/2 right-3 transform -translate-y-1/2 cursor-pointer z-10"
+          onClick={handleTogglePassword}
+        >
           {showPassword ? (
-            <Image src={eyeOpen} alt="algo" className="w-6 h-6" priority/>
+            <Image src={eyeOpen} alt="algo" className="w-6 h-6" priority />
           ) : (
-            <Image src={eyeClose} alt="algo" className="w-6 h-6" priority/>
+            <Image src={eyeClose} alt="algo" className="w-6 h-6" priority />
           )}
         </div>
       </div>
