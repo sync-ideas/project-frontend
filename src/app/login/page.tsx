@@ -88,6 +88,7 @@ const Login: React.FC<LoginProps> = (props) => {
       // console.log(response.data);
       // Si la peticion es exitosa redirige a home
       router.push("/home");
+      localStorage.setItem("token", response.data.token);
       // Guarda los datos si la casilla "Recordarme" está marcada
       if (isChecked) {
         localStorage.setItem("savedUserData", JSON.stringify(data));
@@ -104,7 +105,11 @@ const Login: React.FC<LoginProps> = (props) => {
         setEmailError(true);
       } else if (error.response.data.message.includes("Incorrect password")) {
         setPasswordError(true);
-      } else if (error.response.data.message.includes("Too many attempts. Please try again later.")) {
+      } else if (
+        error.response.data.message.includes(
+          "Too many attempts. Please try again later."
+        )
+      ) {
         setPasswordError(true);
       }
     }

@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import Button from "./button";
+import { useRouter } from "next/navigation";
 
 interface FormData {
   level: string;
@@ -16,13 +17,15 @@ const ModalCurso: React.FC<{
   done: boolean;
   setDone: React.Dispatch<React.SetStateAction<boolean>>;
 }> = ({ formData, envioPlanilla, confirmar, setConfirmar, done, setDone }) => {
+  const router = useRouter();
   const handleConfirm = () => {
     if (formData) {
       envioPlanilla(formData).then((response) => {
-        if (response === undefined) {
+        if (response !== undefined) {
           setDone(true);
           setTimeout(() => {
             setDone(false);
+            router.push("/estudiantes/cursos/nuevo-curso");
           }, 3000);
           setConfirmar(false);
         } else {
