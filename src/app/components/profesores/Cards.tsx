@@ -1,21 +1,24 @@
 "use client";
 import React from "react";
 import Button from "./ButtonEdit";
-import { useRouter } from "next/navigation";
 import { useMediaQuery } from "react-responsive";
-import { useProfesorStore } from "@/app/profesores/profesoresSubmit";
+import { useProfesoresStore } from "../../../store";
+import { handleEditClick } from "../../../functions";
+import { useRouter } from "next/navigation";
+
 interface CardProfessorProps {}
 
 const Cards: React.FC<CardProfessorProps> = () => {
-  const { profesores } = useProfesorStore();
+  const { profesores } = useProfesoresStore();
+  const isSmallScreen = useMediaQuery({ maxWidth: 767 });
   const router = useRouter();
-  const isSmallScreen = useMediaQuery({ maxWidth: 779 });
 
-  const handleClick = () => {
+  const handleClick = (userId: number) => {
     if (isSmallScreen) {
-      router.push("");
+      handleEditClick(userId, router);
     }
   };
+
   return (
     <div className="pt-[20px] mb-[10px]">
       <div className="mb-[16px]">
@@ -24,7 +27,7 @@ const Cards: React.FC<CardProfessorProps> = () => {
       {profesores.map((profesor, index) => (
         <div
           key={profesor.id}
-          onClick={handleClick}
+          onClick={() => handleClick(profesor.id)}
           className={`bg-purple bg-opacity-20 hover:bg-opacity-40 border-[2px] border-[purple] border-opacity-20 h-[54px] md:h-[74px] py-[16px] px-[10px] cursor-pointer md:cursor-default ${
             index === 0
               ? "rounded-t-lg" // Estilos para el primer elemento
@@ -35,7 +38,7 @@ const Cards: React.FC<CardProfessorProps> = () => {
         >
           <div className="flex items-center justify-center md:justify-between px-[24px]">
             <a className="">{profesor.fullname}</a>
-            <Button />
+            <Button userId={profesor.id} />
           </div>
         </div>
       ))}
