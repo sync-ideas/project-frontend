@@ -1,6 +1,6 @@
 import React from "react";
 import Image from "next/image";
-import vector from "../../../../public/assets/images/vectorConfirmEdit.svg";
+import vector from "../../../../public/assets/images/VectorConfirmEdit.svg";
 
 interface ModalProps {
     onClose: () => void;
