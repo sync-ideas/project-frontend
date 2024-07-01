@@ -1,7 +1,7 @@
-import Breadcrumb from "@/app/components/Breadcrumb";
-import CurForm from "@/app/components/CurForm";
-import Footer from "@/app/components/Footer";
-import NavBar from "@/app/components/navbar";
+import Breadcrumb from "../../../components/Breadcrumb";
+import CurForm from "../../../components/CurForm";
+import Footer from "../../../components/Footer";
+import NavBar from "../../../components/navbar";
 import React from "react";
 
 const Page = () => {
