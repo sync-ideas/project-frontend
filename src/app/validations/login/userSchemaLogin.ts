@@ -1,9 +1,6 @@
 import {z} from 'zod';
 
-export const userSchema = z.object({
-    name: z.string().regex(/^[a-zA-Z]+$/, {
-        message: "El nombre solo puede contener letras.",
-    }),
+export const userSchemaLogin = z.object({
     email: z.string().email({
         message:"Ingresa un correo electrónico válido.",
     }),
