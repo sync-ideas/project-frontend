@@ -1,6 +1,6 @@
 "use client";
 import axios from 'axios';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context';
+import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { Inputs } from './EditarForm';
 import { useLoginStore, useUserStore, useProfesoresStore } from '../../../store';
 
