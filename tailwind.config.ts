@@ -10,6 +10,7 @@ const config: Config = {
         extend: {
             boxShadow: {
                 'profesores-button-edit': '3px 3px 0px 0px #000000',
+                'profesores-button-edit-click': '3px 3px 0px 0px #000 inset',
               },
             backgroundImage: {
                 "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",

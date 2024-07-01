@@ -2,7 +2,7 @@
 import axios from "axios";
 import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"; // Importa AppRouterInstance
 import { Inputs } from "./LoginForm"; // Importa el tipo Inputs desde el archivo correspondiente
-import { useLoginStore } from "@/store";
+import { useLoginStore } from "../../store";
 
 // Definición de la interfaz que describe las props para onSubmit
 interface OnSubmitProps {

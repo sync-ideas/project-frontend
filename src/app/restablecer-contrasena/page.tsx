@@ -4,13 +4,13 @@ import axios from "axios";
 import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userSchema } from "../validations/restablecer/userSchemaRestore";
+import { userSchemaRestore } from "../validations";
 import Image from "next/image";
 import logo from "../../../public/assets/images/icon.svg";
 import CustomInput from "../components/input";
 import Button from "../components/button";
 import LinkComponent from "../components/LinkComponent/LinkComponentCustom";
-import { areInputsNotEmpty } from "../functions/input/formUtils";
+import { areInputsNotEmpty } from "../../functions/input/formUtils";
 
 interface GetPasswordProps {}
 
@@ -29,7 +29,7 @@ const GetPassword: React.FC<GetPasswordProps> = (props) => {
     formState: { errors },
     watch,
   } = useForm<Inputs>({
-    resolver: zodResolver(userSchema),
+    resolver: zodResolver(userSchemaRestore),
   });
 
   //Estado de boton para activarlo

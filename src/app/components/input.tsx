@@ -3,7 +3,6 @@ import React, { useState } from "react";
 import eyeOpen from "../../../public/assets/images/eyeOpen.svg";
 import eyeClose from "../../../public/assets/images/eyeClose.svg";
 import Image from "next/image";
-import { UseFormRegister, FieldValues } from "react-hook-form";
 
 interface CustomInputProps {
   id: string;
@@ -11,11 +10,13 @@ interface CustomInputProps {
   pass?: boolean;
   type: string;
   label?: string;
+  textStyle?: string;
+  textStylePlaceholder?: string;
   method?: (event: React.ChangeEvent<HTMLInputElement>) => void;
   register: any;
   onChange?: (event: React.ChangeEvent<HTMLInputElement>) => void;
-  error: boolean;
-  onClick: (event: React.MouseEvent<HTMLInputElement>) => void;
+  error?: boolean;
+  onClick?: (event: React.MouseEvent<HTMLInputElement>) => void;
 }
 
 const CustomInput: React.FC<CustomInputProps> = ({
@@ -24,6 +25,8 @@ const CustomInput: React.FC<CustomInputProps> = ({
   pass = false,
   type,
   label,
+  textStyle,
+  textStylePlaceholder,
   method,
   register,
   onChange,
@@ -41,7 +44,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       <label htmlFor="input">{label}</label>
       <input
         id={id}
-        className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal  ${
+        className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal ${textStyle}  ${
           isError
             ? "border-[#DE1111] focus:outline-[#DE1111]"
             : "border-purple focus:outline-purple"
@@ -67,7 +70,7 @@ const CustomInput: React.FC<CustomInputProps> = ({
       <div className="relative flex flex-col">
         <input
           id={id}
-          className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal focus:outline-purple ${
+          className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal focus:outline-purple ${textStyle} ${textStylePlaceholder}  ${
             isError
               ? "border-[#DE1111] focus:outline-[#DE1111]"
               : "border-purple focus:outline-purple"
