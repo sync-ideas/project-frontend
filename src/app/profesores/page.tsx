@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -12,9 +13,11 @@ import { useProfesorStore } from "../profesores/profesoresSubmit";
 interface ProfessorProps {}
 const Professor: React.FC<ProfessorProps> = () => {
   const router = useRouter();
-  const obtenerProfesores = useProfesorStore(state => state.obtenerProfesores);
-  const profesores = useProfesorStore(state => state.profesores);
-//   console.log('Lista de profesores:', profesores);
+  const obtenerProfesores = useProfesorStore(
+    (state) => state.obtenerProfesores
+  );
+  const profesores = useProfesorStore((state) => state.profesores);
+  //   console.log('Lista de profesores:', profesores);
 
   const [loading, setLoading] = useState(true);
 
