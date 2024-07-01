@@ -1,8 +1,9 @@
-"use client"
-import axios from 'axios';
-import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context'; // Importa AppRouterInstance
-import { Inputs } from './LoginForm'; // Importa el tipo Inputs desde el archivo correspondiente
-import { useLoginStore } from '../../store';
+"use client";
+import axios from "axios";
+import { AppRouterInstance } from "next/dist/shared/lib/app-router-context.shared-runtime"; // Importa AppRouterInstance
+import { Inputs } from "./LoginForm"; // Importa el tipo Inputs desde el archivo correspondiente
+import { useLoginStore } from "../../store";
+
 // Definición de la interfaz que describe las props para onSubmit
 interface OnSubmitProps {
   data: Inputs; // Datos del formulario
@@ -33,13 +34,13 @@ export const onSubmit = async ({
   const setUserData = useLoginStore.getState().setUserData;
 
   // Reinicia los estados de error y muestra el mensaje de error al realizar un nuevo envío
-  setErrorMessage('');
-  setRemainingAttempts('');
+  setErrorMessage("");
+  setRemainingAttempts("");
   setShowErrorMessage(true);
   try {
     // Realiza una petición POST para iniciar sesión
     const response = await axios.post(
-      'https://attendance-control.vercel.app/api/users/login',
+      "https://attendance-control.vercel.app/api/users/login",
       {
         email: data.email,
         password: data.password,
@@ -52,10 +53,10 @@ export const onSubmit = async ({
     // Ejecuta la función para manejar el inicio de sesión exitoso
     loggedIn();
     // Redirige al usuario a la página de inicio
-    router.push('/home');
+    router.push("/home");
     // Guarda los datos del usuario si la casilla "Recordarme" está marcada
     if (isChecked) {
-      localStorage.setItem('savedUserData', JSON.stringify(data));
+      localStorage.setItem("savedUserData", JSON.stringify(data));
     }
   } catch (error: any) {
     // Maneja los errores de la petición
@@ -63,11 +64,15 @@ export const onSubmit = async ({
     setRemainingAttempts(error.response.data.remainingAttempts);
 
     // Establece los errores de email y contraseña según el tipo de error
-    if (error.response.data.message.includes('User not found')) {
+    if (error.response.data.message.includes("User not found")) {
       setEmailError(true);
-    } else if (error.response.data.message.includes('Incorrect password')) {
+    } else if (error.response.data.message.includes("Incorrect password")) {
       setPasswordError(true);
-    } else if (error.response.data.message.includes('Too many attempts. Please try again later.')) {
+    } else if (
+      error.response.data.message.includes(
+        "Too many attempts. Please try again later."
+      )
+    ) {
       setPasswordError(true);
     }
   }

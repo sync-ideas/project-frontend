@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
@@ -20,18 +21,6 @@ const Professor: React.FC<ProfessorProps> = () => {
   const [loading, setLoading] = useState(true);
   // Obtener funciones y estado del store de Zustand
   const {  resetUser } = useUserStore();
-  // const setProfesores = useProfesoresStore((state) => state.setProfesores);
-  // const profesores = useProfesoresStore((state) => state.profesores);
-  // Suscríbete al estado de showSuccessModal usando el hook de Zustand
-  // const showSuccessModalEdit = useProfesoresStore(
-  //   (state) => state.showSuccessModalEdit
-  // );
-  // const setShowSuccessModalEdit = useProfesoresStore(
-  //   (state) => state.setShowSuccessModalEdit
-  // );
-  // const setShowSuccessModalNewSuccess = useProfesoresStore(
-  //   (state) => state.setShowSuccessModalNewSuccess
-  // )
   const { profesores, setProfesores, showSuccessModalEdit, showSuccessModalNewSuccess, setShowSuccessModalEdit, setShowSuccessModalNewSuccess } = useProfesoresStore()
 
   // Llama a la función para obtener la lista de profesores al montar el componente
