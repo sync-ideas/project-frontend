@@ -12,14 +12,14 @@ const Page = () => {
   ];
   return (
     <div className={`mx-auto h-screen text-base flex flex-col items-center`}>
-      <div className="w-full flex flex-col items-center">
+      <div className="w-full flex flex-col items-center h-screen md:h-auto">
         <NavBar />
         <div className="flex justify-between w-[85%] md:w-[95%] xl:w-[82%]">
           <Breadcrumb links={BreadLinks} />
         </div>
         <CurForm />
+        <Footer />
       </div>
-      <Footer />
     </div>
   );
 };

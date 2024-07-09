@@ -116,12 +116,12 @@ const CurForm = () => {
       )}
       <form
         onSubmit={handleSubmit(submitForm)}
-        className="my-5 flex relative flex-col gap-4 w-full items-center md:mx-auto xl:w-[312px] h-full lg:h-auto"
+        className="my-6 flex relative flex-col gap-4 w-full items-center md:mx-auto md:w-[704px] xl:w-[312px] h-[439px] md:h-[962px] lg:h-[530px] xl:mb-44"
       >
         <h3 className="text-left w-[85%] md:text-center xl:text-left xl:w-[100%]">
           Ingresa datos del curso
         </h3>
-        <div className="flex flex-col gap-4 w-[85%] h-full md:w-[50%] md:mx-auto xl:w-full">
+        <div className="flex flex-col gap-[10px] w-[85%] h-full xl:h-[240px] md:w-[50%] md:mx-auto xl:w-full">
           <Controller
             name="level"
             control={control}
@@ -188,8 +188,8 @@ const CurForm = () => {
             )}
           />
         </div>
-        <div className="w-[85%] md:w-[50%] xl:w-full xl:self-center">
-          <Button text="Crear Perfil" isCompleted={fileLoaded} />
+        <div className="w-[85%] md:w-[704px] xl:w-full xl:self-center">
+          <Button text="Crear curso" isCompleted={fileLoaded} />
         </div>
       </form>
     </>

@@ -66,7 +66,7 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
             opacity: 1,
             border: "1px solid purple",
           },
-
+          height: "50px",
           "@media (max-width: 1024px)": {
             width: "100%",
           },

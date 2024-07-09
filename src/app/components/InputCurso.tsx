@@ -31,7 +31,7 @@ const InputCurso: React.FC<InputCursoProps> = ({
 }) => {
   return (
     <div className="flex flex-col active:hover:outline-none">
-      <div className="w-full text-[#362B3E] hover:text-purple-950 placeholder:text-purple-hover rounded-lg font-normal group-focus:outline-purple flex relative group-hover:opacity-100">
+      <div className="w-full text-[#362b3e] hover:text-purple-950 placeholder:text-purple-hover rounded-lg font-normal group-focus:outline-purple-hover flex relative group-hover:opacity-100">
         <Select
           id={id}
           field={field}

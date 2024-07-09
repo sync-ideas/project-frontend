@@ -46,13 +46,13 @@ const InputFile: React.FC<InputFileProps> = ({
     console.log(file);
   }, [file]);
   return (
-    <div className="flex flex-col w-full">
+    <div className="flex flex-col w-full h-[50px]">
       <div
         className={`w-full   ${
           file
             ? "placeholder:text-green text-[#1F8B58] border-[#1F8B58]"
             : "placeholder:text-purple-hover text-[#362B3E] border-[#8347B2]"
-        } rounded-md font-normal flex relative py-1 group border  ${
+        } rounded-md font-normal h-[50px] flex relative py-1 group border  ${
           disabled
             ? "hover:cursor-not-allowed"
             : "hover:cursor-pointer hover:text-purple-950 hover:opacity-100"
