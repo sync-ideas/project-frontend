@@ -42,9 +42,7 @@ const InputFile: React.FC<InputFileProps> = ({
       setFileName("");
     }
   };
-  useEffect(() => {
-    console.log(file);
-  }, [file]);
+
   return (
     <div className="flex flex-col w-full h-[50px]">
       <div

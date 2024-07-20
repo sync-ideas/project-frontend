@@ -47,6 +47,7 @@ const CurForm = () => {
   } = useForm<FormData>();
   const [confirmar, setConfirmar] = useState(false);
   const [done, setDone] = useState(false);
+  const [error, setError] = useState(false);
   const [formData, setFormData] = useState<FormData>();
   const [fileLoaded, setFileLoaded] = useState(false);
   const [enableFile, setEnableFile] = useState(true);
@@ -104,6 +105,8 @@ const CurForm = () => {
         <div className="fixed top-0 left-0 w-full h-full overflow-hidden bg-gray-500 bg-opacity-75 flex items-center justify-center z-10">
           <div className="bg-white rounded-lg shadow-lg w-360 h-428">
             <ModalCurso
+              error={error}
+              setError={setError}
               done={done}
               setDone={setDone}
               confirmar={confirmar}

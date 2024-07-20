@@ -25,7 +25,7 @@ const CourseRegistration: React.FC<CourseRegistrationProps> = (props) => {
             { hiper: "/curso", text: "Cursos" },
           ]}
         />
-        <Link href="/nuevo-curso">
+        <Link href="/estudiantes/cursos/nuevo-curso">
           <div className="bg-purple bg-opacity-20 opacity-70 hover:opacity-100 mt-[10px] md:mt-[24px] mb-[10px] flex w-full h-[422px] md:h-[938px] xl:h-[456px] 2xl:h-screen rounded-[5px]">
             <div className="px-[20px] mx-auto my-auto max-w-[134px] flex items-center justify-center flex-col">
               <Image

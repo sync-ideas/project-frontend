@@ -46,6 +46,9 @@ const CustomSelect: React.FC<CustomSelectProps> = ({
   };
   return (
     <Select
+      id={id}
+      instanceId={id}
+      aria-activedescendant=""
       isDisabled={disabled}
       options={options}
       value={selectedOption}

@@ -9,15 +9,18 @@ interface FormData {
 
 export default async function envioPlanilla(formData: FormData) {
   const datos = new FormData();
-  const token = localStorage.getItem("token");
+  const user = localStorage.getItem("login-storage");
+  const token = JSON.parse(user!).state.token;
   const bearer = `Bearer ${token}`;
-  datos.append("fullname", "Nombre");
+  datos.append("name", "Nombre");
+  datos.append("surname", "Apellido");
   datos.append("contact_phone", "Telefono");
   if (formData.lista) {
     datos.append("file", formData.lista);
   }
-  try {
-    const result = await axios.post(
+
+  const result = await axios
+    .post(
       "https://attendance-control.vercel.app/api/students/excel-import",
       datos,
       {
@@ -26,9 +29,11 @@ export default async function envioPlanilla(formData: FormData) {
           Authorization: bearer,
         },
       }
-    );
-    return result;
-  } catch (error) {
-    return error;
-  }
+    )
+    .catch(function (error) {
+      if (error.response) {
+        return error.response.data.result;
+      }
+    });
+  return result;
 }

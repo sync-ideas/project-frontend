@@ -1,12 +1,17 @@
 import React, { useState } from "react";
 import Button from "./button";
 import { useRouter } from "next/navigation";
+import { AxiosError } from "axios";
 
 interface FormData {
   level: string;
   number: number;
   letter: string;
   lista: File | null;
+}
+interface error {
+  resultado: undefined;
+  error: AxiosError;
 }
 
 const ModalCurso: React.FC<{
@@ -16,28 +21,43 @@ const ModalCurso: React.FC<{
   setConfirmar: React.Dispatch<React.SetStateAction<boolean>>;
   done: boolean;
   setDone: React.Dispatch<React.SetStateAction<boolean>>;
-}> = ({ formData, envioPlanilla, confirmar, setConfirmar, done, setDone }) => {
+  error: boolean;
+  setError: React.Dispatch<React.SetStateAction<boolean>>;
+}> = ({
+  formData,
+  envioPlanilla,
+  confirmar,
+  setConfirmar,
+  done,
+  setDone,
+  error,
+  setError,
+}) => {
   const router = useRouter();
-  const handleConfirm = () => {
+  const handleConfirm = async () => {
     if (formData) {
-      envioPlanilla(formData).then((response) => {
-        if (response !== undefined) {
-          setDone(true);
-          setTimeout(() => {
-            setDone(false);
-            router.push("/estudiantes/cursos/nuevo-curso");
-          }, 3000);
-          setConfirmar(false);
-        } else {
-          console.log("error");
-        }
-      });
+      const envio = await envioPlanilla(formData);
+      if (envio !== false) {
+        setDone(true);
+        setTimeout(() => {
+          setDone(false);
+          router.push("/estudiantes/cursos");
+        }, 3000);
+        setConfirmar(false);
+      } else {
+        setError(true);
+        setTimeout(() => {
+          setError(false);
+          router.push("/estudiantes/cursos");
+        }, 3000);
+        setConfirmar(false);
+      }
     }
   };
   const letras = ["A", "B", "C", "D", "E", "F"];
   return (
     <>
-      {confirmar && !done && (
+      {confirmar && !done && !error && (
         <div>
           <div className="flex flex-col  bg-white border-[#362B3E] rounded-lg">
             <div className="flex justify-center w-full bg-green-600 rounded-tl-lg rounded-tr-lg items-center my-auto">
@@ -92,6 +112,45 @@ const ModalCurso: React.FC<{
                 strokeLinecap="round"
                 strokeLinejoin="round"
               />
+            </svg>
+          </div>
+        </div>
+      )}
+      {error && (
+        <div className="flex flex-col  bg-white border-[rgb(54,43,62)] rounded-lg">
+          <div className="flex justify-center w-full bg-[#d22626] rounded-tl-lg rounded-tr-lg items-center my-auto">
+            <h2 className="text-lg py-4 px-6 font-bold text-white text-center">
+              Ha ocurrido un error al crear el curso
+            </h2>
+          </div>
+          <div className="text-center m-20 flex justify-center items-center">
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              x="0px"
+              y="0px"
+              width="140"
+              height="140"
+              viewBox="0,0,256,256"
+            >
+              <g
+                fill="#d22626"
+                fill-rule="nonzero"
+                stroke="none"
+                stroke-width="1"
+                stroke-linecap="butt"
+                stroke-linejoin="miter"
+                stroke-miterlimit="10"
+                stroke-dasharray=""
+                stroke-dashoffset="0"
+                font-family="none"
+                font-weight="none"
+                font-size="none"
+                text-anchor="none"
+              >
+                <g transform="translate(128,-53.01934) rotate(45) scale(5.12,5.12)">
+                  <path d="M25,2c-12.6907,0 -23,10.3093 -23,23c0,12.69071 10.3093,23 23,23c12.69071,0 23,-10.30929 23,-23c0,-12.6907 -10.30929,-23 -23,-23zM25,4c11.60982,0 21,9.39018 21,21c0,11.60982 -9.39018,21 -21,21c-11.60982,0 -21,-9.39018 -21,-21c0,-11.60982 9.39018,-21 21,-21zM24,13v11h-11v2h11v11h2v-11h11v-2h-11v-11z"></path>
+                </g>
+              </g>
             </svg>
           </div>
         </div>
