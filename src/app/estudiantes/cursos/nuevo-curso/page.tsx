@@ -11,15 +11,17 @@ const Page = () => {
     { hiper: "", text: "Nuevo curso" },
   ];
   return (
-    <div className={`mx-auto h-screen text-base flex flex-col items-center`}>
-      <div className="w-full flex flex-col items-center h-screen md:h-auto">
-        <NavBar />
-        <div className="flex justify-between w-[85%] md:w-[95%] xl:w-[82%]">
+    <div>
+      <NavBar />
+      <div className="px-6 pb-[10px] md:px-[32px] xl:px-[120px]">
+        <div className="w-full xl:w-[312px]">
           <Breadcrumb links={BreadLinks} />
         </div>
-        <CurForm />
-        <Footer />
+        <div className="flex flex-col items-center w-full md:mt-[24px] xl:h-[530px]">
+          <CurForm />
+        </div>
       </div>
+      <Footer />
     </div>
   );
 };

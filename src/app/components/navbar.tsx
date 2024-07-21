@@ -11,11 +11,12 @@ interface NavBarProps {}
 const NavBar: React.FC<NavBarProps> = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [isSmallScreen, setIsSmallScreen] = useState(false);
+    const menuRef = useRef<HTMLDivElement | null>(null);
+    const buttonRef = useRef<HTMLImageElement | null>(null);
+
     const toggleMenu = () => {
         setIsOpen(!isOpen);
     };
-
-    const menuRef = useRef<HTMLDivElement | null>(null);
 
     useEffect(() => {
         function handleResize() {
@@ -23,25 +24,39 @@ const NavBar: React.FC<NavBarProps> = () => {
         }
 
         window.addEventListener("resize", handleResize);
-
         handleResize();
 
         return () => {
             window.removeEventListener("resize", handleResize);
-        }
+        };
     }, []);
 
     useEffect(() => {
-        function handleClickOutside(event: any) {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
+        function handleClickOutside(event: MouseEvent) {
+            if (
+                menuRef.current &&
+                !menuRef.current.contains(event.target as Node) &&
+                buttonRef.current &&
+                !buttonRef.current.contains(event.target as Node)
+            ) {
                 setIsOpen(false);
             }
         }
-    }, []);
+
+        if (isOpen) {
+            document.addEventListener("mousedown", handleClickOutside);
+        } else {
+            document.removeEventListener("mousedown", handleClickOutside);
+        }
+
+        return () => {
+            document.removeEventListener("mousedown", handleClickOutside);
+        };
+    }, [isOpen]);
 
     return (
         <>
-{/* Mobile menu (only when isSmallScreen is true) */}
+            {/* Mobile menu (only when isSmallScreen is true) */}
             {isSmallScreen && (
                 <div className="flex w-full px-[24px] md:px-[32px] py-[12px] m-auto justify-between">
                     <Image src={logo} width={35} height={35} alt="Logo" />
@@ -50,24 +65,26 @@ const NavBar: React.FC<NavBarProps> = () => {
                             src={green}
                             width={35}
                             height={35}
-                            alt="Logo"
+                            alt="Menu Close"
                             onClick={toggleMenu}
                             className="cursor-pointer"
+                            ref={buttonRef}
                         />
                     ) : (
                         <Image
                             src={menu}
                             width={35}
                             height={35}
-                            alt="Logo"
+                            alt="Menu Open"
                             onClick={toggleMenu}
                             className="cursor-pointer"
+                            ref={buttonRef}
                         />
                     )}
                     {isOpen && (
                         <div
                             ref={menuRef}
-                            className="flex flex-col absolute mt-2 py-2 px-6 bg-purple text-white border rounded shadow right-5 top-[60px]"
+                            className="flex flex-col absolute mt-2 py-2 px-6 bg-purple text-white border rounded shadow right-5 top-[60px] z-50"
                         >
                             <LinkComponent
                                 text="Institución"
@@ -142,7 +159,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                                 textColorHover="hover:text-black"
                             />
                             <LinkComponent
-                                text="Estadisticas"
+                                text="Estadísticas"
                                 textColor="text-black"
                                 decorationColor="hover:decoration-green"
                                 link=""

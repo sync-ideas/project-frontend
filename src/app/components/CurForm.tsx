@@ -20,7 +20,7 @@ interface Option {
   label: string;
 }
 const optionsNivelEducativo = [
-  { id: "level", value: "0", label: "Nivel Educativo" },
+  { id: "level", value: "0", label: "Nivel educativo" },
   { id: "level", value: "1", label: "Primaria" },
   { id: "level", value: "2", label: "Secundaria" },
 ];
@@ -117,84 +117,81 @@ const CurForm = () => {
           </div>
         </div>
       )}
-      <form
-        onSubmit={handleSubmit(submitForm)}
-        className="my-6 flex relative flex-col gap-4 w-full items-center md:mx-auto md:w-[704px] xl:w-[312px] h-[439px] md:h-[962px] lg:h-[530px] xl:mb-44"
-      >
-        <h3 className="text-left w-[85%] md:text-center xl:text-left xl:w-[100%]">
-          Ingresa datos del curso
-        </h3>
-        <div className="flex flex-col gap-[10px] w-[85%] h-full xl:h-[240px] md:w-[50%] md:mx-auto xl:w-full">
-          <Controller
-            name="level"
-            control={control}
-            render={({ field }) => (
-              <InputCurso
-                field={field}
-                options={optionsNivelEducativo}
-                id="nivelEducativo"
-                error={errors.level}
-                onChange={getChange}
-              />
-            )}
-          />
-          <Controller
-            name="number"
-            control={control}
-            render={({ field }) => (
-              <InputCurso
-                field={field}
-                options={optionsGrado}
-                id="grado"
-                error={errors.number}
-                onChange={getChange}
-                disabled={enableSelect.grado}
-              />
-            )}
-          />
-
-          <Controller
-            name="letter"
-            control={control}
-            render={({ field }) => (
-              <InputCurso
-                field={field}
-                options={optionsLetra}
-                id="letra"
-                error={errors.letter}
-                onChange={getChange}
-                disabled={enableSelect.letra}
-              />
-            )}
-          />
-          <Controller
-            name="lista"
-            control={control}
-            render={({ field }) => (
-              <>
-                <InputFile
+      <div className="w-full md:w-[312px] relative z-0">
+        <form onSubmit={handleSubmit(submitForm)} className="flex flex-col xl:gap-6">
+          <div className="flex flex-col gap-[10px] pt-[20px] min-h-[439px] md:min-h-[962px] xl:min-h-[282px]">
+            <h3 className="text-left w-full h-[22px]">Ingresa datos del curso</h3>
+            <Controller
+              name="level"
+              control={control}
+              render={({ field }) => (
+                <InputCurso
                   field={field}
-                  error={errors.lista}
-                  id="lista"
-                  onChange={(file) => {
-                    field.onChange(file);
-                    if (file === null) {
-                      setFileLoaded(false);
-                      console.log("hola");
-                    } else {
-                      setFileLoaded(!!file); // Update fileLoaded state
-                    }
-                  }}
-                  disabled={enableFile}
+                  options={optionsNivelEducativo}
+                  id="nivelEducativo"
+                  error={errors.level}
+                  onChange={getChange}
                 />
-              </>
-            )}
-          />
-        </div>
-        <div className="w-[85%] md:w-[704px] xl:w-full xl:self-center">
-          <Button text="Crear curso" isCompleted={fileLoaded} />
-        </div>
-      </form>
+              )}
+            />
+            <Controller
+              name="number"
+              control={control}
+              render={({ field }) => (
+                <InputCurso
+                  field={field}
+                  options={optionsGrado}
+                  id="grado"
+                  error={errors.number}
+                  onChange={getChange}
+                  disabled={enableSelect.grado}
+                />
+              )}
+            />
+
+            <Controller
+              name="letter"
+              control={control}
+              render={({ field }) => (
+                <InputCurso
+                  field={field}
+                  options={optionsLetra}
+                  id="letra"
+                  error={errors.letter}
+                  onChange={getChange}
+                  disabled={enableSelect.letra}
+                />
+              )}
+            />
+            <Controller
+              name="lista"
+              control={control}
+              render={({ field }) => (
+                <>
+                  <InputFile
+                    field={field}
+                    error={errors.lista}
+                    id="lista"
+                    onChange={(file) => {
+                      field.onChange(file);
+                      if (file === null) {
+                        setFileLoaded(false);
+                        console.log("hola");
+                      } else {
+                        setFileLoaded(!!file); // Update fileLoaded state
+                      }
+                    }}
+                    disabled={enableFile}
+                  />
+                </>
+              )}
+            />
+          </div>
+          <div>
+            <Button text="Crear curso" isCompleted={fileLoaded} />
+          </div>
+        </form>
+      </div>
     </>
   );
 };
