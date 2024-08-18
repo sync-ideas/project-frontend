@@ -21,6 +21,7 @@ const CourseRegistration: React.FC<CourseRegistrationProps> = (props) => {
       <div className="px-[24px] md:px-[32px] xl:px-[120px] flex flex-col">
         <Breadcrumb
           links={[
+            { hiper: "/home", text: "Inicio" },
             { hiper: "/estudiantes", text: "Estudiantes" },
             { hiper: "/curso", text: "Cursos" },
           ]}

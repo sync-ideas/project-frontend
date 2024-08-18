@@ -1,4 +1,4 @@
-"use client"
+"use client";
 import React from "react";
 import Footer from "../../components/Footer";
 import Breadcrumb from "../../components/Breadcrumb";
@@ -8,18 +8,18 @@ import ModalConfirmNew from "../../components/profesores/ModalConfirmNew";
 import { useProfesoresStore } from "../../../store";
 
 const NewProfessor = () => {
-  const showSuccessModalNew = useProfesoresStore((state) => state.showSuccessModalNew);
+  const showSuccessModalNew = useProfesoresStore(
+    (state) => state.showSuccessModalNew
+  );
   return (
     <div>
-      {showSuccessModalNew && (
-        <ModalConfirmNew 
-        />
-      )}
+      {showSuccessModalNew && <ModalConfirmNew />}
       <NavBar />
       <div className="px-6 pb-[10px] md:px-[32px] xl:px-[120px]">
         <div className="w-full xl:w-[312px]">
           <Breadcrumb
             links={[
+              { hiper: "/home", text: "Inicio" },
               { hiper: "/profesores", text: "Profesores" },
               { hiper: "", text: "Nuevo perfil" },
             ]}

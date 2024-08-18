@@ -20,8 +20,15 @@ const Professor: React.FC<ProfessorProps> = () => {
   // Estado para manejar la lista de profesores y su carga
   const [loading, setLoading] = useState(true);
   // Obtener funciones y estado del store de Zustand
-  const {  resetUser } = useUserStore();
-  const { profesores, setProfesores, showSuccessModalEdit, showSuccessModalNewSuccess, setShowSuccessModalEdit, setShowSuccessModalNewSuccess } = useProfesoresStore()
+  const { resetUser } = useUserStore();
+  const {
+    profesores,
+    setProfesores,
+    showSuccessModalEdit,
+    showSuccessModalNewSuccess,
+    setShowSuccessModalEdit,
+    setShowSuccessModalNewSuccess,
+  } = useProfesoresStore();
 
   // Llama a la función para obtener la lista de profesores al montar el componente
   // y establece loading a false cuando se han cargado los profesores
@@ -51,15 +58,24 @@ const Professor: React.FC<ProfessorProps> = () => {
   };
   const handleCloseModalNewSuccess = () => {
     setShowSuccessModalNewSuccess(false);
-  }
+  };
 
   return (
     <div>
-      {showSuccessModalNewSuccess && <ModalConfirmNewSuccess onClose={handleCloseModalNewSuccess} />}
-      {showSuccessModalEdit && <ModalConfirmEdit onClose={handleCloseModalEdit} />}
+      {showSuccessModalNewSuccess && (
+        <ModalConfirmNewSuccess onClose={handleCloseModalNewSuccess} />
+      )}
+      {showSuccessModalEdit && (
+        <ModalConfirmEdit onClose={handleCloseModalEdit} />
+      )}
       <NavBar />
       <div className="px-[24px] md:px-[32px] xl:px-[120px] flex flex-col">
-        <Breadcrumb links={[{ hiper: "/", text: "Profesores" }]} />
+        <Breadcrumb
+          links={[
+            { hiper: "/home", text: "Inicio" },
+            { hiper: "/", text: "Profesores" },
+          ]}
+        />
         {loading ? (
           <p>Cargando...</p>
         ) : profesores.length === 0 ? (
