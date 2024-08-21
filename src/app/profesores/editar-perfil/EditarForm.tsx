@@ -7,9 +7,11 @@ import { userSchemaEdit } from "../../validations";
 import InputProfesores from "../../components/input";
 import Button from "../../components/button";
 import ButtonCancel from "../../components/profesores/ButtonCancel";
-import { areInputsNotEmpty } from "../../../functions";
+import { areInputsNotEmpty, handleDeleteClick } from "../../../functions";
 import { editSubmit } from "./editSubmit"; // Importa la función editSubmit
 import { useUserStore } from "../../../store";
+import ModalConfirmDelete from "../../components/profesores/ModalConfirmDelete";
+import ModalConfirmNewSuccess from "../../components/profesores/ModalConfirmNewSuccess";
 
 export type Inputs = {
   fullname: string;
@@ -20,6 +22,8 @@ export type Inputs = {
 
 const EditarForm: React.FC = () => {
   const [pressed, setpressed] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -32,6 +36,7 @@ const EditarForm: React.FC = () => {
   });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [UserState, setUserState] = useState(null);
   const [nameError, setNameError] = useState(false);
   const [userNameError, setUserNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -71,9 +76,22 @@ const EditarForm: React.FC = () => {
       setValue("email", userStorage.email);
       setValue("username", userStorage.username);
       setValue("fullname", userStorage.fullname);
+      setUserState(userStorage);
       handleInputChange();
     }
   }, [setValue, handleInputChange]);
+
+  const showDelete = () => {
+    setShowModal(!showModal);
+  };
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        setSuccess(false);
+        router.push("/profesores");
+      }, 3000);
+    }
+  }, [success]);
 
   const handleSubmitForm = (data: Inputs) => {
     editSubmit({
@@ -88,7 +106,15 @@ const EditarForm: React.FC = () => {
   };
 
   return (
-    <form onSubmit={handleSubmit(handleSubmitForm)}>
+    <form className="relative" onSubmit={handleSubmit(handleSubmitForm)}>
+      {showModal &&
+        ModalConfirmDelete({ onClose: showDelete, UserState, setSuccess })}
+      {success && (
+        <ModalConfirmNewSuccess
+          onClose={() => {}}
+          text="Profesor eliminado con éxito"
+        />
+      )}
       <div className="flex flex-col gap-[10px] pt-[20px] min-h-[381px] md:min-h-[924px] xl:min-h-[381px] h-auto">
         <a>Modifica los datos del profesor</a>
         <InputProfesores
@@ -155,7 +181,10 @@ const EditarForm: React.FC = () => {
       </div>
       <div className="flex flex-col gap-3">
         <div
-          onMouseDown={() => setpressed(true)}
+          onMouseDown={() => {
+            setpressed(true);
+            showDelete();
+          }}
           onMouseUp={() => setpressed(false)}
           className={`self-end cursor-pointer hover:scale-105 ${
             pressed ? "hue-rotate-30" : ""

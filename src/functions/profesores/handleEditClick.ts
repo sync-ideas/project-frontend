@@ -2,6 +2,7 @@
 import axios from "axios";
 import { useLoginStore } from "../../store";
 import { useUserStore } from "../../store";
+import { log } from "console";
 
 export const handleEditClick = async (userId: number, router: any) => {
   const { setUserId, setFullname, setEmail, setUsername, setRole } = useUserStore.getState();
@@ -30,5 +31,24 @@ export const handleEditClick = async (userId: number, router: any) => {
     // console.error("Error fetching user data:", error);
   }
 };
+
+export const handleDeleteClick = async (userId:number)=>{
+  console.log(userId);
+  
+  try {
+    const accessToken = useLoginStore.getState().token;
+
+    const response = await axios.delete(
+      `https://attendance-control.vercel.app/api/users/delete/${userId}`,
+      {
+        headers: {
+          Authorization: `Bearer ${accessToken}`,
+        },
+      }
+    );
+    
+    return response
+} catch{(error:any)=> console.log(error)}
+}
 
 export default handleEditClick;

@@ -63,7 +63,10 @@ const Professor: React.FC<ProfessorProps> = () => {
   return (
     <div>
       {showSuccessModalNewSuccess && (
-        <ModalConfirmNewSuccess onClose={handleCloseModalNewSuccess} />
+        <ModalConfirmNewSuccess
+          onClose={handleCloseModalNewSuccess}
+          text="Profesor creado con éxito"
+        />
       )}
       {showSuccessModalEdit && (
         <ModalConfirmEdit onClose={handleCloseModalEdit} />
