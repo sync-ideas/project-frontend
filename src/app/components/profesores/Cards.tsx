@@ -20,10 +20,11 @@ const Cards: React.FC<CardProfessorProps> = () => {
   };
 
   return (
-    <div className="pt-[20px] mb-[10px]">
+    <div className="pt-[20px] mb-[10px] ">
       <div className="mb-[16px]">
         <a>Selecciona un profesor para editar</a>
       </div>
+      <div className="h-[60vh] overflow-y-scroll">
       {profesores.map((profesor, index) => (
         <div
           key={profesor.id}
@@ -42,6 +43,7 @@ const Cards: React.FC<CardProfessorProps> = () => {
           </div>
         </div>
       ))}
+      </div>
     </div>
   );
 };
