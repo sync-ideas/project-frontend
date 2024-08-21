@@ -32,7 +32,7 @@ const ModalConfirmEdit: React.FC<ModalProps> = ({
     } catch (error) {}
   };
   return (
-    <div className="md:w-[30vw] w-[330px] h-[428px] bg-white border border-[#362B3E] top-1/4 left-0 md:left-14 md:-translate-x-1/4 z-50 absolute rounded-xl">
+    <div className="md:w-[30vw] w-[330px] h-[428px] bg-white border border-[#362B3E] left-1/2 -translate-x-1/2 md:top-1/4 md:left-1/2 md:-translate-x-1/2 z-50 absolute rounded-xl">
       <div className="bg-[#D22626] h-[76px] rounded-t-xl text-center leading-6 font-semibold align-middle flex items-center justify-center ">
         <h1 className="text-white uppercase">
           Confirma que deseas eliminar el perfil
@@ -46,7 +46,7 @@ const ModalConfirmEdit: React.FC<ModalProps> = ({
         <p className="font-bold">Usuario:</p>
         <p className="pb-5">{UserState?.username}</p>
       </div>
-      <div className="w-[312px] gap-3 flex justify-center mx-auto flex-col h-[140px]">
+      <div className="max-w-[312px] px-5 gap-3 flex justify-center mx-auto flex-col h-[140px]">
         <ButtonCancel onClick={onClose} text="Cancelar" />
         <Button onClick={handleDelete} text="Eliminar" isCompleted />
       </div>
