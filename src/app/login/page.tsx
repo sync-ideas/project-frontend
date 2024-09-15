@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import logo from "../../../public/assets/images/icon.svg";
+import logo from "@images/icon.svg";
 import LoginForm from "./LoginForm";
 
 interface LoginProps {}

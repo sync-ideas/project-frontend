@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchemaLogin } from "../validations";
-import CustomInput from "../components/input";
-import Button from "../components/button";
-import LinkComponent from "../components/LinkComponent/LinkComponentCustom";
-import { Checkbox } from "../components/Checkbox";
-import { areInputsNotEmpty } from "../../functions";
-import { useLoginStore } from "../../store";
+import CustomInput from "@components/input";
+import Button from "@components/button";
+import LinkComponent from "@components/LinkComponent/LinkComponentCustom";
+import { Checkbox } from "@components/Checkbox";
+import { areInputsNotEmpty } from "@functions/index";
+import { useLoginStore } from "@store/index";
 import { onSubmit } from '../login/loginSubmit'; // Importar la función onSubmit
 
 export type Inputs = {

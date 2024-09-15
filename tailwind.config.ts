@@ -18,6 +18,12 @@ const config: Config = {
                     "conic-gradient(from 180deg at 50% 50%, var(--tw-gradient-stops))",
             },
             colors: {
+                // Red Shades
+                red:{
+                    DEFAULT: "rgba(210, 38, 38, 1)", // Red Basic
+                    hover: "rgba(230, 60, 60, 1)", // Red Hover
+                    dark: "rgba(150, 30, 30, 1)", // Red Dark
+                },
                 // Purple Shades
                 purple: {
                     DEFAULT: "rgb(99, 49, 138)", // Purple Basic
@@ -34,7 +40,7 @@ const config: Config = {
                 // Green Shades
                 green: {
                     DEFAULT: "rgba(49, 174, 114, 1)", // Green Basic
-                    card: "rgba(31, 139, 88, 0.9)", // Card Background
+                    card: "rgba(31, 139, 88, 1)", // Card Background
                 },
 
                 // Orange Shades

@@ -1,34 +1,52 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import axios from "axios";
-import ButtonCancel from "./ButtonCancel";
-import Button from "../button";
-import { useLoginStore, useProfesoresStore } from "../../../store";
-import { useRouter } from "next/navigation";
+import ButtonCancel from "../ButtonCancel";
+import Button from "../../button";
+import { useModalStore } from "@store/index";
 
-const ModalConfirmNew: React.FC = () => {
-  const { newUser, resetNewUser, showSuccessModalNew, setShowSuccessModalNew, setShowSuccessModalNewSuccess } = useProfesoresStore();
-  const data = newUser[0];
-  const router = useRouter();
+
+interface ModalProps {
+  bgColor?: string; // Color de fondo
+  buttonColor?: string; // Color del botón
+  text: string; // Texto del modal
+  onConfirm: () => Promise<void>; // Función genérica para la acción de confirmación
+  onClose: () => void;
+  data: {
+    fullname: string;
+    email: string;
+    username: string;
+  }; // Datos del formulario (o los que necesites pasar)
+}
+
+const ModalConfirmNew: React.FC<ModalProps> = ({
+  bgColor = "green",
+  buttonColor,
+  text,
+  onConfirm,
+  onClose,
+  data,
+}) => {
+  const bgColorClasses = {
+    green: "bg-green-card",
+    red: "bg-red",
+  };
+
+  const [isModalVisible, setIsModalVisible] = useState(false);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
   const [emailError, setEmailError] = useState(false);
   const [showErrorMessage, setShowErrorMessage] = useState(true);
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const { setErrorModal } = useModalStore.getState();
 
-  // Estado local para manejar la visibilidad del modal
-  const [isModalVisible, setIsModalVisible] = useState(false);
 
   useEffect(() => {
-    if (showSuccessModalNew) {
-      setIsModalVisible(true);
-    }
-  }, [showSuccessModalNew]);
+    setIsModalVisible(true);
+  }, []);
 
-  // Función de cierre del modal con retraso para permitir que la animación se complete
   const handleClose = () => {
     setIsModalVisible(false);
     setTimeout(() => {
-      setShowSuccessModalNew(false);
-    }, 100); // Duración de la animación en milisegundos
+      onClose();
+    }, 200);
   };
 
   const handleCancel = () => {
@@ -37,34 +55,10 @@ const ModalConfirmNew: React.FC = () => {
 
   const handleConfirm = async () => {
     try {
-      const accessToken = useLoginStore.getState().token;
-      router.prefetch("/profesores");
-      await axios.post(
-        "https://attendance-control.vercel.app/api/users/register",
-        {
-          email: data.email,
-          fullname: data.fullname,
-          username: data.username,
-          password: data.password,
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      setShowSuccessModalNewSuccess(true);
-      router.push("/profesores"); // Redirige al usuario a la página de profesores después de la creación
-      handleClose(); // Cierra el modal después de una respuesta exitosa
-    } catch (error: any) {
-      if (
-        error.response.data.message.includes(
-          "Email or username already exists."
-        )
-      ) {
-        setEmailError(true);
-        setIsButtonDisabled(false);
-      }
+      await onConfirm(); // Llama a la función que le pasas para hacer la acción
+      handleClose();
+    } catch (error) {
+      setErrorModal(true); // Puedes manejar el error aquí o pasar otra función
     }
   };
 
@@ -80,9 +74,11 @@ const ModalConfirmNew: React.FC = () => {
         }`}
         style={{ pointerEvents: "auto" }}
       >
-        <div className="bg-[#1F8B58] flex items-center text-center justify-center flex-col gap-[10px] px-[24px] py-[12px] border border-[#362B3E] rounded-t-2xl sm:w-[360px] h-[76px]">
-          <p className="text-white text-[16px] leading-[22px] font-bold sm:w-[312px] h-[44px]">
-            Confirma los datos del nuevo perfil de profesor
+        <div
+          className={`${bgColorClasses[bgColor]} flex items-center text-center justify-center flex-col gap-[10px] px-[24px] py-[12px] border border-[#362B3E] rounded-t-2xl sm:w-[360px] h-[76px]`}
+        >
+          <p className="text-white text-[16px] leading-[22px] font-bold sm:w-[312px] h-[44px] flex justify-center items-center">
+            {text}
           </p>
         </div>
 
@@ -111,7 +107,7 @@ const ModalConfirmNew: React.FC = () => {
               <span className="text-[16px] leading-[22px] text-black">
                 {data.username}
               </span>
-              {emailError && showErrorMessage && (
+              {emailError &&(
                 <p className="text-[16px] w-[312px] leading-[22px] text-[#DE1111]">
                   El correo o usuario registrado ya existe. Intenta otro.
                 </p>
@@ -121,8 +117,9 @@ const ModalConfirmNew: React.FC = () => {
           <div className="flex flex-col gap-3 px-6 pb-7 h-[140px] w-full">
             <ButtonCancel text="Cancelar" onClick={handleCancel} />
             <Button
+              buttonColor={buttonColor}
               text="Confirmar"
-              isCompleted={isButtonDisabled}
+              isCompleted={!isButtonDisabled}
               onClick={handleConfirm}
             />
           </div>

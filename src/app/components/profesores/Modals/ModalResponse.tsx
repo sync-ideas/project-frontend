@@ -1,0 +1,33 @@
+import React from "react";
+import Image from "next/image";
+import vector from "@images/VectorConfirmEdit.svg"
+interface ModalProps {
+  onClose: () => void;
+  bgColor?: string; // Color de fondo
+  text: string; // Texto
+}
+
+const ModalResponse: React.FC<ModalProps> = ({ onClose, bgColor="green", text }) => {
+  const bgColorClasses = {
+    green: "bg-green-card",
+    red: "bg-red",
+  };
+  return (
+    <div className="fixed inset-0 flex items-center justify-center z-50">
+      <div
+        className="fixed inset-0 bg-black opacity-50"
+        onClick={onClose}
+      ></div>
+      <div
+        className={`${bgColorClasses[bgColor]} flex items-center flex-col gap-[10px] px-[24px] py-[12px] border border-solid border-[#362B3E] rounded-xl shadow-lg relative z-10 w-[205px] text-center`}
+      >
+        <Image alt="imagen-vector" src={vector} width={50} height={50} />
+        <p className="text-white text-[16px] font-bold leading-[22px] not-italic w-[157px]">
+          {text}
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default ModalResponse;
