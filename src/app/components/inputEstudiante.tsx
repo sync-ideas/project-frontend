@@ -39,7 +39,7 @@ const CustomInputEstudiante: React.FC<CustomInputProps> = ({
       </label>
       <input
         id={id}
-        className={`px-6 py-2 h-[50px] w-full placeholder:text-[#362b3e80] placeholder:font-normal placeholder:text-base border rounded-lg font-normal ${textStyle}  ${
+        className={`px-6 py-2 h-[50px] w-full placeholder:text-[#362b3e80] placeholder:font-normal placeholder:text-base border rounded-[5px] font-normal font-openSans ${textStyle}  ${
           isError
             ? "border-[#DE1111] focus:outline-[#DE1111]"
             : "border-purple focus:outline-purple"

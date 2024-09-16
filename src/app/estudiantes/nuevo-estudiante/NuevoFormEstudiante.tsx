@@ -1,20 +1,66 @@
 "use client";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { userSchemaNew } from "../../validations";
 import CustomInputEstudiante from "../../components/inputEstudiante";
 import Button from "../../components/button";
-import ButtonCancel from "../../components/profesores/ButtonCancel";
 import { areInputsNotEmpty } from "../../../functions/input/formUtils";
-import { useProfesoresStore } from "../../../store";
-import InputCurso from "../../components/InputCurso";
+import { studentSchemaNew } from "../../validations/profesores/nuevo/studentSchemaNew";
 
 export type Inputs = {
-  fullname: string;
-  username: string;
+  nombre: string;
+  apellido: string;
+  identificacion: string;
+  fechaNacimiento: string;
   email: string;
-  password: string;
+};
+interface Course {
+  id: number;
+  level: string;
+  number: number;
+  letter: string;
+  active: boolean;
+  createdAt: string;
+  updatedAt: string;
+}
+
+interface ApiResponse {
+  result: boolean;
+  message: string;
+  data: Course[];
+}
+const cursosFromApi: ApiResponse = {
+  result: true,
+  message: "Courses found",
+  data: [
+    {
+      id: 1,
+      level: "F",
+      number: 2,
+      letter: "G",
+      active: false,
+      createdAt: "2023-10-09T21:59:30.498Z",
+      updatedAt: "2023-10-10T01:52:43.634Z",
+    },
+    {
+      id: 2,
+      level: "Primer ciclo",
+      number: 1,
+      letter: "A",
+      active: true,
+      createdAt: "2023-10-11T13:38:03.571Z",
+      updatedAt: "2023-10-11T13:38:03.571Z",
+    },
+    {
+      id: 3,
+      level: "Primer ciclo",
+      number: 1,
+      letter: "C",
+      active: true,
+      createdAt: "2023-10-11T13:38:51.452Z",
+      updatedAt: "2023-10-11T13:38:51.452Z",
+    },
+  ],
 };
 
 const NuevoFormEstudiante: React.FC = () => {
@@ -24,32 +70,26 @@ const NuevoFormEstudiante: React.FC = () => {
     formState: { errors },
     watch,
   } = useForm<Inputs>({
-    resolver: zodResolver(userSchemaNew),
+    resolver: zodResolver(studentSchemaNew),
   });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const { setNewUser, showSuccessModalNew, setShowSuccessModalNew } =
-    useProfesoresStore();
 
   const handleInputChange = useCallback(() => {
     const inputsNotEmpty = areInputsNotEmpty(
       watch,
-      "fullname",
-      "username",
-      "email",
-      "password"
+      "nombre",
+      "apellido",
+      "identificacion",
+      "fechaNacimiento",
+      "email"
     );
     setIsButtonDisabled(!inputsNotEmpty);
   }, [watch, setIsButtonDisabled]);
 
   const handleSubmitForm = (data: Inputs) => {
     // Guardar los datos en el store
-    setNewUser([data]);
-    // Mostrar el modal de confirmación
-    setTimeout(() => {
-      // Asegurar que los estilos de transición se carguen correctamente
-      setShowSuccessModalNew(true);
-    }, 300); // Ajusta el tiempo según sea necesario para permitir la carga de estilos
+    console.log(data);
   };
   return (
     <>
@@ -57,7 +97,7 @@ const NuevoFormEstudiante: React.FC = () => {
         <div className="flex flex-col gap-6 py-[20px] min-h-[381px] h-auto">
           <a>Ingresa datos del estudiante</a>
           <CustomInputEstudiante
-            id="fullname"
+            id="nombre"
             label="Nombre"
             placeholder="Ingresa un nombre"
             type="text"
@@ -65,9 +105,9 @@ const NuevoFormEstudiante: React.FC = () => {
             register={register}
             onChange={handleInputChange}
           />
-          {errors.fullname?.message && (
+          {errors.nombre?.message && (
             <p className="w-[320px] mt-[5px] text-[#DE1111]">
-              {errors.fullname.message}
+              {errors.nombre.message}
             </p>
           )}
           <CustomInputEstudiante
@@ -79,9 +119,9 @@ const NuevoFormEstudiante: React.FC = () => {
             register={register}
             onChange={handleInputChange}
           />
-          {errors.email?.message && (
+          {errors.apellido?.message && (
             <p className="w-[320px] mt-[5px] text-[#DE1111]">
-              {errors.email.message}
+              {errors.apellido.message}
             </p>
           )}
           <CustomInputEstudiante
@@ -93,9 +133,9 @@ const NuevoFormEstudiante: React.FC = () => {
             register={register}
             onChange={handleInputChange}
           />
-          {errors.username?.message && (
-            <p className="w-[320px] mt-[5px] text-[#DE1111]">
-              {errors.username.message}
+          {errors.identificacion?.message && (
+            <p className="w-[320px] mt-[5px] text-[#DE1111] text-sm">
+              {errors.identificacion.message}
             </p>
           )}
           <CustomInputEstudiante
@@ -106,9 +146,9 @@ const NuevoFormEstudiante: React.FC = () => {
             register={register}
             onChange={handleInputChange}
           />
-          {errors.password?.message && (
+          {errors.fechaNacimiento?.message && (
             <p className="w-[320px] mt-[5px] text-[#DE1111]">
-              {errors.password.message}
+              {errors.fechaNacimiento.message}
             </p>
           )}
           <CustomInputEstudiante
@@ -120,20 +160,22 @@ const NuevoFormEstudiante: React.FC = () => {
             register={register}
             onChange={handleInputChange}
           />
-          {errors.username?.message && (
+          {errors.email?.message && (
             <p className="w-[320px] mt-[5px] text-[#DE1111]">
-              {errors.username.message}
+              {errors.email.message}
             </p>
           )}
           <select className="border h-[50px] px-6 rounded-lg border-purple-800 ">
-            <option className="font-normal">
-              <span className="font-semibold">Curso: </span>
-              <span className="font-normal text-lg">2ºA</span>
-            </option>
+            {cursosFromApi.data.map((curso) => (
+              <option key={curso.id} className="font-normal">
+                Curso: {curso.number}
+                {curso.letter}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex flex-col py-6">
-          <Button text="Agregar nuevo estudiante" isCompleted={false} />
+          <Button text="Agregar nuevo estudiante" isCompleted={true} />
         </div>
       </form>
     </>
