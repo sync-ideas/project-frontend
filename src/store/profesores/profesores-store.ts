@@ -1,6 +1,5 @@
 "use client"
 import { create } from 'zustand';
-import { useShallow } from 'zustand/react/shallow'
 import { persist, createJSONStorage } from 'zustand/middleware';
 
 interface Profesor {
@@ -20,31 +19,18 @@ interface newUser {
 interface State {
     profesores: Profesor[];
     newUser: newUser[];
-    showSuccessModalEdit: boolean;
-    showSuccessModalNew: boolean;
-    showSuccessModalNewSuccess: boolean;
     setProfesores: (profesores: Profesor[]) => void;
     setNewUser: (newUser: newUser[]) => void;
     resetNewUser: () => void;
-    setShowSuccessModalEdit: (value: boolean) => void;
-    setShowSuccessModalNew: (value: boolean) => void;
-    setShowSuccessModalNewSuccess: (value: boolean) => void;
 }
-
 export const useProfesoresStore = create<State>()(
     persist(
         (set) => ({
           profesores: [],
           newUser:[],
-          showSuccessModalEdit: false,
-          showSuccessModalNew: false,
-          showSuccessModalNewSuccess: false,
           setProfesores: (profesores) => set({ profesores }),
           setNewUser: (newUser) => set({ newUser}),
-          resetNewUser: () => set({ newUser: [] }),
-          setShowSuccessModalEdit: (value) => set({ showSuccessModalEdit: value }),
-          setShowSuccessModalNew: (value) => set({ showSuccessModalNew: value }),
-          setShowSuccessModalNewSuccess: (value) => set({ showSuccessModalNewSuccess: value })
+          resetNewUser: () => set({ newUser: [] })
         }),
         {
           name: 'profesores-storage', // Nombre para el almacenamiento persistente

@@ -1,17 +1,16 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import Footer from "../components/Footer";
-import NavBar from "../components/navbar";
-import Button from "../components/button";
-import Breadcrumb from "../components/Breadcrumb";
-import CardProfessorAdd from "../components/profesores/CardAdd";
-import Cards from "../components/profesores/Cards";
+import Footer from "@components/Footer";
+import NavBar from "@components/navbar";
+import Button from "@components/button";
+import Breadcrumb from "@components/Breadcrumb";
+import CardProfessorAdd from "@components/profesores/CardAdd";
+import Cards from "@components/profesores/Cards";
 import { obtenerProfesores } from "../profesores/profesoresSubmit";
-import ModalConfirmEdit from "../components/profesores/ModalConfirmEdit";
-import { useUserStore, useProfesoresStore } from "../../store";
-import ModalConfirmNewSuccess from "../components/profesores/ModalConfirmNewSuccess";
+import ModalResponse from "@components/profesores/Modals/ModalResponse";
+import ModalConfirmNewSuccess from "@components/profesores/Modals/ModalConfirmNewSuccess";
+import { useUserStore, useProfesoresStore, useModalStore } from "@store/index";
 
 interface ProfessorProps {}
 const Professor: React.FC<ProfessorProps> = () => {
@@ -21,14 +20,15 @@ const Professor: React.FC<ProfessorProps> = () => {
   const [loading, setLoading] = useState(true);
   // Obtener funciones y estado del store de Zustand
   const { resetUser } = useUserStore();
+  const { profesores, setProfesores } = useProfesoresStore();
   const {
-    profesores,
-    setProfesores,
-    showSuccessModalEdit,
-    showSuccessModalNewSuccess,
-    setShowSuccessModalEdit,
-    setShowSuccessModalNewSuccess,
-  } = useProfesoresStore();
+    showModalEdit,
+    showModalNewSuccess,
+    showModalDeleteSuccess,
+    setModalEdit,
+    setModalNewSuccess,
+    setModalDeleteSuccess,
+  } = useModalStore();
 
   // Llama a la función para obtener la lista de profesores al montar el componente
   // y establece loading a false cuando se han cargado los profesores
@@ -54,22 +54,36 @@ const Professor: React.FC<ProfessorProps> = () => {
   // Función para cerrar el modal
   const handleCloseModalEdit = () => {
     resetUser();
-    setShowSuccessModalEdit(false);
+    setModalEdit(false);
   };
   const handleCloseModalNewSuccess = () => {
-    setShowSuccessModalNewSuccess(false);
+    setModalNewSuccess(false);
   };
-
+  const handleCloseModalDeleteSuccess = () => {
+    setModalDeleteSuccess(false);
+  };
   return (
     <div>
-      {showSuccessModalNewSuccess && (
+      {/* Muestra el modal de confirmacion de edicitar usuario exitosamente */}
+      {showModalEdit && (
+        <ModalResponse
+          onClose={handleCloseModalEdit}
+          text="Cambios guardados con éxito"
+        />
+      )}
+      {/* Muestra el modal de crear nuevo perfil de usuario exitosamente */}
+      {showModalNewSuccess && (
         <ModalConfirmNewSuccess
           onClose={handleCloseModalNewSuccess}
           text="Profesor creado con éxito"
         />
       )}
-      {showSuccessModalEdit && (
-        <ModalConfirmEdit onClose={handleCloseModalEdit} />
+      {/* Muestra el modal de eliminar perfil de usuario exitosamente */}
+      {showModalDeleteSuccess && (
+        <ModalConfirmNewSuccess
+          onClose={handleCloseModalDeleteSuccess}
+          text="Profesor eliminado con éxito"
+        />
       )}
       <NavBar />
       <div className="px-[24px] md:px-[32px] xl:px-[120px] flex flex-col">

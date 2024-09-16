@@ -6,10 +6,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchemaRestore } from "../validations";
 import Image from "next/image";
-import logo from "../../../public/assets/images/icon.svg";
-import CustomInput from "../components/input";
-import Button from "../components/button";
-import LinkComponent from "../components/LinkComponent/LinkComponentCustom";
+import logo from "@images/icon.svg";
+import CustomInput from "@components/input";
+import Button from "@components/button";
+import LinkComponent from "@components/LinkComponent/LinkComponentCustom";
 import { areInputsNotEmpty } from "../../functions/input/formUtils";
 
 interface GetPasswordProps {}

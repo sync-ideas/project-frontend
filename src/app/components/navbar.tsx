@@ -98,28 +98,28 @@ const NavBar: React.FC<NavBarProps> = () => {
                 text="Profesores"
                 textColor="text-white"
                 decorationColor="hover:decoration-orange"
-                link=""
+                link="/profesores"
                 textColorHover="hover:text-white"
               />
               <LinkComponent
                 text="Estudiantes"
                 textColor="text-white"
                 decorationColor="hover:decoration-orange"
-                link=""
+                link="/estudiantes"
                 textColorHover="hover:text-white"
               />
               <LinkComponent
                 text="Estadísticas"
                 textColor="text-white"
                 decorationColor="hover:decoration-orange"
-                link=""
+                link="/estadisticas"
                 textColorHover="hover:text-white"
               />
               <LinkComponent
                 text="Mi cuenta"
                 textColor="text-white"
                 decorationColor="hover:decoration-orange"
-                link=""
+                link="/mi-cuenta"
                 textColorHover="hover:text-white"
               />
             </div>
@@ -128,17 +128,9 @@ const NavBar: React.FC<NavBarProps> = () => {
       )}
 
       {!isSmallScreen && (
-        <div className="w-full md:px-[120px] py-[16px]">
+        <div className="w-full px-[32px] xl:px-[120px] py-[16px]">
           <div className="flex justify-between">
-            <Link href={"/home"}>
-              <Image
-                className=""
-                src={logo}
-                width={35}
-                height={35}
-                alt="Logo"
-              />
-            </Link>
+            <Image className="" src={logo} width={35} height={35} alt="Logo" />
             <div className="flex md:w-[600px] justify-end align-center py-[6.5px] space-x-12">
               <LinkComponent
                 text="Institución"
@@ -172,7 +164,7 @@ const NavBar: React.FC<NavBarProps> = () => {
                 text="Mi cuenta"
                 textColor="text-black"
                 decorationColor="hover:decoration-green"
-                link=""
+                link="/mi-cuenta"
                 textColorHover="hover:text-black"
               />
             </div>
