@@ -170,7 +170,7 @@ const NuevoFormEstudiante: React.FC = () => {
           )}
           <select
             {...register("curso")}
-            className="border h-[50px] px-6 rounded-lg border-purple-800 "
+            className="border h-[50px] px-6 rounded-lg border-purple-800 focus:outline-purple"
             onChange={handleInputChange}
           >
             {cursosFromApi.data.map((curso) => (
