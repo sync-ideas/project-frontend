@@ -1,9 +1,9 @@
 import React from "react";
-import NavBar from "../components/navbar";
-import Footer from "../components/Footer";
-import Breadcrumb from "../components/Breadcrumb";
+import NavBar from "@components/navbar";
+import Footer from "@components/Footer";
+import Breadcrumb from "@components/Breadcrumb";
 import Link from "next/link";
-import Button from "../components/button";
+import Button from "@components/button";
 
 interface StudentsProps {}
 const Students: React.FC<StudentsProps> = () => {

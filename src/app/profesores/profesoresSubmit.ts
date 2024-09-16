@@ -1,6 +1,6 @@
 "use client"
 import axios from 'axios';
-import { useLoginStore } from '../../store';
+import { useLoginStore } from '@store/index';
 
 interface Profesor {
   id: number;

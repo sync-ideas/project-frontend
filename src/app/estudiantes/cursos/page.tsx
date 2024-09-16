@@ -3,11 +3,11 @@ import React from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import Footer from "../../components/Footer";
-import NavBar from "../../components/navbar";
-import Button from "../../components/button";
-import courses from "../../../../public/assets/images/courses.svg";
-import Breadcrumb from "../../components/Breadcrumb";
+import Footer from "@components/Footer";
+import NavBar from "@components/navbar";
+import Button from "@components/button";
+import courses from "@images/courses.svg";
+import Breadcrumb from "@components/Breadcrumb";
 interface CourseRegistrationProps {}
 
 const CourseRegistration: React.FC<CourseRegistrationProps> = (props) => {

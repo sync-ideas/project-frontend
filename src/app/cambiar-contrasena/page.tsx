@@ -4,12 +4,12 @@ import { useRouter } from "next/navigation";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import Button from "../components/button";
-import LinkComponent from "../components/LinkComponent/LinkComponentCustom";
+import Button from "@components/button";
+import LinkComponent from "@components/LinkComponent/LinkComponentCustom";
 import Image from "next/image";
-import logo from "../../../public/assets/images/icon.svg";
+import logo from "@images/icon.svg";
 import { SetNewPassword } from "./utils";
-import CustomInput from "../components/input";
+import CustomInput from "@components/input";
 
 const cambiarContraseñaSchema = z
   .object({
@@ -88,17 +88,6 @@ const Page: React.FC<GetPasswordProps> = (props) => {
               <label htmlFor="repetirNuevaContrasena">
                 Repetir nueva contraseña:
               </label>
-              {/* <input
-                className={`px-2 py-2 h-[50px] w-full placeholder:text-purple-hover border-2 rounded-lg font-normal  ${
-                  errors.repetirNuevaContrasena
-                    ? "border-[#DE1111] focus:outline-[#DE1111] text-[#DE1111]"
-                    : "border-purple focus:outline-purple"
-                }`}
-                id="repetirNuevaContrasena"
-                {...register("repetirNuevaContrasena", { required: true })}
-                type="password"
-                placeholder="Ingresa otra vez tu nueva contraseña"
-              /> */}
               <CustomInput
                 id="repetirNuevaContrasena"
                 type="password"

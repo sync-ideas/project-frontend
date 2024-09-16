@@ -97,28 +97,28 @@ const NavBar: React.FC<NavBarProps> = () => {
                                 text="Profesores"
                                 textColor="text-white"
                                 decorationColor="hover:decoration-orange"
-                                link=""
+                                link="/profesores"
                                 textColorHover="hover:text-white"
                             />
                             <LinkComponent
                                 text="Estudiantes"
                                 textColor="text-white"
                                 decorationColor="hover:decoration-orange"
-                                link=""
+                                link="/estudiantes"
                                 textColorHover="hover:text-white"
                             />
                             <LinkComponent
                                 text="Estadísticas"
                                 textColor="text-white"
                                 decorationColor="hover:decoration-orange"
-                                link=""
+                                link="/estadisticas"
                                 textColorHover="hover:text-white"
                             />
                             <LinkComponent
                                 text="Mi cuenta"
                                 textColor="text-white"
                                 decorationColor="hover:decoration-orange"
-                                link=""
+                                link="/mi-cuenta"
                                 textColorHover="hover:text-white"
                             />
                         </div>
@@ -127,7 +127,7 @@ const NavBar: React.FC<NavBarProps> = () => {
             )}
 
             {!isSmallScreen && (
-                <div className="w-full md:px-[120px] py-[16px]">
+                <div className="w-full px-[32px] xl:px-[120px] py-[16px]">
                     <div className="flex justify-between">
                         <Image
                             className=""
@@ -141,35 +141,35 @@ const NavBar: React.FC<NavBarProps> = () => {
                                 text="Institución"
                                 textColor="text-black"
                                 decorationColor="hover:decoration-green"
-                                link=""
+                                link="/institucion"
                                 textColorHover="hover:text-black"
                             />
                             <LinkComponent
                                 text="Profesores"
                                 textColor="text-black"
                                 decorationColor="hover:decoration-green"
-                                link=""
+                                link="/profesores"
                                 textColorHover="hover:text-black"
                             />
                             <LinkComponent
                                 text="Estudiantes"
                                 textColor="text-black"
                                 decorationColor="hover:decoration-green"
-                                link=""
+                                link="/estudiantes"
                                 textColorHover="hover:text-black"
                             />
                             <LinkComponent
                                 text="Estadísticas"
                                 textColor="text-black"
                                 decorationColor="hover:decoration-green"
-                                link=""
+                                link="/estadisticas"
                                 textColorHover="hover:text-black"
                             />
                             <LinkComponent
                                 text="Mi cuenta"
                                 textColor="text-black"
                                 decorationColor="hover:decoration-green"
-                                link=""
+                                link="/mi-cuenta"
                                 textColorHover="hover:text-black"
                             />
                         </div>
