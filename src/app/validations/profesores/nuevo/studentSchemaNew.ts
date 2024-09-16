@@ -16,4 +16,5 @@ export const studentSchemaNew = z.object({
   email: z.string().email({
     message: "Ingresa un correo electrónico válido.",
   }),
+  curso: z.string(),
 });

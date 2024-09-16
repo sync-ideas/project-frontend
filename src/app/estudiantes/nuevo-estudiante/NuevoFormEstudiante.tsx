@@ -13,6 +13,7 @@ export type Inputs = {
   identificacion: string;
   fechaNacimiento: string;
   email: string;
+  curso: string;
 };
 interface Course {
   id: number;
@@ -29,6 +30,7 @@ interface ApiResponse {
   message: string;
   data: Course[];
 }
+//cambiar con los datos que se obtengan del endpoint
 const cursosFromApi: ApiResponse = {
   result: true,
   message: "Courses found",
@@ -73,7 +75,7 @@ const NuevoFormEstudiante: React.FC = () => {
     resolver: zodResolver(studentSchemaNew),
   });
 
-  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleInputChange = useCallback(() => {
     const inputsNotEmpty = areInputsNotEmpty(
@@ -82,9 +84,10 @@ const NuevoFormEstudiante: React.FC = () => {
       "apellido",
       "identificacion",
       "fechaNacimiento",
-      "email"
+      "email",
+      "curso"
     );
-    setIsButtonDisabled(!inputsNotEmpty);
+    setIsButtonDisabled(inputsNotEmpty);
   }, [watch, setIsButtonDisabled]);
 
   const handleSubmitForm = (data: Inputs) => {
@@ -165,17 +168,27 @@ const NuevoFormEstudiante: React.FC = () => {
               {errors.email.message}
             </p>
           )}
-          <select className="border h-[50px] px-6 rounded-lg border-purple-800 ">
+          <select
+            {...register("curso")}
+            className="border h-[50px] px-6 rounded-lg border-purple-800 "
+            onChange={handleInputChange}
+          >
             {cursosFromApi.data.map((curso) => (
-              <option key={curso.id} className="font-normal">
-                Curso: {curso.number}
-                {curso.letter}
+              <option
+                key={curso.id}
+                className="font-normal"
+                value={curso.id.toString()}
+              >
+                {curso.number}º {curso.letter}
               </option>
             ))}
           </select>
         </div>
         <div className="flex flex-col py-6">
-          <Button text="Agregar nuevo estudiante" isCompleted={true} />
+          <Button
+            text="Agregar nuevo estudiante"
+            isCompleted={isButtonDisabled}
+          />
         </div>
       </form>
     </>
