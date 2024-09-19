@@ -2,7 +2,7 @@
 import axios from 'axios';
 import { AppRouterInstance } from 'next/dist/shared/lib/app-router-context.shared-runtime';
 import { Inputs } from './EditarForm';
-import { useLoginStore, useUserStore, useProfesoresStore } from '../../../store';
+import { useLoginStore, useUserStore, useModalStore } from '@store/index';
 
 // Definición de la interfaz que describe las props para onSubmit
 interface OnSubmitProps {
@@ -31,7 +31,7 @@ export const editSubmit = async ({
   // console.log( userId, accessToken)
 
   // Obtener funciones del nuevo store
-  const { setShowSuccessModalEdit } = useProfesoresStore.getState();
+  const { setModalEdit } = useModalStore.getState();
 
   // Reinicia los estados de error y muestra el mensaje de error al realizar un nuevo envío
   setErrorMessage('');
@@ -55,7 +55,7 @@ export const editSubmit = async ({
         },
       }
     );
-    setShowSuccessModalEdit(true);
+    setModalEdit(true);
     // console.log("Response:", response.data);
     // Redirige al usuario a la página de perfil después de la actualización
     router.push('/profesores');

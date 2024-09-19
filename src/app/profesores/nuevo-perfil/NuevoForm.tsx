@@ -1,13 +1,13 @@
 "use client";
-import React, { useCallback, useState, useEffect } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { userSchemaNew } from "../../validations";
-import CustomInput from "../../components/input";
-import Button from "../../components/button";
-import ButtonCancel from "../../components/profesores/ButtonCancel";
-import { areInputsNotEmpty } from "../../../functions/input/formUtils";
-import { useProfesoresStore } from "../../../store";
+import CustomInput from "@components/input";
+import Button from "@components/button";
+import ButtonCancel from "@components/profesores/ButtonCancel";
+import { areInputsNotEmpty } from "@functions/index";
+import { useProfesoresStore, useModalStore } from "@store/index";
 
 export type Inputs = {
   fullname: string;
@@ -27,8 +27,8 @@ const NuevoForm: React.FC = () => {
   });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
-  const { setNewUser, showSuccessModalNew,setShowSuccessModalNew } = useProfesoresStore();
-
+  const { setNewUser } = useProfesoresStore();
+  const { setModalNew } = useModalStore();
   const handleInputChange = useCallback(() => {
     const inputsNotEmpty = areInputsNotEmpty(
       watch,
@@ -40,14 +40,13 @@ const NuevoForm: React.FC = () => {
     setIsButtonDisabled(!inputsNotEmpty);
   }, [watch, setIsButtonDisabled]);
 
-
   const handleSubmitForm = (data: Inputs) => {
     // Guardar los datos en el store
     setNewUser([data]);
     // Mostrar el modal de confirmación
     setTimeout(() => {
       // Asegurar que los estilos de transición se carguen correctamente
-      setShowSuccessModalNew(true);
+      setModalNew(true);
     }, 300); // Ajusta el tiempo según sea necesario para permitir la carga de estilos
   };
   return (

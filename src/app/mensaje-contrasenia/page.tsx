@@ -1,7 +1,7 @@
 import React from "react";
-import logo from '../../../public/assets/images/icon.svg'
+import logo from '@images/icon.svg'
 import Image from "next/image";
-import Button from "../components/button";
+import Button from "@components/button";
 import Link from "next/link";
 
 interface MessagePassProps {}
