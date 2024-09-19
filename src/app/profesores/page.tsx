@@ -87,7 +87,12 @@ const Professor: React.FC<ProfessorProps> = () => {
       )}
       <NavBar />
       <div className="px-[24px] md:px-[32px] xl:px-[120px] flex flex-col">
-        <Breadcrumb links={[{ hiper: "/", text: "Profesores" }]} />
+        <Breadcrumb
+          links={[
+            { hiper: "/home", text: "Inicio" },
+            { hiper: "/", text: "Profesores" },
+          ]}
+        />
         {loading ? (
           <p>Cargando...</p>
         ) : profesores.length === 0 ? (

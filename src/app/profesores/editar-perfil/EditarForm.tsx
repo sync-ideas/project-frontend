@@ -21,6 +21,9 @@ export type Inputs = {
 };
 
 const EditarForm: React.FC = () => {
+  const [pressed, setpressed] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const [success, setSuccess] = useState(false);
   const router = useRouter();
   const {
     register,
@@ -33,6 +36,7 @@ const EditarForm: React.FC = () => {
   });
 
   const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+  const [UserState, setUserState] = useState(null);
   const [nameError, setNameError] = useState(false);
   const [userNameError, setUserNameError] = useState(false);
   const [emailError, setEmailError] = useState(false);
@@ -72,9 +76,22 @@ const EditarForm: React.FC = () => {
       setValue("email", userStorage.email);
       setValue("username", userStorage.username);
       setValue("fullname", userStorage.fullname);
+      setUserState(userStorage);
       handleInputChange();
     }
   }, [setValue, handleInputChange]);
+
+  const showDelete = () => {
+    setShowModal(!showModal);
+  };
+  useEffect(() => {
+    if (success) {
+      setTimeout(() => {
+        setSuccess(false);
+        router.push("/profesores");
+      }, 3000);
+    }
+  }, [success]);
 
   const handleSubmitForm = (data: Inputs) => {
     editSubmit({
@@ -88,8 +105,7 @@ const EditarForm: React.FC = () => {
     });
   };
 
-
-  const {setModalNew } = useModalStore();
+  const { setModalNew } = useModalStore();
   return (
     <form onSubmit={handleSubmit(handleSubmitForm)}>
       <div className="flex flex-col gap-[10px] pt-[20px] min-h-[381px] md:min-h-[924px] xl:min-h-[381px] h-auto">
@@ -158,7 +174,7 @@ const EditarForm: React.FC = () => {
       </div>
       <div className="flex flex-col gap-3">
         <div className="flex justify-end">
-          <div onClick={()=>setModalNew(true)} className="cursor-pointer">
+          <div onClick={() => setModalNew(true)} className="cursor-pointer">
             <Image
               src={iconDelete}
               width={42}

@@ -1,5 +1,4 @@
 "use client";
-import React from "react";
 import Image from "next/image";
 import vectorConfirmNew from "@images/vectorConfirmNew.svg";
 
@@ -10,7 +9,7 @@ interface ModalProps {
 }
 const ModalConfirmNewSuccess: React.FC<ModalProps> = ({
   onClose,
-  bgColor="green",
+  bgColor = "green",
   text,
 }) => {
   const bgColorClasses = {

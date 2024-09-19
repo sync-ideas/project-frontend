@@ -13,7 +13,7 @@ const NewProfessor = () => {
   const { showModalNew, setModalNew } = useModalStore(); // Obtienes el estado newUser
 
   const data = newUser[0]; // Asegúrate de que sea un objeto con los datos necesarios
-  const {createProfesor} = useCreateProfesor()
+  const { createProfesor } = useCreateProfesor();
   const handleCreateProfesor = async () => {
     try {
       if (data) {
@@ -43,6 +43,7 @@ const NewProfessor = () => {
         <div className="w-full xl:w-[312px]">
           <Breadcrumb
             links={[
+              { hiper: "/home", text: "Inicio" },
               { hiper: "/profesores", text: "Profesores" },
               { hiper: "", text: "Nuevo perfil" },
             ]}

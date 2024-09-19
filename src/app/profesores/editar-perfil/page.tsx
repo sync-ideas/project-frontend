@@ -56,8 +56,9 @@ const EditPerfil: React.FC<PruebaProps> = (props) => {
         <div className="w-full xl:w-[312px]">
           <Breadcrumb
             links={[
+              { hiper: "/home", text: "Inicio" },
               { hiper: "/profesores", text: "Profesores" },
-              { hiper: "", text: "Editar perfil" },
+              { hiper: "/", text: "Editar perfil" },
             ]}
           />
         </div>
