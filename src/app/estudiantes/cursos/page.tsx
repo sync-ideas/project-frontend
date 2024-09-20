@@ -1,53 +1,63 @@
 "use client";
-import React from "react";
-import Image from "next/image";
-import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import Footer from "@components/Footer";
 import NavBar from "@components/navbar";
 import Button from "@components/button";
-import courses from "@images/courses.svg";
 import Breadcrumb from "@components/Breadcrumb";
+import CardAddCourses from "@components/estudiantes/CardAddCourses";
+import Cards from "@components/estudiantes/Cards";
+import { useEstudiantesStore } from "@store/index";
+import { getCourses } from "./coursesSubmit";
+
 interface CourseRegistrationProps {}
 
 const CourseRegistration: React.FC<CourseRegistrationProps> = (props) => {
+  //Creacion de router
   const router = useRouter();
+  // Estado para manejar la lista de profesores y su carga
+  const [loading, setLoading] = useState(true);
+  // Obtener funciones y estado del store de Zustand
+  // const { resetUser } = useUserStore();
+  const { courses, setCourses } = useEstudiantesStore();
+  // Llama a la función para obtener la lista de profesores al montar el componente
+  // y establece loading a false cuando se han cargado los profesores
+  useEffect(() => {
+    const fetchProfesores = async () => {
+      try {
+        const courses = await getCourses();
+        setCourses(courses);
+      } catch (error) {
+        console.error("Error al obtener los cursos:", error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchProfesores();
+  }, [setCourses]);
+
   const handleClik = () => {
     router.push("/estudiantes/cursos/nuevo-curso");
   };
+  
   return (
     <div>
       <NavBar />
       <div className="px-[24px] md:px-[32px] xl:px-[120px] flex flex-col">
         <Breadcrumb
           links={[
-            { hiper: "/home", text: "Inicio" },
             { hiper: "/estudiantes", text: "Estudiantes" },
             { hiper: "/curso", text: "Cursos" },
           ]}
         />
-        <Link href="/estudiantes/cursos/nuevo-curso">
-          <div className="bg-purple bg-opacity-20 opacity-70 hover:opacity-100 mt-[10px] md:mt-[24px] mb-[10px] flex w-full h-[422px] md:h-[938px] xl:h-[456px] 2xl:h-screen rounded-[5px]">
-            <div className="px-[20px] mx-auto my-auto max-w-[134px] flex items-center justify-center flex-col">
-              <Image
-                src={courses}
-                width={68}
-                height={66.58}
-                style={{
-                  width: "100%",
-                  height: "auto",
-                }}
-                alt="courses"
-              />
-              <p className="text-center text-purple-text font-semibold pt-[24px] block ">
-                Crea el primer
-                <br />
-                curso de tu <br />
-                establecimiento
-              </p>
-            </div>
-          </div>
-        </Link>
+        {loading ? (
+          <p>Cargando...</p>
+        ) : courses.length === 0 ? (
+          <CardAddCourses />
+        ) : (
+          <Cards />
+        )}
         <div className="md:mt-[16px] w-full xl:w-[312px] self-end ">
           <Button text="Nuevo curso" onClick={handleClik} isCompleted={true} />
         </div>

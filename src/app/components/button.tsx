@@ -17,6 +17,7 @@ const Button: React.FC<ButtonProps> = ({ buttonColor = "purple",text, isComplete
   const buttonColorClasses = {
     red: "bg-red hover:bg-red-hover active:bg-red-dark",
     purple: "bg-purple hover:bg-purple-hover active:bg-purple-dark",
+    green: "bg-green hover:bg-green-hover active:bg-green-dark",
   };
 
   // Clases por defecto para el botón (cuando no está completo)

@@ -14,7 +14,6 @@ const Students: React.FC<StudentsProps> = () => {
         <div className="w-full flex justify-between mb-[10px]">
           <Breadcrumb
             links={[
-              { hiper: "/home", text: "Inicio" },
               { hiper: "/", text: "Estudiantes" },
             ]}
           />
