@@ -27,7 +27,7 @@ const ModalConfirmNew: React.FC<ModalProps> = ({
   data,
 }) => {
   const bgColorClasses = {
-    green: "bg-green-card",
+    green: "bg-green",
     red: "bg-red",
   };
 

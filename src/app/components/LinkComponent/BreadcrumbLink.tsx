@@ -17,7 +17,7 @@ const BreadcrumbLinkComponent: React.FC<LinkProps> = (props) => {
       ? ""
       : props.decorationColor
       ? `hover:decoration-${props.decorationColor} hover:underline-offset-4  hover:underline hover:decoration-4`
-      : "hover:decoration-green hover:underline-offset-4  hover:underline hover:decoration-4"
+      : "hover:decoration-green-hover hover:underline-offset-4  hover:underline hover:decoration-4"
   }`;
   const textColorHover = `hover:text-${props.textColorHover}`;
   const linkActive = `${

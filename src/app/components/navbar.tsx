@@ -5,11 +5,12 @@ import menu from "../../../public/assets/images/menu.svg";
 import green from "../../../public/assets/images/menu-green.svg";
 import LinkComponent from "./LinkComponent/LinkComponentCustom";
 import Image from "next/image";
-import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 interface NavBarProps {}
 
 const NavBar: React.FC<NavBarProps> = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(false);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -60,7 +61,14 @@ const NavBar: React.FC<NavBarProps> = () => {
       {/* Mobile menu (only when isSmallScreen is true) */}
       {isSmallScreen && (
         <div className="flex w-full px-[24px] md:px-[32px] py-[12px] m-auto justify-between">
-          <Image src={logo} width={35} height={35} alt="Logo" />
+          <Image
+            className="cursor-pointer"
+            src={logo}
+            width={35}
+            height={35}
+            alt="Logo"
+            onClick={() => router.push("/home")}
+          />
           {isOpen ? (
             <Image
               src={green}
@@ -130,7 +138,14 @@ const NavBar: React.FC<NavBarProps> = () => {
       {!isSmallScreen && (
         <div className="w-full px-[32px] xl:px-[120px] py-[16px]">
           <div className="flex justify-between">
-            <Image className="" src={logo} width={35} height={35} alt="Logo" />
+            <Image
+              className="cursor-pointer"
+              src={logo}
+              width={35}
+              height={35}
+              alt="Logo"
+              onClick={() => router.push("/home")}
+            />
             <div className="flex md:w-[600px] justify-end align-center py-[6.5px] space-x-12">
               <LinkComponent
                 text="Institución"

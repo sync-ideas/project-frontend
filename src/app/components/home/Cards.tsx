@@ -17,7 +17,7 @@ const Cards: React.FC<CardsProps> = (props) => {
         </div>
       </div>
       <div
-        className="w-full h-1/4 md:h-full bg-green-card rounded-lg flex items-center justify-center cursor-pointer transition-all duration-300 ease-in-out text-xl hover:text-[22px] hover:scale-100 hover:opacity-75"
+        className="w-full h-1/4 md:h-full bg-green rounded-lg flex items-center justify-center cursor-pointer transition-all duration-300 ease-in-out text-xl hover:text-[22px] hover:scale-100 hover:opacity-75"
         onClick={() => router.push("/profesores")}
       >
         <div className="text-center">

@@ -39,8 +39,8 @@ const config: Config = {
 
                 // Green Shades
                 green: {
-                    DEFAULT: "rgba(49, 174, 114, 1)", // Green Basic
-                    card: "rgba(31, 139, 88, 1)", // Card Background
+                    DEFAULT: "rgba(31, 139, 88, 1)", // Card Background
+                    hover: "rgba(49, 174, 114, 1)", // Green Basic
                 },
 
                 // Orange Shades

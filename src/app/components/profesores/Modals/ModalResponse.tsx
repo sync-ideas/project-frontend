@@ -9,7 +9,7 @@ interface ModalProps {
 
 const ModalResponse: React.FC<ModalProps> = ({ onClose, bgColor="green", text }) => {
   const bgColorClasses = {
-    green: "bg-green-card",
+    green: "bg-green",
     red: "bg-red",
   };
   return (

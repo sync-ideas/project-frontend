@@ -9,9 +9,7 @@ import { useDeleteProfesor } from "@components/profesores/Modals/ModalAPI";
 import { useModalStore, useUserStore } from "@store/index";
 import ModalConfirmNewSuccess from "@components/profesores/Modals/ModalConfirmNewSuccess";
 
-interface PruebaProps {}
-
-const EditPerfil: React.FC<PruebaProps> = (props) => {
+const EditPerfil: React.FC = () => {
   const data = useUserStore.getState();
   const deleteProfesor = useDeleteProfesor();
   const { showModalNew, showModalNewSuccess, setModalNew, setModalNewSuccess } =
@@ -56,7 +54,6 @@ const EditPerfil: React.FC<PruebaProps> = (props) => {
         <div className="w-full xl:w-[312px]">
           <Breadcrumb
             links={[
-              { hiper: "/home", text: "Inicio" },
               { hiper: "/profesores", text: "Profesores" },
               { hiper: "/", text: "Editar perfil" },
             ]}
