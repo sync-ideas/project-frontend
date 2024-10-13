@@ -13,7 +13,7 @@ const ModalConfirmNewSuccess: React.FC<ModalProps> = ({
   text,
 }) => {
   const bgColorClasses = {
-    green: "bg-green-card",
+    green: "bg-green",
     red: "bg-red",
   };
   return (

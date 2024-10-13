@@ -89,7 +89,6 @@ const Professor: React.FC<ProfessorProps> = () => {
       <div className="px-[24px] md:px-[32px] xl:px-[120px] flex flex-col">
         <Breadcrumb
           links={[
-            { hiper: "/home", text: "Inicio" },
             { hiper: "/", text: "Profesores" },
           ]}
         />
