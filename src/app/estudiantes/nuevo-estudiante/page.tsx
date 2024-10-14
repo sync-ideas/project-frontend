@@ -2,12 +2,11 @@
 import Footer from "../../components/Footer";
 import Breadcrumb from "../../components/Breadcrumb";
 import NavBar from "../../components/navbar";
-
-import NuevoFormEstudiante from "./NuevoFormEstudiante";
+import NuevoFormEstudiante from "./components/NuevoFormEstudiante";
 
 const NuevoEstudiante = () => {
   const Links =
-    window.innerWidth >= 750
+    window?.innerWidth >= 750
       ? [
           { hiper: "/home", text: "Inicio" },
           { hiper: "/estudiantes", text: "Estudiantes" },

@@ -10,7 +10,7 @@ const indicatorSeparatorStyle = {
 };
 interface Option {
   id: string;
-  value: string;
+  value: string | number;
   label: string;
 }
 const IndicatorSeparator = () => {
@@ -20,7 +20,7 @@ interface CustomSelectProps {
   id: string;
   options: Option[];
   field: {
-    onChange: (value: string) => void;
+    onChange: (value: string | number) => void;
     value: string | number;
     name: string;
   };

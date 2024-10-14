@@ -19,7 +19,8 @@ export default async function envioPlanilla(formData: FormData) {
     datos.append("file", formData.lista);
   }
 
-  const result = await axios
+  
+  const respuestaImport = await axios
     .post(
       "https://attendance-control.vercel.app/api/students/excel-import",
       datos,
@@ -35,5 +36,25 @@ export default async function envioPlanilla(formData: FormData) {
         return error.response.data.result;
       }
     });
-  return result;
+
+  const respuestaCurso = await axios
+    .post(
+      "https://attendance-control.vercel.app/api/courses/register",
+      formData,
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: bearer,
+        },
+      }
+    )
+    .catch(function (error) {
+      if (error.response) {
+        return error.response.data.result;
+      }
+    });
+  
+  return axios.all([respuestaImport, respuestaCurso]).then(response =>{
+    return response
+  })
 }

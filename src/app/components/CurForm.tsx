@@ -21,22 +21,22 @@ interface Option {
 }
 const optionsNivelEducativo = [
   { id: "level", value: "0", label: "Nivel educativo" },
-  { id: "level", value: "1", label: "Primaria" },
-  { id: "level", value: "2", label: "Secundaria" },
+  { id: "level", value: "Primaria", label: "Primaria" },
+  { id: "level", value: "Secundaria", label: "Secundaria" },
 ];
 const optionsGrado = [
   { id: "number", value: "0", label: "Grado" },
-  { id: "number", value: "1", label: "1ª" },
-  { id: "number", value: "2", label: "2º" },
-  { id: "number", value: "3", label: "3º" },
-  { id: "number", value: "4", label: "4º" },
-  { id: "number", value: "5", label: "5º" },
+  { id: "number", value: 1, label: "1ª" },
+  { id: "number", value: 2, label: "2º" },
+  { id: "number", value: 3, label: "3º" },
+  { id: "number", value: 4, label: "4º" },
+  { id: "number", value: 5, label: "5º" },
 ];
 const optionsLetra = [
   { id: "letter", value: "0", label: "Letra" },
-  { id: "letter", value: "1", label: "A" },
-  { id: "letter", value: "2", label: "B" },
-  { id: "letter", value: "3", label: "C" },
+  { id: "letter", value: "a", label: "A" },
+  { id: "letter", value: "b", label: "B" },
+  { id: "letter", value: "c", label: "C" },
 ];
 const CurForm = () => {
   const {
@@ -53,7 +53,7 @@ const CurForm = () => {
   const [enableFile, setEnableFile] = useState(true);
 
   const submitForm = (data: FormData) => {
-    if (data.lista !== undefined) {
+    if (data.lista === undefined) {
       setFormData(data);
       setConfirmar(true);
     } else {
@@ -118,9 +118,14 @@ const CurForm = () => {
         </div>
       )}
       <div className="w-full md:w-[312px] relative z-0">
-        <form onSubmit={handleSubmit(submitForm)} className="flex flex-col xl:gap-6">
+        <form
+          onSubmit={handleSubmit(submitForm)}
+          className="flex flex-col xl:gap-6"
+        >
           <div className="flex flex-col gap-[10px] pt-[20px] min-h-[439px] md:min-h-[962px] xl:min-h-[282px]">
-            <h3 className="text-left w-full h-[22px]">Ingresa datos del curso</h3>
+            <h3 className="text-left w-full h-[22px]">
+              Ingresa datos del curso
+            </h3>
             <Controller
               name="level"
               control={control}
@@ -188,7 +193,7 @@ const CurForm = () => {
             />
           </div>
           <div>
-            <Button text="Crear curso" isCompleted={fileLoaded} />
+            <Button text="Crear curso" isCompleted={!fileLoaded} />
           </div>
         </form>
       </div>

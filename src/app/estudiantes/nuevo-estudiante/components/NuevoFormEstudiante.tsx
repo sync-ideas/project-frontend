@@ -2,10 +2,13 @@
 import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CustomInputEstudiante from "../../components/inputEstudiante";
-import Button from "../../components/button";
-import { areInputsNotEmpty } from "../../../functions/input/formUtils";
-import { studentSchemaNew } from "../../validations/profesores/nuevo/studentSchemaNew";
+
+import { useModalStore } from "@store/index";
+import { studentSchemaNew } from "src/app/validations/profesores/nuevo/studentSchemaNew";
+import { areInputsNotEmpty } from "@functions/index";
+import CustomInputEstudiante from "@components/inputEstudiante";
+import Button from "@components/button";
+import { ConfirmationModal } from "./Modals/ModalConfirmNew";
 
 export type Inputs = {
   nombre: string;
@@ -74,7 +77,8 @@ const NuevoFormEstudiante: React.FC = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(studentSchemaNew),
   });
-
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
 
   const handleInputChange = useCallback(() => {
@@ -92,8 +96,24 @@ const NuevoFormEstudiante: React.FC = () => {
 
   const handleSubmitForm = (data: Inputs) => {
     // Guardar los datos en el store
+    setIsConfirmModalOpen(true);
+
     console.log(data);
   };
+  const handleConfirm = async () => {
+    setIsConfirmModalOpen(false);
+    try {
+      //envio de la data a la api
+      setIsSuccessModalOpen(true);
+    } catch (error) {
+      // Handle error (e.g., show error message)
+    }
+  };
+  const handleSuccessClose = () => {
+    setIsSuccessModalOpen(false);
+    //router.push("/estudiantes"); // Redirect to another page
+  };
+
   return (
     <>
       <form onSubmit={handleSubmit(handleSubmitForm)}>
@@ -191,6 +211,12 @@ const NuevoFormEstudiante: React.FC = () => {
           />
         </div>
       </form>
+      <ConfirmationModal
+        isOpen={isConfirmModalOpen}
+        onClose={() => setIsConfirmModalOpen(false)}
+        onConfirm={handleConfirm}
+        formData={watch()}
+      />
     </>
   );
 };

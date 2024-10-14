@@ -37,20 +37,22 @@ const ModalCurso: React.FC<{
   const handleConfirm = async () => {
     if (formData) {
       const envio = await envioPlanilla(formData);
-      if (envio !== false) {
+      console.log(envio);
+
+      if (envio[0] !== false || envio[1] !== false) {
         setDone(true);
         setTimeout(() => {
           setDone(false);
+          setConfirmar(false);
           router.push("/estudiantes/cursos");
         }, 3000);
-        setConfirmar(false);
       } else {
         setError(true);
         setTimeout(() => {
           setError(false);
+          setConfirmar(false);
           router.push("/estudiantes/cursos");
         }, 3000);
-        setConfirmar(false);
       }
     }
   };
@@ -90,7 +92,7 @@ const ModalCurso: React.FC<{
           </div>
         </div>
       )}
-      {done && (
+      {confirmar && done && (
         <div className="flex flex-col  bg-white border-[#362B3E] rounded-lg">
           <div className="flex justify-center w-full bg-green-600 rounded-tl-lg rounded-tr-lg items-center my-auto">
             <h2 className="text-lg py-4 px-6 font-bold text-white text-center">
@@ -116,7 +118,7 @@ const ModalCurso: React.FC<{
           </div>
         </div>
       )}
-      {error && (
+      {confirmar && error && (
         <div className="flex flex-col  bg-white border-[rgb(54,43,62)] rounded-lg">
           <div className="flex justify-center w-full bg-[#d22626] rounded-tl-lg rounded-tr-lg items-center my-auto">
             <h2 className="text-lg py-4 px-6 font-bold text-white text-center">
@@ -134,18 +136,18 @@ const ModalCurso: React.FC<{
             >
               <g
                 fill="#d22626"
-                fill-rule="nonzero"
+                fillRule="nonzero"
                 stroke="none"
-                stroke-width="1"
-                stroke-linecap="butt"
-                stroke-linejoin="miter"
-                stroke-miterlimit="10"
-                stroke-dasharray=""
-                stroke-dashoffset="0"
-                font-family="none"
-                font-weight="none"
-                font-size="none"
-                text-anchor="none"
+                strokeWidth="1"
+                strokeLinecap="butt"
+                strokeLinejoin="miter"
+                strokeMiterlimit="10"
+                strokeDasharray=""
+                strokeDashoffset="0"
+                fontFamily="none"
+                fontWeight="none"
+                fontSize="none"
+                textAnchor="none"
               >
                 <g transform="translate(128,-53.01934) rotate(45) scale(5.12,5.12)">
                   <path d="M25,2c-12.6907,0 -23,10.3093 -23,23c0,12.69071 10.3093,23 23,23c12.69071,0 23,-10.30929 23,-23c0,-12.6907 -10.30929,-23 -23,-23zM25,4c11.60982,0 21,9.39018 21,21c0,11.60982 -9.39018,21 -21,21c-11.60982,0 -21,-9.39018 -21,-21c0,-11.60982 9.39018,-21 21,-21zM24,13v11h-11v2h11v11h2v-11h11v-2h-11v-11z"></path>
