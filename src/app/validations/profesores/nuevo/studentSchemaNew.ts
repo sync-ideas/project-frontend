@@ -1,10 +1,10 @@
 import { z } from "zod";
 
 export const studentSchemaNew = z.object({
-  nombre: z.string().regex(/^[a-zA-Z0-9]+$/, {
+  nombre: z.string().regex(/^[a-zA-Z0-9\s]+$/, {
     message: "El nombre solo puede contener letras y números.",
   }),
-  apellido: z.string().regex(/^[a-zA-Z0-9]+$/, {
+  apellido: z.string().regex(/^[a-zA-Z0-9\s]+$/, {
     message: "El apellido solo puede contener letras y números.",
   }),
   identificacion: z.string().regex(/^[1-9\s]+$/, {

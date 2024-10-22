@@ -1,5 +1,5 @@
 "use client";
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
@@ -9,6 +9,10 @@ import { areInputsNotEmpty } from "@functions/index";
 import CustomInputEstudiante from "@components/inputEstudiante";
 import Button from "@components/button";
 import { ConfirmationModal } from "./Modals/ModalConfirmNew";
+import { getCourses } from "../../cursos/coursesSubmit";
+import { handleSubmitNewStudent } from "@functions/estudiantes/handleSubmitNewEstudiante";
+import ModalConfirmNewSuccess from "@components/profesores/Modals/ModalConfirmNewSuccess";
+import { useRouter } from "next/navigation";
 
 export type Inputs = {
   nombre: string;
@@ -18,7 +22,7 @@ export type Inputs = {
   email: string;
   curso: string;
 };
-interface Course {
+export interface Course {
   id: number;
   level: string;
   number: number;
@@ -33,40 +37,6 @@ interface ApiResponse {
   message: string;
   data: Course[];
 }
-//cambiar con los datos que se obtengan del endpoint
-const cursosFromApi: ApiResponse = {
-  result: true,
-  message: "Courses found",
-  data: [
-    {
-      id: 1,
-      level: "F",
-      number: 2,
-      letter: "G",
-      active: false,
-      createdAt: "2023-10-09T21:59:30.498Z",
-      updatedAt: "2023-10-10T01:52:43.634Z",
-    },
-    {
-      id: 2,
-      level: "Primer ciclo",
-      number: 1,
-      letter: "A",
-      active: true,
-      createdAt: "2023-10-11T13:38:03.571Z",
-      updatedAt: "2023-10-11T13:38:03.571Z",
-    },
-    {
-      id: 3,
-      level: "Primer ciclo",
-      number: 1,
-      letter: "C",
-      active: true,
-      createdAt: "2023-10-11T13:38:51.452Z",
-      updatedAt: "2023-10-11T13:38:51.452Z",
-    },
-  ],
-};
 
 const NuevoFormEstudiante: React.FC = () => {
   const {
@@ -77,9 +47,11 @@ const NuevoFormEstudiante: React.FC = () => {
   } = useForm<Inputs>({
     resolver: zodResolver(studentSchemaNew),
   });
+  const navigate = useRouter();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
+  const [cursos, setCursos] = useState([]);
 
   const handleInputChange = useCallback(() => {
     const inputsNotEmpty = areInputsNotEmpty(
@@ -94,25 +66,33 @@ const NuevoFormEstudiante: React.FC = () => {
     setIsButtonDisabled(inputsNotEmpty);
   }, [watch, setIsButtonDisabled]);
 
-  const handleSubmitForm = (data: Inputs) => {
+  const handleSubmitForm = () => {
     // Guardar los datos en el store
     setIsConfirmModalOpen(true);
-
-    console.log(data);
   };
   const handleConfirm = async () => {
     setIsConfirmModalOpen(false);
     try {
       //envio de la data a la api
-      setIsSuccessModalOpen(true);
+      handleSubmitNewStudent(watch())
+        .then((result) => {
+          if (result.status < 400)
+            setTimeout(() => setIsSuccessModalOpen(true), 2000);
+        })
+        .then((result) => navigate.push("/estudiantes"));
     } catch (error) {
       // Handle error (e.g., show error message)
     }
   };
+
+  useEffect(() => {
+    getCourses().then((response) => setCursos(response));
+  }, []);
   const handleSuccessClose = () => {
     setIsSuccessModalOpen(false);
     //router.push("/estudiantes"); // Redirect to another page
   };
+  console.log(cursos);
 
   return (
     <>
@@ -192,8 +172,12 @@ const NuevoFormEstudiante: React.FC = () => {
             {...register("curso")}
             className="border h-[50px] px-6 rounded-lg border-purple-800 focus:outline-purple"
             onChange={handleInputChange}
+            defaultValue={"No Seleccionado"}
           >
-            {cursosFromApi.data.map((curso) => (
+            <option key={0} value={"No Seleccionado"}>
+              Selecciona un Curso
+            </option>
+            {cursos.map((curso) => (
               <option
                 key={curso.id}
                 className="font-normal"
@@ -217,6 +201,12 @@ const NuevoFormEstudiante: React.FC = () => {
         onConfirm={handleConfirm}
         formData={watch()}
       />
+      {isSuccessModalOpen && (
+        <ModalConfirmNewSuccess
+          onClose={() => setIsSuccessModalOpen(false)}
+          text="Estudiante creado con Éxito"
+        />
+      )}
     </>
   );
 };
