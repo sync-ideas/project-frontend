@@ -3,8 +3,10 @@ import Button from "@components/button";
 import InputCurso from "@components/InputCurso";
 import InputFile from "@components/InputFile";
 import ModalCurso from "@components/ModalCurso";
-import React, { useState } from "react";
+import { useCourseStore } from "@store/estudiantes/course-store";
+import React, { useEffect, useState } from "react";
 import { useForm, Controller } from "react-hook-form";
+import getStudentsByCourse from "src/app/estudiantes/cursos/editar-curso/studentsByCourse";
 import envioPlanilla from "src/app/estudiantes/cursos/nuevo-curso/envioPlanilla";
 
 import { set } from "zod";
@@ -45,6 +47,8 @@ const optionsLetra = [
   { id: "letter", value: "c", label: "C" },
 ];
 const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
+  const { userId } = useCourseStore();
+
   const {
     control,
     handleSubmit,
@@ -57,7 +61,13 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
   const [formData, setFormData] = useState<FormData>();
   const [fileLoaded, setFileLoaded] = useState(false);
   const [enableFile, setEnableFile] = useState(true);
-
+  useEffect(() => {
+    const fetchdatos = async () => {
+      const response = await getStudentsByCourse(userId);
+      console.log(response);
+    };
+    fetchdatos();
+  }, []);
   const submitForm = (data: FormData) => {
     if (data.lista === undefined) {
       setFormData(data);
@@ -104,7 +114,6 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
       }
     }
   };
-  console.log(level);
 
   return (
     <>
@@ -131,7 +140,7 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
         >
           <div className="flex flex-col gap-[10px] pt-[20px] min-h-[439px] md:min-h-[962px] xl:min-h-[282px]">
             <h3 className="text-left w-full h-[22px]">
-              Ingresa datos del curso
+              Modifica datos del curso
             </h3>
             <Controller
               name="level"
@@ -178,32 +187,11 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
                 />
               )}
             />
-            <Controller
-              name="lista"
-              control={control}
-              render={({ field }) => (
-                <>
-                  <InputFile
-                    field={field}
-                    error={errors.lista}
-                    id="lista"
-                    onChange={(file) => {
-                      field.onChange(file);
-                      if (file === null) {
-                        setFileLoaded(false);
-                        console.log("hola");
-                      } else {
-                        setFileLoaded(!!file); // Update fileLoaded state
-                      }
-                    }}
-                    disabled={enableFile}
-                  />
-                </>
-              )}
-            />
+            <Button text="+ Agregar estudiante" isCompleted />
+            <Button text="Ver lista de estudiantes" isCompleted />
           </div>
           <div>
-            <Button text="Crear curso" isCompleted={!fileLoaded} />
+            <Button text="Modificar curso" isCompleted={!fileLoaded} />
           </div>
         </form>
       </div>
