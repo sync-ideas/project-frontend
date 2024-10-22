@@ -3,7 +3,9 @@ import axios from "axios";
 import { useCourseStore } from "@store/estudiantes/course-store";
 import { useLoginStore } from "@store/index";
 
+
 export const handleEditClick = async (userId: number, router: any) => {
+  
   const { setUserId, setLevel, setNumber, setLetter } = useCourseStore.getState();
 
   try {
@@ -17,6 +19,7 @@ export const handleEditClick = async (userId: number, router: any) => {
         },
       }
     );
+
 
     console.log(response.data.data);
     const { level, number, letter } = response.data.data;

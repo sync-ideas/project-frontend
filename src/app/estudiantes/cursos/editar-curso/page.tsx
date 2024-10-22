@@ -1,7 +1,25 @@
+"use client";
 import Breadcrumb from "@components/Breadcrumb";
 import Footer from "@components/Footer";
 import NavBar from "@components/navbar";
-import React from "react";
+import { useRouter } from "next/router";
+import React, { useEffect, useState } from "react";
+import getStudentsByCourse from "./studentsByCourse";
+import { useCourseStore } from "@store/estudiantes/course-store";
+import InputCurso from "@components/InputCurso";
+import CurEditForm from "@components/estudiantes/CurEditForm";
+
+interface Estudiante {
+  id: number;
+  name: string;
+  surname: string;
+  contact_phone: string | null;
+  contact_email: string;
+  birthdate: string;
+  personal_id: string;
+  active: boolean;
+  course_id: number;
+}
 
 const EditCourse: React.FC = () => {
   const BreadLinks = [
@@ -9,6 +27,10 @@ const EditCourse: React.FC = () => {
     { hiper: "/estudiantes/cursos", text: "Cursos" },
     { hiper: "", text: "Editar Curso" },
   ];
+  const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
+  const { userId, level, number, letter } = useCourseStore.getState();
+  console.log(level, number, letter);
+
   return (
     <div>
       <NavBar />
@@ -17,6 +39,11 @@ const EditCourse: React.FC = () => {
           <Breadcrumb links={BreadLinks} />
         </div>
         <div className="flex flex-col items-center w-full md:mt-[24px] xl:h-[530px]">
+          <CurEditForm
+            level={level}
+            number={parseInt(number)}
+            letter={letter}
+          />
         </div>
       </div>
       <Footer />
