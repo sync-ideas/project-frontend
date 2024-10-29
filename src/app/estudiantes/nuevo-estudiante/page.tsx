@@ -3,10 +3,24 @@ import Footer from "../../components/Footer";
 import Breadcrumb from "../../components/Breadcrumb";
 import NavBar from "../../components/navbar";
 import NuevoFormEstudiante from "./components/NuevoFormEstudiante";
+import { useEffect, useState } from "react";
 
 const NuevoEstudiante = () => {
+  const [isSmallScreen, setIsSmallScreen] = useState(false);
+  useEffect(() => {
+    function handleResize() {
+      setIsSmallScreen(window.innerWidth <= 768);
+    }
+
+    window.addEventListener("resize", handleResize);
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
   const Links =
-    window?.innerWidth >= 750
+    !isSmallScreen
       ? [
           { hiper: "/home", text: "Inicio" },
           { hiper: "/estudiantes", text: "Estudiantes" },
