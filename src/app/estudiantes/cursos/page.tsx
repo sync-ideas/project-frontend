@@ -6,7 +6,7 @@ import NavBar from "@components/navbar";
 import Button from "@components/button";
 import Breadcrumb from "@components/Breadcrumb";
 import CardAddCourses from "@components/estudiantes/CardAddCourses";
-import Cards from "@components/estudiantes/Cards";
+import CourseCards from "@components/estudiantes/CardsCourses";
 import { useEstudiantesStore } from "@store/index";
 import { getCourses } from "./coursesSubmit";
 
@@ -56,7 +56,7 @@ const CourseRegistration: React.FC<CourseRegistrationProps> = (props) => {
         ) : courses.length === 0 ? (
           <CardAddCourses />
         ) : (
-          <Cards />
+          <CourseCards />
         )}
         <div className="md:mt-[16px] w-full xl:w-[312px] self-end ">
           <Button text="Nuevo curso" onClick={handleClik} isCompleted={true} />

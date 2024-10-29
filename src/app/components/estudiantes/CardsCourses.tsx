@@ -8,7 +8,7 @@ import handleEditClick from "@functions/estudiantes/handleEditClick";
 
 interface CardProfessorProps {}
 
-const Cards: React.FC<CardProfessorProps> = () => {
+const CourseCards: React.FC<CardProfessorProps> = () => {
   const { courses } = useEstudiantesStore();
   const isSmallScreen = useMediaQuery({ maxWidth: 767 });
   const router = useRouter();
@@ -57,4 +57,4 @@ const Cards: React.FC<CardProfessorProps> = () => {
   );
 };
 
-export default Cards;
+export default CourseCards;

@@ -6,9 +6,9 @@ interface getStudentsParams {
 
 async function getStudentsByCourse(courseId:number): Promise<any> {
   const accessToken = useLoginStore.getState().token;
-  console.log(courseId);
+
   try {
-    const response = await fetch(`https://project-backend-v2.vercel.app/api_v2/students/course/${courseId}`, {
+    const response = await fetch(`https://project-backend-v2.vercel.app/api_v2/students/course/${courseId.toString()}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',

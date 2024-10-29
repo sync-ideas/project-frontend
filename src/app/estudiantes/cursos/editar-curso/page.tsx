@@ -2,34 +2,39 @@
 import Breadcrumb from "@components/Breadcrumb";
 import Footer from "@components/Footer";
 import NavBar from "@components/navbar";
-import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import getStudentsByCourse from "./studentsByCourse";
-import { useCourseStore } from "@store/estudiantes/course-store";
-import InputCurso from "@components/InputCurso";
 import CurEditForm from "@components/estudiantes/CurEditForm";
+import { useCourseStore } from "@store/estudiantes/course-store";
+import { getCourseData } from "../coursesSubmit";
 
-interface Estudiante {
+interface Course {
   id: number;
-  name: string;
-  surname: string;
-  contact_phone: string | null;
-  contact_email: string;
-  birthdate: string;
-  personal_id: string;
-  active: boolean;
-  course_id: number;
+  level: string;
+  number: string;
+  letter: string;
+  createdAt: string;
 }
 
 const EditCourse: React.FC = () => {
+  const { userId } = useCourseStore();
+  const [editingCourse, setEditingCourse] = useState<Course>();
+  useEffect(() => {
+    const fetchdatos = async () => {
+      const response = await getCourseData(userId);
+      setEditingCourse(response[0]);
+    };
+    fetchdatos();
+  }, [userId]);
   const BreadLinks = [
     { hiper: "/estudiantes", text: "Estudiantes" },
     { hiper: "/estudiantes/cursos", text: "Cursos" },
-    { hiper: "", text: "Editar Curso" },
+    {
+      hiper: "",
+      text: `Editar ${
+        editingCourse?.number
+      }º-${editingCourse?.letter.toUpperCase()}`,
+    },
   ];
-  const [estudiantes, setEstudiantes] = useState<Estudiante[]>([]);
-  const { userId, level, number, letter } = useCourseStore.getState();
-  console.log(level, number, letter);
 
   return (
     <div>
@@ -39,11 +44,7 @@ const EditCourse: React.FC = () => {
           <Breadcrumb links={BreadLinks} />
         </div>
         <div className="flex flex-col items-center w-full md:mt-[24px] xl:h-[530px]">
-          <CurEditForm
-            level={level}
-            number={parseInt(number)}
-            letter={letter}
-          />
+          <CurEditForm />
         </div>
       </div>
       <Footer />

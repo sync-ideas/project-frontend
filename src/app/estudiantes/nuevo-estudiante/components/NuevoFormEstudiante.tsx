@@ -2,8 +2,6 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useModalStore } from "@store/index";
 import { studentSchemaNew } from "src/app/validations/profesores/nuevo/studentSchemaNew";
 import { areInputsNotEmpty } from "@functions/index";
 import CustomInputEstudiante from "@components/inputEstudiante";
@@ -13,6 +11,7 @@ import { getCourses } from "../../cursos/coursesSubmit";
 import { handleSubmitNewStudent } from "@functions/estudiantes/handleSubmitNewEstudiante";
 import ModalConfirmNewSuccess from "@components/profesores/Modals/ModalConfirmNewSuccess";
 import { useRouter } from "next/navigation";
+import { Student } from "@components/estudiantes/CardsStudents";
 
 export type Inputs = {
   nombre: string;
@@ -27,18 +26,17 @@ export interface Course {
   level: string;
   number: number;
   letter: string;
-  active: boolean;
+  active?: boolean;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
-interface ApiResponse {
-  result: boolean;
-  message: string;
-  data: Course[];
-}
 
-const NuevoFormEstudiante: React.FC = () => {
+
+
+const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
+  console.log(estudiante);
+  
   const {
     register,
     handleSubmit,
@@ -46,6 +44,14 @@ const NuevoFormEstudiante: React.FC = () => {
     watch,
   } = useForm<Inputs>({
     resolver: zodResolver(studentSchemaNew),
+    defaultValues: {
+      nombre: estudiante?.name,
+      apellido: estudiante?.surname,
+      identificacion: estudiante?.personal_id,
+      fechaNacimiento: estudiante?.birthdate,
+      email: estudiante?.contact_email,
+      
+    },
   });
   const navigate = useRouter();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
@@ -87,12 +93,12 @@ const NuevoFormEstudiante: React.FC = () => {
 
   useEffect(() => {
     getCourses().then((response) => setCursos(response));
+    
   }, []);
   const handleSuccessClose = () => {
     setIsSuccessModalOpen(false);
     //router.push("/estudiantes"); // Redirect to another page
   };
-  console.log(cursos);
 
   return (
     <>
@@ -100,6 +106,7 @@ const NuevoFormEstudiante: React.FC = () => {
         <div className="flex flex-col gap-6 py-[20px] min-h-[381px] h-auto">
           <a>Ingresa datos del estudiante</a>
           <CustomInputEstudiante
+          defaultValue={estudiante?.name}
             id="nombre"
             label="Nombre"
             placeholder="Ingresa un nombre"
@@ -114,6 +121,7 @@ const NuevoFormEstudiante: React.FC = () => {
             </p>
           )}
           <CustomInputEstudiante
+          defaultValue={estudiante?.surname}
             id="apellido"
             placeholder="Ingresa un apellido"
             label="Apellido"
@@ -128,6 +136,7 @@ const NuevoFormEstudiante: React.FC = () => {
             </p>
           )}
           <CustomInputEstudiante
+          defaultValue={estudiante?.personal_id}
             id="identificacion"
             placeholder="Ingresa número de identificación"
             label="DNI / RUT"
@@ -142,6 +151,7 @@ const NuevoFormEstudiante: React.FC = () => {
             </p>
           )}
           <CustomInputEstudiante
+          defaultValue={estudiante?.birthdate}
             id="fechaNacimiento"
             placeholder="22 | Abril | 2014"
             label="Fecha de nacimiento"
@@ -155,6 +165,7 @@ const NuevoFormEstudiante: React.FC = () => {
             </p>
           )}
           <CustomInputEstudiante
+          defaultValue={estudiante?.contact_email}
             id="email"
             placeholder="Ingresa dirección de e-mail"
             label="Correo electrónico"
@@ -190,7 +201,7 @@ const NuevoFormEstudiante: React.FC = () => {
         </div>
         <div className="flex flex-col py-6">
           <Button
-            text="Agregar nuevo estudiante"
+            text="Editar datos estudiante"
             isCompleted={isButtonDisabled}
           />
         </div>

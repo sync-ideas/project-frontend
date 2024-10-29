@@ -1,21 +1,16 @@
 "use client";
 import Button from "@components/button";
 import InputCurso from "@components/InputCurso";
-import InputFile from "@components/InputFile";
 import ModalCurso from "@components/ModalCurso";
-import { useCourseStore } from "@store/estudiantes/course-store";
-import React, { useEffect, useState } from "react";
+import Image from "next/image";
+import { useState } from "react";
 import { useForm, Controller } from "react-hook-form";
-import getStudentsByCourse from "src/app/estudiantes/cursos/editar-curso/studentsByCourse";
 import envioPlanilla from "src/app/estudiantes/cursos/nuevo-curso/envioPlanilla";
+import iconDelete from "@images/icondelete.svg";
+import { useModalStore } from "@store/index";
+import { useRouter } from "next/navigation";
+import GenericButton from "@components/GenericButton";
 
-import { set } from "zod";
-
-interface CurEditFormProps {
-  level: string;
-  number: number;
-  letter: string;
-}
 interface FormData {
   level: string;
   number: number;
@@ -46,9 +41,7 @@ const optionsLetra = [
   { id: "letter", value: "b", label: "B" },
   { id: "letter", value: "c", label: "C" },
 ];
-const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
-  const { userId } = useCourseStore();
-
+const CurEditForm = () => {
   const {
     control,
     handleSubmit,
@@ -61,13 +54,7 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
   const [formData, setFormData] = useState<FormData>();
   const [fileLoaded, setFileLoaded] = useState(false);
   const [enableFile, setEnableFile] = useState(true);
-  useEffect(() => {
-    const fetchdatos = async () => {
-      const response = await getStudentsByCourse(userId);
-      console.log(response);
-    };
-    fetchdatos();
-  }, []);
+
   const submitForm = (data: FormData) => {
     if (data.lista === undefined) {
       setFormData(data);
@@ -76,6 +63,14 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
       console.log("error");
     }
   };
+  const navigate = useRouter();
+  const handleAddStudent = () => {
+    navigate.push("agregar-estudiante");
+  };
+  const handleListStudents = () => {
+    navigate.push("listar-estudiantes/");
+  };
+  const { setModalNew } = useModalStore();
   const [enableSelect, setEnableSelect] = useState({
     grado: true,
     letra: true,
@@ -87,7 +82,6 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
           grado: true,
           letra: true,
         });
-        setEnableFile(true);
       } else {
         setEnableSelect({
           ...enableSelect,
@@ -118,7 +112,7 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
   return (
     <>
       {(confirmar || done) && (
-        <div className="fixed top-0 left-0 w-full h-full overflow-hidden bg-gray-500 bg-opacity-75 flex items-center justify-center z-10">
+        <div className="fixed top-0 left-0 w-full h-fit overflow-hidden bg-gray-500 bg-opacity-75 flex items-center justify-center z-10">
           <div className="bg-white rounded-lg shadow-lg w-360 h-428">
             <ModalCurso
               error={error}
@@ -133,7 +127,7 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
           </div>
         </div>
       )}
-      <div className="w-full md:w-[312px] relative z-0">
+      <div className="w-full md:w-[312px] relative z-0 h-fit">
         <form
           onSubmit={handleSubmit(submitForm)}
           className="flex flex-col xl:gap-6"
@@ -144,7 +138,6 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
             </h3>
             <Controller
               name="level"
-              defaultValue={level}
               control={control}
               render={({ field }) => (
                 <InputCurso
@@ -157,7 +150,6 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
               )}
             />
             <Controller
-              defaultValue={number}
               name="number"
               control={control}
               render={({ field }) => (
@@ -173,7 +165,6 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
             />
 
             <Controller
-              defaultValue={letter}
               name="letter"
               control={control}
               render={({ field }) => (
@@ -187,8 +178,27 @@ const CurEditForm = ({ level, number, letter }: CurEditFormProps) => {
                 />
               )}
             />
-            <Button text="+ Agregar estudiante" isCompleted />
-            <Button text="Ver lista de estudiantes" isCompleted />
+            <GenericButton
+              type="button"
+              text="+ Agregar estudiante"
+              onClick={handleAddStudent}
+            />
+            <GenericButton
+              type="button"
+              buttonColor="green"
+              text="Ver lista de estudiantes"
+              onClick={handleListStudents}
+            />
+            <div className="flex justify-end items-start">
+              <div onClick={() => setModalNew(true)} className="cursor-pointer">
+                <Image
+                  src={iconDelete}
+                  width={42}
+                  height={42}
+                  alt="icono_eliminar"
+                />
+              </div>
+            </div>
           </div>
           <div>
             <Button text="Modificar curso" isCompleted={!fileLoaded} />
