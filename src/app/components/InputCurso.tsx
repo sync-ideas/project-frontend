@@ -5,7 +5,7 @@ import { FieldError } from "react-hook-form";
 
 interface Option {
   id: string;
-  value: string;
+  value: string | number;
   label: string;
 }
 interface InputCursoProps {

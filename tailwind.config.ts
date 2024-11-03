@@ -59,10 +59,10 @@ const config: Config = {
                 blue: {
                     card: "rgba(29, 131, 224, 0.8)", // Card Background
                 }
-
-            }
-        },
+        
+      },
     },
-    plugins: [],
+  },
+  plugins: [],
 };
 export default config;
