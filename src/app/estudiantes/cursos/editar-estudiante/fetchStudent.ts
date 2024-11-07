@@ -2,7 +2,7 @@ import { useLoginStore } from "@store/index";
 
 export const getStudent = async (id:string) => {
   const accessToken = useLoginStore.getState().token;
-    const response = await fetch(`https://attendance-control.vercel.app/api/students?id=${id}`, {
+    const response = await fetch(`https://project-backend-v2.vercel.app/api_v2/students/${id}`, {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -11,5 +11,6 @@ export const getStudent = async (id:string) => {
       }})
       
       const data = await response.json()
-    return data
+      console.log(data.data[0])
+    return data.data[0]
 }

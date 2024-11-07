@@ -22,7 +22,7 @@ const CourseCards: React.FC<CardProfessorProps> = () => {
   return (
     <div className="pt-[20px] mb-[10px]">
       <div className="mb-[16px]">
-        <a>Selecciona un profesor para editar</a>
+        <a>Selecciona un curso para editar</a>
       </div>
       <div className="h-[55vh] md:h-[75vh] xl:h-[60vh] overflow-y-auto">
         {courses.map((course, index) => (

@@ -1,6 +1,6 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { studentSchemaNew } from "src/app/validations/profesores/nuevo/studentSchemaNew";
 import { areInputsNotEmpty } from "@functions/index";
@@ -12,6 +12,8 @@ import { handleSubmitNewStudent } from "@functions/estudiantes/handleSubmitNewEs
 import ModalConfirmNewSuccess from "@components/profesores/Modals/ModalConfirmNewSuccess";
 import { useRouter } from "next/navigation";
 import { Student } from "@components/estudiantes/CardsStudents";
+import { handleSubmitEditedStudent } from "@functions/estudiantes/handleSubmitEditEstudiante";
+
 
 export type Inputs = {
   nombre: string;
@@ -19,8 +21,9 @@ export type Inputs = {
   identificacion: string;
   fechaNacimiento: string;
   email: string;
-  curso: string;
+  curso: number;
 };
+
 export interface Course {
   id: number;
   level: string;
@@ -31,33 +34,24 @@ export interface Course {
   updatedAt?: string;
 }
 
-
-
-
-const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
-  console.log(estudiante);
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    watch,
-  } = useForm<Inputs>({
+const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
+  const { register, handleSubmit, formState: { errors }, watch, setValue, control } = useForm<Inputs>({
     resolver: zodResolver(studentSchemaNew),
     defaultValues: {
-      nombre: estudiante?.name,
-      apellido: estudiante?.surname,
-      identificacion: estudiante?.personal_id,
-      fechaNacimiento: estudiante?.birthdate,
-      email: estudiante?.contact_email,
-      
+      nombre: "",
+      apellido: "",
+      identificacion: "",
+      fechaNacimiento: "",
+      email: "",
+      curso: 0
     },
   });
+
   const navigate = useRouter();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [cursos, setCursos] = useState([]);
+  const [cursos, setCursos] = useState<Course[]>([]);
 
   const handleInputChange = useCallback(() => {
     const inputsNotEmpty = areInputsNotEmpty(
@@ -73,19 +67,17 @@ const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
   }, [watch, setIsButtonDisabled]);
 
   const handleSubmitForm = () => {
-    // Guardar los datos en el store
     setIsConfirmModalOpen(true);
   };
+
   const handleConfirm = async () => {
     setIsConfirmModalOpen(false);
     try {
-      //envio de la data a la api
-      handleSubmitNewStudent(watch())
-        .then((result) => {
-          if (result.status < 400)
-            setTimeout(() => setIsSuccessModalOpen(true), 2000);
-        })
-        .then((result) => navigate.push("/estudiantes"));
+      const result = await handleSubmitEditedStudent(watch(), estudiante.id);
+      if (result.status < 400) {
+        setTimeout(() => setIsSuccessModalOpen(true), 2000);
+        navigate.push("/estudiantes");
+      }
     } catch (error) {
       // Handle error (e.g., show error message)
     }
@@ -93,8 +85,18 @@ const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
 
   useEffect(() => {
     getCourses().then((response) => setCursos(response));
+    if (estudiante) {
+      setValue("nombre", estudiante.name);
+      setValue("apellido", estudiante.surname);
+      setValue("identificacion", estudiante.personal_id);
+      setValue("fechaNacimiento", estudiante.birthdate.split("T")[0]);
+      setValue("email", estudiante.contact_email);
+      setValue("curso", estudiante.course_id)
+    }
+    console.log(estudiante);
     
-  }, []);
+  }, [estudiante, setValue]);
+
   const handleSuccessClose = () => {
     setIsSuccessModalOpen(false);
     //router.push("/estudiantes"); // Redirect to another page
@@ -106,7 +108,6 @@ const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
         <div className="flex flex-col gap-6 py-[20px] min-h-[381px] h-auto">
           <a>Ingresa datos del estudiante</a>
           <CustomInputEstudiante
-          defaultValue={estudiante?.name}
             id="nombre"
             label="Nombre"
             placeholder="Ingresa un nombre"
@@ -121,7 +122,6 @@ const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
             </p>
           )}
           <CustomInputEstudiante
-          defaultValue={estudiante?.surname}
             id="apellido"
             placeholder="Ingresa un apellido"
             label="Apellido"
@@ -136,7 +136,6 @@ const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
             </p>
           )}
           <CustomInputEstudiante
-          defaultValue={estudiante?.personal_id}
             id="identificacion"
             placeholder="Ingresa número de identificación"
             label="DNI / RUT"
@@ -151,7 +150,6 @@ const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
             </p>
           )}
           <CustomInputEstudiante
-          defaultValue={estudiante?.birthdate}
             id="fechaNacimiento"
             placeholder="22 | Abril | 2014"
             label="Fecha de nacimiento"
@@ -165,7 +163,6 @@ const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
             </p>
           )}
           <CustomInputEstudiante
-          defaultValue={estudiante?.contact_email}
             id="email"
             placeholder="Ingresa dirección de e-mail"
             label="Correo electrónico"
@@ -179,29 +176,36 @@ const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
               {errors.email.message}
             </p>
           )}
-          <select
-            {...register("curso")}
-            className="border h-[50px] px-6 rounded-lg border-purple-800 focus:outline-purple"
-            onChange={handleInputChange}
-            defaultValue={"No Seleccionado"}
-          >
-            <option key={0} value={"No Seleccionado"}>
-              Selecciona un Curso
-            </option>
-            {cursos.map((curso) => (
-              <option
-                key={curso.id}
-                className="font-normal"
-                value={curso.id.toString()}
-              >
-                {curso.number}º {curso.letter}
-              </option>
-            ))}
-          </select>
+          <Controller
+  name="curso"
+  control={control}
+  render={({ field }) => (
+    <select
+      {...field}
+      className="border h-[50px] px-6 rounded-lg border-purple-800 focus:outline-purple"
+      onChange={(e) => {
+        field.onChange(e);
+        handleInputChange();
+      }}
+    >
+      <option value={0} >Selecciona un Curso</option>
+      {cursos.map((curso) => (
+        <option
+          key={curso.id}
+          value={curso.id}
+          selected={curso.id === 2}
+          className="font-normal"
+        >
+          {curso.number}º {curso.letter}
+        </option>
+      ))}
+    </select>
+  )}
+/>
         </div>
         <div className="flex flex-col py-6">
           <Button
-            text="Editar datos estudiante"
+            text={estudiante ? "Editar datos estudiante" : "Crear Estudiante"}
             isCompleted={isButtonDisabled}
           />
         </div>
@@ -211,14 +215,17 @@ const NuevoFormEstudiante = ({estudiante}:{estudiante:Student}) => {
         onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={handleConfirm}
         formData={watch()}
+        isEditing={!!estudiante}
       />
       {isSuccessModalOpen && (
         <ModalConfirmNewSuccess
           onClose={() => setIsSuccessModalOpen(false)}
-          text="Estudiante creado con Éxito"
+          text={estudiante ? "Estudiante editado con éxito" : "Estudiante creado con éxito"}
         />
       )}
     </>
   );
 };
+
 export default NuevoFormEstudiante;
+

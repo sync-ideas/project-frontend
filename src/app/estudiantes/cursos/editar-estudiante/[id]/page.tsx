@@ -23,9 +23,9 @@ const EditarEstudiante = ({ params }: { params: { id: string } }) => {
           { hiper: "/editar-estudiante", text: "Editar Estudiante" },
         ];
   useEffect(()=>{
-    getStudent(params.id).then(response => setEditarEstudiante(response.student))
+    getStudent(params.id).then(response => setEditarEstudiante(response))
     
-  },[])
+  },[params.id])
   return (
     <div>
       <NavBar />

@@ -11,6 +11,7 @@ import { useCourseStore } from "@store/estudiantes/course-store";
 import StudentsCards from "@components/estudiantes/CardsStudents";
 import { getCourseData } from "../coursesSubmit";
 import { Course } from "../../nuevo-estudiante/components/NuevoFormEstudiante";
+import CardStudent from "@components/estudiantes/CardAddStudent";
 
 const ListaEstudiantes = () => {
   const { userId } = useCourseStore();
@@ -39,7 +40,7 @@ const ListaEstudiantes = () => {
         {loading ? (
           <p>Cargando...</p>
         ) : students && students?.length === 0 ? (
-          <CardAddCourses />
+          <CardStudent />
         ) : (
           <StudentsCards students={students} />
         )}

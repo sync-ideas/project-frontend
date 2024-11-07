@@ -5,7 +5,7 @@ import { persist, createJSONStorage } from 'zustand/middleware';
 interface Course {
   id: number;
   level: string;
-  number: string;
+  number: number;
   letter: string;
   createdAt: string;
 }

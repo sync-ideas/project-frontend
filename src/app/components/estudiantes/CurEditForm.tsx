@@ -65,7 +65,7 @@ const CurEditForm = () => {
   };
   const navigate = useRouter();
   const handleAddStudent = () => {
-    navigate.push("agregar-estudiante");
+    navigate.push("http://localhost:3000/estudiantes/nuevo-estudiante");
   };
   const handleListStudents = () => {
     navigate.push("listar-estudiantes/");
