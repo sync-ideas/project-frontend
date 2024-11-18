@@ -1,9 +1,7 @@
 "use client";
 import React, { useCallback, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-
-import { useModalStore } from "@store/index";
 import { studentSchemaNew } from "src/app/validations/profesores/nuevo/studentSchemaNew";
 import { areInputsNotEmpty } from "@functions/index";
 import CustomInputEstudiante from "@components/inputEstudiante";
@@ -13,6 +11,8 @@ import { getCourses } from "../../cursos/coursesSubmit";
 import { handleSubmitNewStudent } from "@functions/estudiantes/handleSubmitNewEstudiante";
 import ModalConfirmNewSuccess from "@components/profesores/Modals/ModalConfirmNewSuccess";
 import { useRouter } from "next/navigation";
+import { Student } from "@components/estudiantes/CardsStudents";
+import { handleSubmitEditedStudent } from "@functions/estudiantes/handleSubmitEditEstudiante";
 
 export type Inputs = {
   nombre: string;
@@ -20,38 +20,47 @@ export type Inputs = {
   identificacion: string;
   fechaNacimiento: string;
   email: string;
-  curso: string;
+  curso: number;
 };
+
 export interface Course {
   id: number;
   level: string;
   number: number;
   letter: string;
-  active: boolean;
+  active?: boolean;
   createdAt: string;
-  updatedAt: string;
+  updatedAt?: string;
 }
 
-interface ApiResponse {
-  result: boolean;
-  message: string;
-  data: Course[];
-}
-
-const NuevoFormEstudiante: React.FC = () => {
+const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
     watch,
+    setValue,
+    control,
+    trigger,
   } = useForm<Inputs>({
     resolver: zodResolver(studentSchemaNew),
+    defaultValues: {
+      nombre: "",
+      apellido: "",
+      identificacion: "",
+      fechaNacimiento: "",
+      email: "",
+      curso: estudiante?.course_id || 0,
+    },
+    mode: "all",
+    reValidateMode: "onChange",
   });
+
   const navigate = useRouter();
   const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
   const [isSuccessModalOpen, setIsSuccessModalOpen] = useState(false);
   const [isButtonDisabled, setIsButtonDisabled] = useState(false);
-  const [cursos, setCursos] = useState([]);
+  const [cursos, setCursos] = useState<Course[]>([]);
 
   const handleInputChange = useCallback(() => {
     const inputsNotEmpty = areInputsNotEmpty(
@@ -63,23 +72,25 @@ const NuevoFormEstudiante: React.FC = () => {
       "email",
       "curso"
     );
+    console.log("Form Errors:", errors);
     setIsButtonDisabled(inputsNotEmpty);
-  }, [watch, setIsButtonDisabled]);
+  }, [watch, setIsButtonDisabled, errors]);
+  // Add this effect at the top level of your component
 
   const handleSubmitForm = () => {
-    // Guardar los datos en el store
     setIsConfirmModalOpen(true);
   };
+
   const handleConfirm = async () => {
     setIsConfirmModalOpen(false);
     try {
-      //envio de la data a la api
-      handleSubmitNewStudent(watch())
-        .then((result) => {
-          if (result.status < 400)
-            setTimeout(() => setIsSuccessModalOpen(true), 2000);
-        })
-        .then((result) => navigate.push("/estudiantes"));
+      const result = estudiante
+        ? await handleSubmitEditedStudent(watch(), estudiante.id)
+        : await handleSubmitNewStudent(watch());
+      if (result.status < 400) {
+        setTimeout(() => setIsSuccessModalOpen(true), 2000);
+        navigate.push("/estudiantes");
+      }
     } catch (error) {
       // Handle error (e.g., show error message)
     }
@@ -87,12 +98,25 @@ const NuevoFormEstudiante: React.FC = () => {
 
   useEffect(() => {
     getCourses().then((response) => setCursos(response));
-  }, []);
+    if (estudiante) {
+      setValue("nombre", estudiante.name);
+      setValue("apellido", estudiante.surname);
+      setValue("identificacion", estudiante.personal_id);
+      setValue(
+        "fechaNacimiento",
+        estudiante.birthdate
+          ? estudiante.birthdate.split("T")[0]
+          : new Date().toISOString().split("T")[0]
+      );
+      setValue("email", estudiante.contact_email);
+      setValue("curso", estudiante.course_id);
+    }
+  }, [estudiante, setValue, trigger]);
+
   const handleSuccessClose = () => {
     setIsSuccessModalOpen(false);
     //router.push("/estudiantes"); // Redirect to another page
   };
-  console.log(cursos);
 
   return (
     <>
@@ -168,29 +192,41 @@ const NuevoFormEstudiante: React.FC = () => {
               {errors.email.message}
             </p>
           )}
-          <select
-            {...register("curso")}
-            className="border h-[50px] px-6 rounded-lg border-purple-800 focus:outline-purple"
-            onChange={handleInputChange}
-            defaultValue={"No Seleccionado"}
-          >
-            <option key={0} value={"No Seleccionado"}>
-              Selecciona un Curso
-            </option>
-            {cursos.map((curso) => (
-              <option
-                key={curso.id}
-                className="font-normal"
-                value={curso.id.toString()}
+          <Controller
+            name="curso"
+            control={control}
+            render={({ field }) => (
+              <select
+                {...field}
+                className="border h-[50px] px-6 rounded-lg border-purple-800 focus:outline-purple"
+                onChange={(e) => {
+                  field.onChange(Number(e.target.value));
+                  handleInputChange();
+                  trigger("curso");
+                }}
               >
-                {curso.number}º {curso.letter}
-              </option>
-            ))}
-          </select>
+                <option value={0}>Selecciona un Curso</option>
+                {cursos.map((curso) => (
+                  <option
+                    key={curso.id}
+                    value={curso.id}
+                    className="font-normal"
+                  >
+                    {curso.number}º {curso.letter}
+                  </option>
+                ))}
+              </select>
+            )}
+          />
+          {errors.curso?.message && (
+            <p className="w-[320px] mt-[5px] text-[#DE1111]">
+              {errors.curso.message}
+            </p>
+          )}
         </div>
         <div className="flex flex-col py-6">
           <Button
-            text="Agregar nuevo estudiante"
+            text={estudiante ? "Editar datos estudiante" : "Crear Estudiante"}
             isCompleted={isButtonDisabled}
           />
         </div>
@@ -200,14 +236,20 @@ const NuevoFormEstudiante: React.FC = () => {
         onClose={() => setIsConfirmModalOpen(false)}
         onConfirm={handleConfirm}
         formData={watch()}
+        isEditing={!!estudiante}
       />
       {isSuccessModalOpen && (
         <ModalConfirmNewSuccess
           onClose={() => setIsSuccessModalOpen(false)}
-          text="Estudiante creado con Éxito"
+          text={
+            estudiante
+              ? "Estudiante editado con éxito"
+              : "Estudiante creado con éxito"
+          }
         />
       )}
     </>
   );
 };
+
 export default NuevoFormEstudiante;

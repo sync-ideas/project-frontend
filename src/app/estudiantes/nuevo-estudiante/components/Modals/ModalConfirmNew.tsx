@@ -1,11 +1,13 @@
 import Button from "@components/button";
 import type { Inputs } from "../NuevoFormEstudiante";
+import { Student } from "@components/estudiantes/CardsStudents";
 
 interface ModalConfirmNewProps {
   isOpen: boolean;
   onClose: () => void;
   onConfirm: () => void;
   formData: Inputs;
+  isEditing?: boolean;
 }
 
 export const ConfirmationModal = ({
@@ -13,6 +15,7 @@ export const ConfirmationModal = ({
   onClose,
   onConfirm,
   formData,
+  isEditing,
 }: ModalConfirmNewProps) => {
   if (!isOpen) return null;
   const fields = [
@@ -33,7 +36,7 @@ export const ConfirmationModal = ({
     <div className="absolute bottom-0 -translate-x-1/3 right-0 bg-white w-[60%] h-fit pb-20 border border-purple-500 rounded-t-2xl z-50">
       <div className="rounded-t-2xl bg-[#1f8b58] px-6 py-[16px] border border-[#362b3e]">
         <h2 className="text-center text-white text-base font-bold leading-5">
-          Confirma los datos del nuevo estudiante
+          {isEditing ? "Confirma los nuevos datos del esutidante" : "Confirma los datos del nuevo estudiante"}
         </h2>
       </div>
       {/* Display form data summary */}

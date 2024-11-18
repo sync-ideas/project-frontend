@@ -1,6 +1,7 @@
 "use client";
 
 interface CustomInputProps {
+  defaultValue?: string;
   id: string;
   placeholder?: string;
   type: string;
@@ -17,7 +18,7 @@ interface CustomInputProps {
 const CustomInputEstudiante: React.FC<CustomInputProps> = ({
   id,
   placeholder,
-
+  defaultValue,
   type,
   label,
   textStyle,
@@ -44,6 +45,7 @@ const CustomInputEstudiante: React.FC<CustomInputProps> = ({
             ? "border-[#DE1111] focus:outline-[#DE1111]"
             : "border-purple focus:outline-purple"
         }`}
+        defaultValue={defaultValue}
         type={type}
         placeholder={placeholder}
         {...register(id, {
