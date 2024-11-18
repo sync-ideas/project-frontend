@@ -72,21 +72,10 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
       "email",
       "curso"
     );
-    trigger();
-    trigger("curso");
+    console.log("Form Errors:", errors);
     setIsButtonDisabled(inputsNotEmpty);
-  }, [watch, setIsButtonDisabled, trigger]);
+  }, [watch, setIsButtonDisabled, errors]);
   // Add this effect at the top level of your component
-  useEffect(() => {
-    if (estudiante?.course_id) {
-      // Force validation of all fields
-      trigger();
-      // Force validation of curso specifically
-      trigger("curso");
-      // Update button state
-      handleInputChange();
-    }
-  }, [estudiante, trigger, handleInputChange]);
 
   const handleSubmitForm = () => {
     setIsConfirmModalOpen(true);
@@ -95,7 +84,9 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
   const handleConfirm = async () => {
     setIsConfirmModalOpen(false);
     try {
-      const result = await handleSubmitEditedStudent(watch(), estudiante.id);
+      const result = estudiante
+        ? await handleSubmitEditedStudent(watch(), estudiante.id)
+        : await handleSubmitNewStudent(watch());
       if (result.status < 400) {
         setTimeout(() => setIsSuccessModalOpen(true), 2000);
         navigate.push("/estudiantes");
@@ -108,27 +99,18 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
   useEffect(() => {
     getCourses().then((response) => setCursos(response));
     if (estudiante) {
-      setValue("nombre", estudiante.name, { shouldValidate: true });
-      setValue("apellido", estudiante.surname, { shouldValidate: true });
-      setValue("identificacion", estudiante.personal_id, {
-        shouldValidate: true,
-      });
+      setValue("nombre", estudiante.name);
+      setValue("apellido", estudiante.surname);
+      setValue("identificacion", estudiante.personal_id);
       setValue(
         "fechaNacimiento",
         estudiante.birthdate
           ? estudiante.birthdate.split("T")[0]
-          : new Date().toISOString().split("T")[0],
-        { shouldValidate: true }
+          : new Date().toISOString().split("T")[0]
       );
-      setValue("email", estudiante.contact_email, { shouldValidate: true });
-      setValue("curso", estudiante.course_id, {
-        shouldValidate: true,
-        shouldDirty: true,
-        shouldTouch: true,
-      });
+      setValue("email", estudiante.contact_email);
+      setValue("curso", estudiante.course_id);
     }
-    console.log(estudiante);
-    trigger();
   }, [estudiante, setValue, trigger]);
 
   const handleSuccessClose = () => {
@@ -218,7 +200,7 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
                 {...field}
                 className="border h-[50px] px-6 rounded-lg border-purple-800 focus:outline-purple"
                 onChange={(e) => {
-                  field.onChange(e);
+                  field.onChange(Number(e.target.value));
                   handleInputChange();
                   trigger("curso");
                 }}
@@ -236,6 +218,11 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
               </select>
             )}
           />
+          {errors.curso?.message && (
+            <p className="w-[320px] mt-[5px] text-[#DE1111]">
+              {errors.curso.message}
+            </p>
+          )}
         </div>
         <div className="flex flex-col py-6">
           <Button
