@@ -14,7 +14,6 @@ import { useRouter } from "next/navigation";
 import { Student } from "@components/estudiantes/CardsStudents";
 import { handleSubmitEditedStudent } from "@functions/estudiantes/handleSubmitEditEstudiante";
 
-
 export type Inputs = {
   nombre: string;
   apellido: string;
@@ -35,7 +34,15 @@ export interface Course {
 }
 
 const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
-  const { register, handleSubmit, formState: { errors }, watch, setValue, control } = useForm<Inputs>({
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    watch,
+    setValue,
+    control,
+    trigger,
+  } = useForm<Inputs>({
     resolver: zodResolver(studentSchemaNew),
     defaultValues: {
       nombre: "",
@@ -43,8 +50,10 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
       identificacion: "",
       fechaNacimiento: "",
       email: "",
-      curso: 0
+      curso: estudiante?.course_id || 0,
     },
+    mode: "all",
+    reValidateMode: "onChange",
   });
 
   const navigate = useRouter();
@@ -63,8 +72,21 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
       "email",
       "curso"
     );
+    trigger();
+    trigger("curso");
     setIsButtonDisabled(inputsNotEmpty);
-  }, [watch, setIsButtonDisabled]);
+  }, [watch, setIsButtonDisabled, trigger]);
+  // Add this effect at the top level of your component
+  useEffect(() => {
+    if (estudiante?.course_id) {
+      // Force validation of all fields
+      trigger();
+      // Force validation of curso specifically
+      trigger("curso");
+      // Update button state
+      handleInputChange();
+    }
+  }, [estudiante, trigger, handleInputChange]);
 
   const handleSubmitForm = () => {
     setIsConfirmModalOpen(true);
@@ -86,16 +108,28 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
   useEffect(() => {
     getCourses().then((response) => setCursos(response));
     if (estudiante) {
-      setValue("nombre", estudiante.name);
-      setValue("apellido", estudiante.surname);
-      setValue("identificacion", estudiante.personal_id);
-      setValue("fechaNacimiento", estudiante.birthdate.split("T")[0]);
-      setValue("email", estudiante.contact_email);
-      setValue("curso", estudiante.course_id)
+      setValue("nombre", estudiante.name, { shouldValidate: true });
+      setValue("apellido", estudiante.surname, { shouldValidate: true });
+      setValue("identificacion", estudiante.personal_id, {
+        shouldValidate: true,
+      });
+      setValue(
+        "fechaNacimiento",
+        estudiante.birthdate
+          ? estudiante.birthdate.split("T")[0]
+          : new Date().toISOString().split("T")[0],
+        { shouldValidate: true }
+      );
+      setValue("email", estudiante.contact_email, { shouldValidate: true });
+      setValue("curso", estudiante.course_id, {
+        shouldValidate: true,
+        shouldDirty: true,
+        shouldTouch: true,
+      });
     }
     console.log(estudiante);
-    
-  }, [estudiante, setValue]);
+    trigger();
+  }, [estudiante, setValue, trigger]);
 
   const handleSuccessClose = () => {
     setIsSuccessModalOpen(false);
@@ -177,31 +211,32 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
             </p>
           )}
           <Controller
-  name="curso"
-  control={control}
-  render={({ field }) => (
-    <select
-      {...field}
-      className="border h-[50px] px-6 rounded-lg border-purple-800 focus:outline-purple"
-      onChange={(e) => {
-        field.onChange(e);
-        handleInputChange();
-      }}
-    >
-      <option value={0} >Selecciona un Curso</option>
-      {cursos.map((curso) => (
-        <option
-          key={curso.id}
-          value={curso.id}
-          selected={curso.id === 2}
-          className="font-normal"
-        >
-          {curso.number}º {curso.letter}
-        </option>
-      ))}
-    </select>
-  )}
-/>
+            name="curso"
+            control={control}
+            render={({ field }) => (
+              <select
+                {...field}
+                className="border h-[50px] px-6 rounded-lg border-purple-800 focus:outline-purple"
+                onChange={(e) => {
+                  field.onChange(e);
+                  handleInputChange();
+                  trigger("curso");
+                }}
+              >
+                <option value={0}>Selecciona un Curso</option>
+                {cursos.map((curso) => (
+                  <option
+                    key={curso.id}
+                    value={curso.id}
+                    selected={curso.id === 2}
+                    className="font-normal"
+                  >
+                    {curso.number}º {curso.letter}
+                  </option>
+                ))}
+              </select>
+            )}
+          />
         </div>
         <div className="flex flex-col py-6">
           <Button
@@ -220,7 +255,11 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
       {isSuccessModalOpen && (
         <ModalConfirmNewSuccess
           onClose={() => setIsSuccessModalOpen(false)}
-          text={estudiante ? "Estudiante editado con éxito" : "Estudiante creado con éxito"}
+          text={
+            estudiante
+              ? "Estudiante editado con éxito"
+              : "Estudiante creado con éxito"
+          }
         />
       )}
     </>
@@ -228,4 +267,3 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
 };
 
 export default NuevoFormEstudiante;
-
