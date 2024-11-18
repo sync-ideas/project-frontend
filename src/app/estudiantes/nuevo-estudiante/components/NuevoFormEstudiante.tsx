@@ -228,7 +228,6 @@ const NuevoFormEstudiante = ({ estudiante }: { estudiante?: Student }) => {
                   <option
                     key={curso.id}
                     value={curso.id}
-                    selected={curso.id === 2}
                     className="font-normal"
                   >
                     {curso.number}º {curso.letter}
